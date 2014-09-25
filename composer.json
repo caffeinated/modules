@@ -1,0 +1,23 @@
+{
+    "name": "caffeinated/modules",
+    "description": "",
+    "authors": [
+        {
+            "name": "Shea Lewis",
+            "email": "shea.lewis89@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "5.0.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-4": {
+            "Caffeinated\\Modules\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
