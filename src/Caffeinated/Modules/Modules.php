@@ -73,7 +73,7 @@ class Modules implements Countable
 	 */
 	public function register()
 	{
-		foreach ($this->isEnabled() as $module) {
+		foreach ($this->enabled() as $module) {
 			$this->includeGlobalFile($module);
 		}
 	}
@@ -205,28 +205,6 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Enables the specified module
-	 *
-	 * @param String $slug
-	 * @return Bool
-	 */
-	public function enable($slug)
-	{
-		return $this->finder->enable($slug);
-	}
-
-	/**
-	 * Disables the specified module
-	 *
-	 * @param String $slug
-	 * @return Bool
-	 */
-	public function disable($slug)
-	{
-		return $this->finder->disable($slug);
-	}
-
-	/**
 	 * Get all modules by enabled status
 	 *
 	 * @param Bool $enabled
@@ -250,6 +228,26 @@ class Modules implements Countable
 	}
 
 	/**
+	 * Simple alias for getByEnabled(true)
+	 *
+	 * @return Array
+	 */
+	public function enabled()
+	{
+		return $this->getByEnabled(true);
+	}
+
+	/**
+	 * Simple alias for getByEnabled(false)
+	 *
+	 * @return Array
+	 */
+	public function disabled()
+	{
+		return $this->getByEnabled(false);
+	}
+
+	/**
 	 * Check if specified module is enabled
 	 *
 	 * @param String $slug
@@ -269,5 +267,27 @@ class Modules implements Countable
 	public function isDisabled($slug)
 	{
 		return $this->getProperty("{$slug}::enabled") == false;
+	}
+
+	/**
+	 * Enables the specified module
+	 *
+	 * @param String $slug
+	 * @return Bool
+	 */
+	public function enable($slug)
+	{
+		return $this->finder->enable($slug);
+	}
+
+	/**
+	 * Disables the specified module
+	 *
+	 * @param String $slug
+	 * @return Bool
+	 */
+	public function disable($slug)
+	{
+		return $this->finder->disable($slug);
 	}
 }
