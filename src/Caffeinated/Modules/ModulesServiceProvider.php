@@ -48,8 +48,7 @@ class ModulesServiceProvider extends ServiceProvider
 				$app['view'],
 				$app['translator'],
 				$app['files'],
-				$app['url'],
-				$app['migrator']
+				$app['url']
 			);
 		});
 
