@@ -28,12 +28,12 @@ composer update
 
 Once this operation is complete, simply add both the service provider and facade classes to your project's `config/app.php` file.
 
-### Service Provider
+#### Service Provider
 ```
 'Caffeinated\Modules\ModulesServiceProvider'
 ```
 
-### Facade
+#### Facade
 ```
 'Module' => 'Caffeinated\Modules\Facades\Module'
 ```
