@@ -67,7 +67,7 @@ class Finder implements Countable
 	 */
 	public function has($slug)
 	{
-		return in_array($slug, $this->all());
+		return in_array($slug, $this->all()->toArray());
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Finder implements Countable
 	 */
 	public function count()
 	{
-		return count($this->all());
+		return count($this->all()->toArray());
 	}
 
 	/**
