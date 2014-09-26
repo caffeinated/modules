@@ -26,7 +26,7 @@ Next, update Composer from your Terminal:
 composer update
 ```
 
-Once this operation is complete, simply add both the service provider and facade classes to your project's `config/app.php` file.
+Once this operation is complete, simply add both the service provider and facade classes to your project's `config/app.php` file:
 
 #### Service Provider
 ```
