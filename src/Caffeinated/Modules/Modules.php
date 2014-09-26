@@ -1,17 +1,15 @@
 <?php
 namespace Caffeinated\Modules;
 
-use Countable;
 use Caffeinated\Modules\Exceptions\FileMissingException;
 use Illuminate\View\Factory;
-use Illuminate\Html\HtmlBuilder;
 use Illuminate\Config\Repository;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Translation\Translator;
 use Illuminate\Database\Eloquent\Collection;
 
-class Modules implements Countable
+class Modules
 {
 	/**
 	 * @var Finder
@@ -39,11 +37,6 @@ class Modules implements Countable
 	protected $views;
 
 	/**
-	 * @var HtmlBuilder
-	 */
-	protected $html;
-
-	/**
 	 * @var UrlGenerator
 	 */
 	protected $url;
@@ -62,7 +55,6 @@ class Modules implements Countable
 		Factory $views,
 		Translator $lang,
 		Filesystem $files,
-		HtmlBuilder $html,
 		UrlGenerator $url
 	) {
 		$this->finder = $finder;
@@ -70,7 +62,6 @@ class Modules implements Countable
 		$this->lang   = $lang;
 		$this->views  = $views;
 		$this->files  = $files;
-		$this->html   = $html;
 		$this->url    = $url;
 	}
 

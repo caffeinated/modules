@@ -1,13 +1,12 @@
 <?php
 namespace Caffeinated\Modules;
 
-use Countable;
 use Illuminate\Support\Str;
 use Illuminate\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\Collection;
 
-class Finder implements Countable
+class Finder
 {
 	/**
 	 * @var Filesystem
@@ -32,8 +31,8 @@ class Finder implements Countable
 	 */
 	public function __construct(Filesystem $files, Repository $config)
 	{
-		$this->files      = $files;
-		$this->config     = $config;
+		$this->config = $config;
+		$this->files  = $files;
 	}
 
 	/**
