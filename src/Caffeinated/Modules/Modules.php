@@ -1,6 +1,7 @@
 <?php
 namespace Caffeinated\Modules;
 
+use Countable;
 use Caffeinated\Modules\Exceptions\FileMissingException;
 use Illuminate\View\Factory;
 use Illuminate\Config\Repository;
@@ -9,7 +10,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Translation\Translator;
 use Illuminate\Database\Eloquent\Collection;
 
-class Modules
+class Modules implements Countable
 {
 	/**
 	 * @var Finder
@@ -122,6 +123,16 @@ class Modules
 	public function has($slug)
 	{
 		return $this->finder->has($slug);
+	}
+
+	/**
+	 * Count all modules
+	 * 
+	 * @return Int
+	 */
+	public function count()
+	{
+		return count($this->all());
 	}
 
 	/**

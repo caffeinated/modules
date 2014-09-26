@@ -1,12 +1,13 @@
 <?php
 namespace Caffeinated\Modules;
 
+use Countable;
 use Illuminate\Support\Str;
 use Illuminate\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\Collection;
 
-class Finder
+class Finder implements Countable
 {
 	/**
 	 * @var Filesystem
