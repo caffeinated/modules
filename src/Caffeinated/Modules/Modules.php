@@ -225,4 +225,49 @@ class Modules implements Countable
 	{
 		return $this->finder->disable($slug);
 	}
+
+	/**
+	 * Get all modules by enabled status
+	 *
+	 * @param Bool $enabled
+	 * @return Array
+	 */
+	public function getByEnabled($enabled = true)
+	{
+		$data = [];
+
+		foreach ($this->all() as $module) {
+			if ($enabled === true) {
+				if ($this->isEnabled($module))
+					$data[] = $module;
+			} else {
+				if ($this->isDisabled($module))
+					$data[] = $module;
+			}
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Check if specified module is enabled
+	 *
+	 * @param String $slug
+	 * @return Bool
+	 */
+	public function isEnabled($slug)
+	{
+		return $this->getProperty("{$slug}::enabled") == true;
+	}
+
+	/**
+	 * Check if specified module is disabled
+	 *
+	 * @param String $slug
+	 * @return Bool
+	 */
+	public function isDisabled($slug)
+	{
+		return $this->getProperty("{$slug}::enabled") == false;
+	}
 }

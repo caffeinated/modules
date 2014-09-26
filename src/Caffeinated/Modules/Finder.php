@@ -208,7 +208,7 @@ class Finder implements Countable
 	 */
 	public function enable($slug)
 	{
-		return $this->setProperty($slug.'::enabled', true);
+		return $this->setProperty("{$slug}::enabled", true);
 	}
 
 	/**
@@ -219,6 +219,6 @@ class Finder implements Countable
 	 */
 	public function disable($slug)
 	{
-		return $this->setProperty($slug.'::enabled', false);
+		return $this->setProperty("{$slug}::enabled", false);
 	}
 }
