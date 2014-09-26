@@ -109,9 +109,11 @@ class Modules implements Countable
 			$modules[] = $this->finder->getJsonContents($module);
 		}
 
-		$collection = new Collection($modules);
+		if (isset($modules)) {
+			$collection = new Collection($modules);
+		}		
 
-		return $collection;
+		return [];
 	}
 
 	/**
