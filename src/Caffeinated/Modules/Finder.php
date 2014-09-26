@@ -62,11 +62,12 @@ class Finder implements Countable
 	/**
 	 * Check if given module exists
 	 *
+	 * @param String $slug
 	 * @return Bool
 	 */
-	public function has($module)
+	public function has($slug)
 	{
-		return in_array($module, $this->all());
+		return in_array($slug, $this->all());
 	}
 
 	/**
@@ -107,7 +108,7 @@ class Finder implements Countable
 	}
 
 	/**
-	 * Get a property value
+	 * Get a module property value
 	 *
 	 * @param String $property
 	 * @param Null|String $default
@@ -121,7 +122,7 @@ class Finder implements Countable
 	}
 
 	/**
-	 * Set a property value
+	 * Set a module property value
 	 *
 	 * @param String $property
 	 * @param Mixed $value
@@ -197,5 +198,27 @@ class Finder implements Countable
 	public function getJsonPath($module)
 	{
 		return $this->getModulePath($module).'/module.json';
+	}
+
+	/**
+	 * Enables the specified module
+	 *
+	 * @param String $slug
+	 * @return Bool
+	 */
+	public function enable($slug)
+	{
+		return $this->setProperty($slug.'::enabled', true);
+	}
+
+	/**
+	 * Disables the specified module
+	 *
+	 * @param String $slug
+	 * @return Bool
+	 */
+	public function disable($slug)
+	{
+		return $this->setProperty($slug.'::enabled', false);
 	}
 }
