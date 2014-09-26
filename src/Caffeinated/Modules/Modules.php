@@ -73,7 +73,7 @@ class Modules implements Countable
 	 */
 	public function register()
 	{
-		foreach ($this->enabled() as $module) {
+		foreach ($this->isEnabled() as $module) {
 			$this->includeGlobalFile($module);
 		}
 	}
