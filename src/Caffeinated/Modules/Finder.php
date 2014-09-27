@@ -25,7 +25,7 @@ class Finder implements Countable
 	protected $path;
 
 	/**
-	 * Constructor method
+	 * Constructor method.
 	 *
 	 * @param Filesystem $files
 	 * @param Repository $confid
@@ -37,7 +37,7 @@ class Finder implements Countable
 	}
 
 	/**
-	 * Get all modules
+	 * Get all modules.
 	 *
 	 * @return Collection
 	 */
@@ -60,10 +60,10 @@ class Finder implements Countable
 	}
 
 	/**
-	 * Check if given module exists
+	 * Check if given module exists.
 	 *
-	 * @param String $slug
-	 * @return Bool
+	 * @param string $slug
+	 * @return bool
 	 */
 	public function has($slug)
 	{
@@ -71,9 +71,9 @@ class Finder implements Countable
 	}
 
 	/**
-	 * Return count of all modules
+	 * Return count of all modules.
 	 *
-	 * @return Int
+	 * @return int
 	 */
 	public function count()
 	{
@@ -81,9 +81,9 @@ class Finder implements Countable
 	}
 
 	/**
-	 * Gets module path
+	 * Gets module path.
 	 *
-	 * @return String
+	 * @return string
 	 */
 	public function getPath()
 	{
@@ -91,11 +91,11 @@ class Finder implements Countable
 	}
 
 	/**
-	 * Gets the path of specified module
+	 * Gets the path of specified module.
 	 *
-	 * @param String $module
-	 * @param Bool $allowNotExists
-	 * @return Null|String
+	 * @param string $module
+	 * @param bool $allowNotExists
+	 * @return null|string
 	 */
 	public function getModulePath($module, $allowNotExists = false)
 	{
@@ -108,11 +108,11 @@ class Finder implements Countable
 	}
 
 	/**
-	 * Get a module property value
+	 * Get a module property value.
 	 *
-	 * @param String $property
-	 * @param Null|String $default
-	 * @return Mixed
+	 * @param string $property
+	 * @param null|String $default
+	 * @return mixed
 	 */
 	public function getProperty($property, $default = null)
 	{
@@ -122,11 +122,11 @@ class Finder implements Countable
 	}
 
 	/**
-	 * Set a module property value
+	 * Set a module property value.
 	 *
-	 * @param String $property
-	 * @param Mixed $value
-	 * @return Bool
+	 * @param string $property
+	 * @param mixed $value
+	 * @return bool
 	 */
 	public function setProperty($property, $value)
 	{
@@ -150,9 +150,9 @@ class Finder implements Countable
 	}
 
 	/**
-	 * Get module JSON content as an array
+	 * Get module JSON content as an array.
 	 *
-	 * @param String $module
+	 * @param string $module
 	 * @return array|mixed
 	 */
 	public function getJsonContents($module)
@@ -176,11 +176,11 @@ class Finder implements Countable
 	}
 
 	/**
-	 * Set module JSON content property value
+	 * Set module JSON content property value.
 	 *
 	 * @param $module
-	 * @param Array $content
-	 * @return Int
+	 * @param array $content
+	 * @return int
 	 */
 	public function setJsonContents($module, array $content)
 	{
@@ -190,10 +190,10 @@ class Finder implements Countable
 	}
 
 	/**
-	 * Get path of module JSON file
+	 * Get path of module JSON file.
 	 *
-	 * @param String $module
-	 * @return String
+	 * @param string $module
+	 * @return string
 	 */
 	public function getJsonPath($module)
 	{
@@ -201,10 +201,10 @@ class Finder implements Countable
 	}
 
 	/**
-	 * Enables the specified module
+	 * Enables the specified module.
 	 *
-	 * @param String $slug
-	 * @return Bool
+	 * @param string $slug
+	 * @return bool
 	 */
 	public function enable($slug)
 	{
@@ -212,10 +212,10 @@ class Finder implements Countable
 	}
 
 	/**
-	 * Disables the specified module
+	 * Disables the specified module.
 	 *
-	 * @param String $slug
-	 * @return Bool
+	 * @param string $slug
+	 * @return bool
 	 */
 	public function disable($slug)
 	{

@@ -43,7 +43,7 @@ class Modules implements Countable
 	protected $url;
 
 	/**
-	 * Constructor method
+	 * Constructor method.
 	 *
 	 * @param Finder $finder
 	 * @param Repository $config
@@ -67,9 +67,9 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Register the global.php file from all modules
+	 * Register the global.php file from all modules.
 	 *
-	 * @return Mixed
+	 * @return mixed
 	 */
 	public function register()
 	{
@@ -79,11 +79,11 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Get global.php file for the specified module
+	 * Get global.php file for the specified module.
 	 *
-	 * @param String $slug
-	 * @return String
-	 * @throws \Caffeinated\Modules\FileMissingException
+	 * @param string $slug
+	 * @return string
+	 * @throws \Caffeinated\Modules\Exception\FileMissingException
 	 */
 	protected function includeGlobalFile($slug)
 	{
@@ -99,7 +99,7 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Get all modules
+	 * Get all modules.
 	 *
 	 * @return Collection
 	 */
@@ -117,10 +117,10 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Check if given module exists
+	 * Check if given module exists.
 	 *
-	 * @param String $slug
-	 * @return Bool
+	 * @param string $slug
+	 * @return bool
 	 */
 	public function has($slug)
 	{
@@ -128,9 +128,9 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Count all modules
+	 * Count all modules.
 	 * 
-	 * @return Int
+	 * @return int
 	 */
 	public function count()
 	{
@@ -138,9 +138,9 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Get modules path
+	 * Get modules path.
 	 *
-	 * @return String
+	 * @return string
 	 */
 	public function getPath()
 	{
@@ -148,9 +148,9 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Set modules path in "RunTime" mode
+	 * Set modules path in "RunTime" mode.
 	 *
-	 * @param String $path
+	 * @param string $path
 	 * @return $this
 	 */
 	public function setPath($path)
@@ -161,10 +161,10 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Get path for the specified module
+	 * Get path for the specified module.
 	 *
-	 * @param String $slug
-	 * @return String
+	 * @param string $slug
+	 * @return string
 	 */
 	public function getModulePath($slug)
 	{
@@ -172,10 +172,10 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Get a module's properties
+	 * Get a module's properties.
 	 *
-	 * @param String $slug
-	 * @return Mixed
+	 * @param string $slug
+	 * @return mixed
 	 */
 	public function getProperties($slug)
 	{
@@ -183,11 +183,11 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Get a module property value
+	 * Get a module property value.
 	 *
-	 * @param String $key
-	 * @param Null $default
-	 * @return Mixed
+	 * @param string $key
+	 * @param null $default
+	 * @return mixed
 	 */
 	public function getProperty($key, $default = null)
 	{
@@ -195,11 +195,11 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Set a module property value
+	 * Set a module property value.
 	 *
-	 * @param String $key
-	 * @param Mixed $value
-	 * @return Mixed
+	 * @param string $key
+	 * @param mixed $value
+	 * @return mixed
 	 */
 	public function setProperty($key, $value)
 	{
@@ -207,10 +207,10 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Get all modules by enabled status
+	 * Get all modules by enabled status.
 	 *
-	 * @param Bool $enabled
-	 * @return Array
+	 * @param bool $enabled
+	 * @return array
 	 */
 	public function getByEnabled($enabled = true)
 	{
@@ -230,9 +230,9 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Simple alias for getByEnabled(true)
+	 * Simple alias for getByEnabled(true).
 	 *
-	 * @return Array
+	 * @return array
 	 */
 	public function enabled()
 	{
@@ -240,9 +240,9 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Simple alias for getByEnabled(false)
+	 * Simple alias for getByEnabled(false).
 	 *
-	 * @return Array
+	 * @return array
 	 */
 	public function disabled()
 	{
@@ -250,10 +250,10 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Check if specified module is enabled
+	 * Check if specified module is enabled.
 	 *
-	 * @param String $slug
-	 * @return Bool
+	 * @param string $slug
+	 * @return bool
 	 */
 	public function isEnabled($slug)
 	{
@@ -261,10 +261,10 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Check if specified module is disabled
+	 * Check if specified module is disabled.
 	 *
-	 * @param String $slug
-	 * @return Bool
+	 * @param string $slug
+	 * @return bool
 	 */
 	public function isDisabled($slug)
 	{
@@ -272,10 +272,10 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Enables the specified module
+	 * Enables the specified module.
 	 *
-	 * @param String $slug
-	 * @return Bool
+	 * @param string $slug
+	 * @return bool
 	 */
 	public function enable($slug)
 	{
@@ -283,10 +283,10 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Disables the specified module
+	 * Disables the specified module.
 	 *
-	 * @param String $slug
-	 * @return Bool
+	 * @param string $slug
+	 * @return bool
 	 */
 	public function disable($slug)
 	{

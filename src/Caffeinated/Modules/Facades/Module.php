@@ -8,7 +8,7 @@ class Module extends Facade
 	/**
 	 * Get the registered name of the component.
 	 *
-	 * @return String
+	 * @return string
 	 */
 	protected static function getFacadeAccessor()
 	{
