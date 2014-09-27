@@ -1,6 +1,19 @@
 Caffeinated Modules
 ===================
-Modules package for Laravel 5.0. Was originally based off of pingpong-labs Modules package. This is a long-term fork that will eventually find its own.
+Before I begin, I want to start out by saying that this package is under **heavy development** and is not ready for production.
+
+Caffeinated Modules is a simple package to allow the means to seperate your Laravel application out into modules.
+
+Example Folder Structure
+------------------------
+```
+laravel-project/
+	app/
+		Modules/
+			Blog/
+			Navigation/
+			Pages/
+```
 
 Conventions
 -----------
