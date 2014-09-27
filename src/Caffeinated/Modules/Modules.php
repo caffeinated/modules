@@ -81,16 +81,18 @@ class Modules implements Countable
 	/**
 	 * Get global.php file for the specified module.
 	 *
-	 * @param string $slug
+	 * @param array $module
 	 * @return string
 	 * @throws \Caffeinated\Modules\Exception\FileMissingException
 	 */
-	protected function includeGlobalFile($slug)
+	protected function includeGlobalFile($module)
 	{
-		$file = $this->getPath()."/{$slug}/start/global.php";
+		$moduleFolder = ucfirst($module['slug']);
+
+		$file = $this->getPath()."/{$moduleFolder}/start/global.php";
 
 		if ( ! $this->files->exists($file)) {
-			$message = "Module [{$slug}] must have a start/global.php file for bootstrapping purposes.";
+			$message = "Module [{$module['slug']}] must have a start/global.php file for bootstrapping purposes.";
 
 			throw new FileMissingException($message);
 		}
@@ -109,11 +111,8 @@ class Modules implements Countable
 			$modules[] = $this->finder->getJsonContents($module);
 		}
 
-		if (isset($modules)) {
-			$collection = new Collection($modules);
-		}		
-
-		return [];
+		if (isset($modules))
+			return new Collection($modules);
 	}
 
 	/**
@@ -218,10 +217,10 @@ class Modules implements Countable
 
 		foreach ($this->all() as $module) {
 			if ($enabled === true) {
-				if ($this->isEnabled($module))
+				if ($this->isEnabled($module['slug']))
 					$data[] = $module;
 			} else {
-				if ($this->isDisabled($module))
+				if ($this->isDisabled($module['slug']))
 					$data[] = $module;
 			}
 		}

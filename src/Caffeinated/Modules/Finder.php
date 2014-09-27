@@ -2,6 +2,7 @@
 namespace Caffeinated\Modules;
 
 use Countable;
+use Caffeinated\Modules\Exceptions\FileMissingException;
 use Illuminate\Support\Str;
 use Illuminate\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
@@ -52,7 +53,7 @@ class Finder implements Countable
 		$folders = $this->files->directories($path);
 
 		foreach ($folders as $module) {
-			if ( ! Str::startWith($module, '.'))
+			if ( ! Str::startsWith($module, '.'))
 				$modules[] = basename($module);
 		}
 
@@ -116,7 +117,7 @@ class Finder implements Countable
 	 */
 	public function getProperty($property, $default = null)
 	{
-		list($module, $key) = explode('::', $key);
+		list($module, $key) = explode('::', $property);
 
 		return array_get($this->getJsonContents($module), $key, $default);
 	}
@@ -170,6 +171,11 @@ class Finder implements Countable
 			$contents = $this->files->get($path);
 
 			return json_decode($contents, true);
+		} else {
+
+			$message = "Module [{$module}] must have a valid module.json file.";
+
+			throw new FileMissingException($message);
 		}
 
 		return $default;
