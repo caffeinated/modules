@@ -66,7 +66,7 @@ Once this operation is complete, simply add both the service provider and facade
 'Module' => 'Caffeinated\Modules\Facades\Module'
 ```
 
-And that's it! Take a sip of your coffee and start coding.
+And that's it! With your coffee in reach, start building out some awesome modules!
 
 ---
 
@@ -82,6 +82,8 @@ The Caffeinated Modules package comes with a handful of commands to make managin
 
 ### module:make
 Generate a new module.
+
+This will generate all the necessary folders and files needed to bootstrap your new module.
 
 ```
 php artisan module:make blog
