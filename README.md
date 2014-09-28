@@ -11,7 +11,6 @@ laravel-project/
 	app/
 	|--	Modules/
 		|--	Blog/
-			|-- Assets/
 			|-- Config/
 			|--	Console/
 			|-- Database/
@@ -24,6 +23,7 @@ laravel-project/
 				|--	routes.php
 			|--	Providers/
 				|-- BlogServiceProvider.php
+				|-- RouteServiceProvider.php
 			|--	Resources/
 				|--	Lang/
 				|--	Views/
@@ -74,9 +74,9 @@ Console Commands
 ----------------
 The Caffeinated Modules package comes with a handful of commands to make managing and creating modules with ease.
 
-- [make](#module:make)
-- [enable](#module:enable)
-- [disable](#module:disable)
+- [`module:make`](#module:make)
+- [`module:enable`](#module:enable)
+- [`module:disable`](#module:disable)
 
 ---
 

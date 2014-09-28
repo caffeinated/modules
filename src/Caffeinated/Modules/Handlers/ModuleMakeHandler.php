@@ -16,6 +16,9 @@ class ModuleMakeHandler
 	protected $folders = [
 		'Config/',
 		'Console/',
+		'Database/',
+		'Database/Migrations/',
+		'Database/Seeds',
 		'Http/',
 		'Http/Controllers/',
 		'Http/Filters/',
