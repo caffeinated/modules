@@ -2,6 +2,8 @@ Caffeinated Modules
 ===================
 Before I begin, I want to start out by saying that this package is under **heavy development** and is not ready for production.
 
+---
+
 Caffeinated Modules is a simple package to allow the means to seperate your Laravel application out into modules.
 
 Example Folder Structure
