@@ -3,12 +3,13 @@ namespace Caffeinated\Modules;
 
 use Countable;
 use Caffeinated\Modules\Exceptions\FileMissingException;
-use Illuminate\View\Factory;
 use Illuminate\Config\Repository;
-use Illuminate\Routing\UrlGenerator;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Translation\Translator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Str;
+use Illuminate\Translation\Translator;
+use Illuminate\View\Factory;
 
 class Modules implements Countable
 {
@@ -87,7 +88,7 @@ class Modules implements Countable
 	 */
 	protected function includeGlobalFile($module)
 	{
-		$moduleFolder = ucfirst($module['slug']);
+		$module = Str::studly($module['slug']);
 
 		$file = $this->getPath()."/{$moduleFolder}/start/global.php";
 

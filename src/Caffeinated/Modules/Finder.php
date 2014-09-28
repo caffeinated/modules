@@ -158,7 +158,7 @@ class Finder implements Countable
 	 */
 	public function getJsonContents($module)
 	{
-		$module  = Str::studly($module);
+		$module = Str::studly($module);
 		
 		$default = [];
 
@@ -172,7 +172,6 @@ class Finder implements Countable
 
 			return json_decode($contents, true);
 		} else {
-
 			$message = "Module [{$module}] must have a valid module.json file.";
 
 			throw new FileMissingException($message);
