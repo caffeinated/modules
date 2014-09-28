@@ -90,7 +90,7 @@ class Modules implements Countable
 	{
 		$module = Str::studly($module['slug']);
 
-		$file = $this->getPath()."/{$moduleFolder}/start/global.php";
+		$file = $this->getPath()."/{$module}/start/global.php";
 
 		if ( ! $this->files->exists($file)) {
 			$message = "Module [{$module['slug']}] must have a start/global.php file for bootstrapping purposes.";
