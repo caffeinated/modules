@@ -11,6 +11,8 @@
 |
 */
 
-Route::group(['prefix' => '{{name}}'], function() {
-	// 
+Route::group(['prefix' => '{{slug}}'], function() {
+	Route::get('/', function() {
+		dd('This is the {{name}} module index page.');
+	});
 });

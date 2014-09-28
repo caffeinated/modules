@@ -1,5 +1,7 @@
 {
+	"name": "{{name}}",
 	"slug": "{{slug}}",
+	"version": "1.0",
 	"description": "This is the description for the {{name}} module.",
 	"enabled": true
 }

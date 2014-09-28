@@ -14,7 +14,7 @@ class ModuleMakeHandler
 	 * @var array
 	 */
 	protected $folders = [
-		'Bootstrap/',
+		'Config/',
 		'Console/',
 		'Http/',
 		'Http/Controllers/',
@@ -22,7 +22,6 @@ class ModuleMakeHandler
 		'Http/Requests/',
 		'Providers/',
 		'Resources/',
-		'Resources/Config/',
 		'Resources/Lang/',
 		'Resources/Views/',
 	];
@@ -33,7 +32,6 @@ class ModuleMakeHandler
 	 * @var array
 	 */
 	protected $files = [
-		'Bootstrap/start.php',
 		'Http/routes.php',
 		'Providers/{{name}}ServiceProvider.php',
 		'Providers/RouteServiceProvider.php',
@@ -46,7 +44,6 @@ class ModuleMakeHandler
 	 * @var array
 	 */
 	protected $stubs = [
-		'start.stub',
 		'routes.stub',
 		'moduleserviceprovider.stub',
 		'routeserviceprovider.stub',

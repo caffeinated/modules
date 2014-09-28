@@ -74,16 +74,14 @@ Console Commands
 ----------------
 The Caffeinated Modules package comes with a handful of commands to make managing and creating modules with ease.
 
-- [module:make](#module:make)
-- [module:enable](#module:enable)
-- [module:disable](#module:disable)
+- [make](#module:make)
+- [enable](#module:enable)
+- [disable](#module:disable)
 
 ---
 
 ### module:make
-Generate a new module.
-
-This will generate all the necessary folders and files needed to bootstrap your new module.
+Generate a new module. This will generate all the necessary folders and files needed to bootstrap your new module. The new module will be automatically enabled and work out of the box. Feel free to remove any un-needed (or add) folders per your needs.
 
 ```
 php artisan module:make blog
@@ -97,7 +95,7 @@ php artisan module:enable blog
 ```
 
 ### module:disable
-Disable a module.
+Disable a module. Disabling a module ensures it is not loaded during the boot process of your application.
 
 ```
 php artisan module:disable blog
