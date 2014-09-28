@@ -1,6 +1,7 @@
 <?php
 namespace Caffeinated\Modules;
 
+use App;
 use Countable;
 use Caffeinated\Modules\Exceptions\FileMissingException;
 use Illuminate\Config\Repository;
@@ -90,15 +91,17 @@ class Modules implements Countable
 	{
 		$module = Str::studly($module['slug']);
 
-		$file = $this->getPath()."/{$module}/start/global.php";
+		$file = $this->getPath()."/{$module}/Providers/{$module}ServiceProvider.php";
+
+		$namespace = $this->getNamespace().$module."\\Providers\\{$module}ServiceProvider";
 
 		if ( ! $this->files->exists($file)) {
-			$message = "Module [{$module}] must have a start/global.php file for bootstrapping purposes.";
+			$message = "Module [{$module}] must have a \"{$module}/Providers/{$module}ServiceProvider.php\" file for bootstrapping purposes.";
 
 			throw new FileMissingException($message);
 		}
 
-		require $file;
+		App::register($namespace);
 	}
 
 	/**
@@ -161,6 +164,16 @@ class Modules implements Countable
 	}
 
 	/**
+	 * Get modules namespace.
+	 *
+	 * @return string
+	 */
+	public function getNamespace()
+	{
+		return $this->config->get('modules::namespaces.modules');
+	}
+
+	/**
 	 * Get path for the specified module.
 	 *
 	 * @param string $slug
@@ -214,15 +227,18 @@ class Modules implements Countable
 	 */
 	public function getByEnabled($enabled = true)
 	{
-		$data = [];
+		$data    = [];
+		$modules = $this->all();
 
-		foreach ($this->all() as $module) {
-			if ($enabled === true) {
-				if ($this->isEnabled($module['slug']))
-					$data[] = $module;
-			} else {
-				if ($this->isDisabled($module['slug']))
-					$data[] = $module;
+		if (count($modules)) {
+			foreach ($modules as $module) {
+				if ($enabled === true) {
+					if ($this->isEnabled($module['slug']))
+						$data[] = $module;
+				} else {
+					if ($this->isDisabled($module['slug']))
+						$data[] = $module;
+				}
 			}
 		}
 

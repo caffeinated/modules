@@ -18,7 +18,7 @@ class ModuleDisableCommand extends Command
 	 *
 	 * @var string
 	 */
-	protected $description = 'Disable the specified module.';
+	protected $description = 'Disable a module';
 
 	/**
 	 * Create a new command instance.

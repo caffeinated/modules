@@ -1,33 +1,42 @@
 <?php
 namespace Caffeinated\Modules\Console;
 
+use Caffeinated\Modules\Handlers\ModuleMakeHandler;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
-class ModuleEnableCommand extends Command
+class ModuleMakeCommand extends Command
 {
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'module:enable';
+	protected $name = 'module:make';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Enable a module';
+	protected $description = 'Create a new module';
+
+	/**
+	 * @var ModuleMakeHandler
+	 */
+	protected $handler;
 
 	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct(ModuleMakeHandler $handler)
 	{
 		parent::__construct();
+
+		$this->handler = $handler;
 	}
 
 	/**
@@ -37,15 +46,7 @@ class ModuleEnableCommand extends Command
 	 */
 	public function fire()
 	{
-		$module = $this->argument('module');
-
-		if ($this->laravel['modules']->isDisabled($this->argument('module'))) {
-			$this->laravel['modules']->enable($module);
-
-			$this->info("Module [{$module}] was enabled successfully.");
-		} else {
-			$this->comment("Module [{$module}] is already enabled.");
-		}
+		return $this->handler->fire($this, $this->argument('name'));
 	}
 
 	/**
@@ -56,7 +57,7 @@ class ModuleEnableCommand extends Command
 	protected function getArguments()
 	{
 		return [
-			['module', InputArgument::REQUIRED, 'Module slug.']
+			['name', InputArgument::REQUIRED, 'Module slug.']
 		];
 	}
 }

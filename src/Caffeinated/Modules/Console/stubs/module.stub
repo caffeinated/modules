@@ -1,0 +1,5 @@
+{
+	"slug": "{{slug}}",
+	"description": "This is the description for the {{name}} module.",
+	"enabled": true
+}

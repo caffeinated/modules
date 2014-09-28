@@ -59,10 +59,12 @@ class ModulesServiceProvider extends ServiceProvider
 
 	protected function registerConsoleCommands()
 	{
+		$this->registerMakeCommand();
 		$this->registerEnableCommand();
 		$this->registerDisableCommand();
 
 		$this->commands([
+			'modules.make',
 			'modules.enable',
 			'modules.disable'
 		]);
@@ -99,6 +101,20 @@ class ModulesServiceProvider extends ServiceProvider
 	{
 		$this->app->bindShared('modules.disable', function($app) {
 			return new Console\ModuleDisableCommand;
+		});
+	}
+
+	/**
+	 * Register the "module:make" console command.
+	 *
+	 * @return Console\ModuleMakeCommand
+	 */
+	protected function registerMakeCommand()
+	{
+		$this->app->bindShared('modules.make', function($app) {
+			$handler = new Handlers\ModuleMakeHandler($app['modules'], $app['files']);
+
+			return new Console\ModuleMakeCommand($handler);
 		});
 	}
 }
