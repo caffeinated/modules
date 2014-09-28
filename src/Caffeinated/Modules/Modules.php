@@ -93,7 +93,7 @@ class Modules implements Countable
 		$file = $this->getPath()."/{$module}/start/global.php";
 
 		if ( ! $this->files->exists($file)) {
-			$message = "Module [{$module['slug']}] must have a start/global.php file for bootstrapping purposes.";
+			$message = "Module [{$module}] must have a start/global.php file for bootstrapping purposes.";
 
 			throw new FileMissingException($message);
 		}
