@@ -59,9 +59,11 @@ class ModulesServiceProvider extends ServiceProvider
 
 	protected function registerConsoleCommands()
 	{
+		$this->registerEnableCommand();
 		$this->registerDisableCommand();
 
 		$this->commands([
+			'modules.enable',
 			'modules.disable'
 		]);
 	}
@@ -74,6 +76,18 @@ class ModulesServiceProvider extends ServiceProvider
 	public function provides()
 	{
 		return ['modules.finder', 'modules'];
+	}
+
+	/**
+	 * Register the "module:enable" console command.
+	 *
+	 * @return Console\ModuleEnableCommand
+	 */
+	protected function registerEnableCommand()
+	{
+		$this->app->bindShared('modules.enable', function($app) {
+			return new Console\ModuleEnableCommand;
+		});
 	}
 
 	/**

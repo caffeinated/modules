@@ -4,21 +4,21 @@ namespace Caffeinated\Modules\Console;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 
-class ModuleDisableCommand extends Command
+class ModuleEnableCommand extends Command
 {
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'module:disable';
+	protected $name = 'module:enable';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Disable the specified module.';
+	protected $description = 'Enable the specified module.';
 
 	/**
 	 * Create a new command instance.
@@ -39,12 +39,12 @@ class ModuleDisableCommand extends Command
 	{
 		$module = $this->argument('module');
 
-		if ($this->laravel['modules']->isEnabled($this->argument('module'))) {
-			$this->laravel['modules']->disable($module);
+		if ($this->laravel['modules']->isDisabled($this->argument('module'))) {
+			$this->laravel['modules']->enable($module);
 
-			$this->info("Module [{$module}] was disabled successfully.");
+			$this->info("Module [{$module}] was enabled successfully.");
 		} else {
-			$this->comment("Module [{$module}] is already disabled.");
+			$this->comment("Module [{$module}] is already enabled.");
 		}
 	}
 
