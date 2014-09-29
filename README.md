@@ -167,5 +167,5 @@ Create a new module migration file.
 
 ##### Example
 ```
-php artisan module:migration blog posts
+php artisan module:make-migration blog posts
 ```
