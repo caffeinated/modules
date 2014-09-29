@@ -82,23 +82,30 @@ The Caffeinated Modules package comes with a handful of commands to make managin
 
 ---
 
-### module:make
+### module:make [MODULE]
 Generate a new module. This will generate all the necessary folders and files needed to bootstrap your new module. The new module will be automatically enabled and work out of the box. Feel free to add or remove any un-needed folders and files per your needs.
 
 ```
 php artisan module:make blog
 ```
 
-### module:enable
+### module:enable [MODULE]
 Enable a module.
 
 ```
 php artisan module:enable blog
 ```
 
-### module:disable
+### module:disable [MODULE]
 Disable a module. Disabling a module ensures it is not loaded during the boot process of your application.
 
 ```
 php artisan module:disable blog
+```
+
+### module:migration [MODULE] [TABLE]
+Create a new module migration file.
+
+```
+php artisan module:migration blog posts
 ```
