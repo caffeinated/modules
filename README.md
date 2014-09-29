@@ -16,6 +16,7 @@ Table of Contents
 - [Conventions](#conventions)
 - [Installation](#installation)
 - [Artisan Commands](#artisan-commands)
+- [Changelog](#changelog)
 
 ---
 
@@ -175,3 +176,10 @@ Create a new module migration file.
 ```
 php artisan module:make-migration blog posts
 ```
+
+---
+
+Changelog
+---------
+
+Nothing at the moment.
