@@ -2,29 +2,23 @@ Caffeinated Modules
 ===================
 Before you delve into this, I want to start out by saying that this package is under **heavy development** and is not ready for production use.
 
-To-Do List
-----------
-The following are the planned features left to be developed for each version.
+Table of Contents
+-----------------
 
-### 1.0
-
-- `module:migrate` console command
-- `module:reset` console command
-- `module:seed` console command
-- `module:make-seed` console command
-- `module:make-controller` console command
-
-### 1.1
-
-- Maintain modules either through the `module.json` files (flat) or via a database (database).
-- Add the ability to see multiple module locations. Great for when you want to maintain a "core" set of modules vs. add-on modules seperate from each other.
+- [Introduction](#introduction)
+- [To-Do List](#to-do-list)
+- [Conventions](#conventions)
+- [Installation](#installation)
+- [Artisan Commands](#artisan-commands)
 
 ---
 
+Introduction
+------------
+
 Caffeinated Modules is a simple package to allow the means to seperate your Laravel application out into modules. Each module is completely self-contained allowing the ability to simply drop a module in for use. Every module has a `module.json` detail file to outline information such as the description, version, author(s), and anything else you'd like to store pertaining to the module at hand.
 
-Example Folder Structure
-------------------------
+### Example Folder Structure
 ```
 laravel-project/
 	app/
@@ -49,6 +43,29 @@ laravel-project/
 		|--	module.json
 ```
 
+---
+
+To-Do List
+----------
+The following are the planned features left to be developed for each version.
+
+### 1.0
+
+- `module:migrate` console command
+- `module:reset` console command
+- `module:seed` console command
+- `module:make-seed` console command
+- `module:make-controller` console command
+
+### 1.1
+
+- Maintain modules either through the `module.json` files (flat) or via a database (database).
+- Add the ability to see multiple module locations. Great for when you want to maintain a "core" set of modules vs. add-on modules seperate from each other.
+
+---
+
+
+
 Conventions
 -----------
 * PSR-1
@@ -56,6 +73,8 @@ Conventions
 * PSR-4
 * PHP 5.4+
 * Laravel 5.0
+
+---
 
 Installation
 ------------
@@ -89,9 +108,9 @@ And that's it! With your coffee in reach, start building out some awesome module
 
 ---
 
-Console Commands
+Artisan Commands
 ----------------
-The Caffeinated Modules package comes with a handful of commands to make creating and managing modules easy.
+The Caffeinated Modules package comes with a handful of Artisan commands to make creating and managing modules easy.
 
 - [`module:disable`](#moduledisable-module)
 - [`module:enable`](#moduleenable-module)
