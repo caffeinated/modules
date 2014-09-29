@@ -74,7 +74,7 @@ And that's it! With your coffee in reach, start building out some awesome module
 
 Console Commands
 ----------------
-The Caffeinated Modules package comes with a handful of commands to make managing and creating modules easy.
+The Caffeinated Modules package comes with a handful of commands to make creating and managing modules easy.
 
 - [`module:make`](#module:make)
 - [`module:enable`](#module:enable)
