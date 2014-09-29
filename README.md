@@ -93,9 +93,9 @@ Console Commands
 ----------------
 The Caffeinated Modules package comes with a handful of commands to make creating and managing modules easy.
 
-- [`module:disable`](#module:disable)
-- [`module:enable`](#module:enable)
-- [`module:make`](#module:make)
+- [`module:disable`](#moduledisable-module)
+- [`module:enable`](#moduleenable-module)
+- [`module:make`](#modulemake-module)
 - [`module:make-migration`](#modulemake-migration-module-table)
 
 ---
