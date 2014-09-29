@@ -16,7 +16,7 @@ The following are the planned features left to do for the initial 1.0 release.
 
 ---
 
-Caffeinated Modules is a simple package to allow the means to seperate your Laravel application out into modules.
+Caffeinated Modules is a simple package to allow the means to seperate your Laravel application out into modules. Each module is completely self-contained allowing the ability to simply drop a module in for use. Every module has a `module.json` detail file to outline information such as the description, version, author(s), and anything else you'd like to store pertaining to the module at hand.
 
 Example Folder Structure
 ------------------------
