@@ -1,6 +1,18 @@
 Caffeinated Modules
 ===================
-Before I begin, I want to start out by saying that this package is under **heavy development** and is not ready for production.
+Before you delve into this, I want to start out by saying that this package is under **heavy development** and is not ready for production use.
+
+To-Do List
+----------
+The following are the planned features left to do for the initial 1.0 release.
+
+- `module:migrate` console command
+- `module:reset` console command
+- `module:seed` console command
+- `module:make-migration` console command
+- `module:make-seed` console command
+- `module:make-controller` console command
+- Maintain modules either through the `module.json` files (flat) or via a database (database).
 
 ---
 
