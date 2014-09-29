@@ -4,14 +4,20 @@ Before you delve into this, I want to start out by saying that this package is u
 
 To-Do List
 ----------
-The following are the planned features left to do for the initial 1.0 release.
+The following are the planned features left to be developed for each version.
+
+### 1.0
 
 - `module:migrate` console command
 - `module:reset` console command
 - `module:seed` console command
 - `module:make-seed` console command
 - `module:make-controller` console command
+
+### 1.1
+
 - Maintain modules either through the `module.json` files (flat) or via a database (database).
+- Add the ability to see multiple module locations. Great for when you want to maintain a "core" set of modules vs. add-on modules seperate from each other.
 
 ---
 
@@ -28,7 +34,7 @@ laravel-project/
 			|--	Console/
 			|-- Database/
 				|-- Migrations/
-				|-- Seeders/
+				|-- Seeds/
 			|--	Http/
 				|--	Controllers/
 				|--	Filters/
@@ -48,7 +54,7 @@ Conventions
 * PSR-1
 * PSR-2
 * PSR-4
-* PHP 5.4.0+
+* PHP 5.4+
 * Laravel 5.0
 
 Installation
