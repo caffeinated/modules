@@ -1,6 +1,8 @@
 Caffeinated Modules
 ===================
-Before you delve into this, I want to start out by saying that this package is under **heavy development** and is not ready for production use. 
+[![Build Status](https://travis-ci.org/caffeinated/modules.svg?branch=master)](https://travis-ci.org/caffeinated/modules)
+
+Before you delve into this, I want to start out by saying that this package is under **heavy development** and is not ready for production use.
 
 Table of Contents
 -----------------
