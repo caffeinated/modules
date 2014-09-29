@@ -8,14 +8,14 @@ use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class ModuleMigrationCommand extends Command
+class ModuleMakeMigrationCommand extends Command
 {
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'module:migration';
+	protected $name = 'module:make-migration';
 
 	/**
 	 * The console command description.

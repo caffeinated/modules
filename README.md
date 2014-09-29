@@ -9,7 +9,6 @@ The following are the planned features left to do for the initial 1.0 release.
 - `module:migrate` console command
 - `module:reset` console command
 - `module:seed` console command
-- `module:make-migration` console command
 - `module:make-seed` console command
 - `module:make-controller` console command
 - Maintain modules either through the `module.json` files (flat) or via a database (database).
@@ -88,22 +87,22 @@ Console Commands
 ----------------
 The Caffeinated Modules package comes with a handful of commands to make creating and managing modules easy.
 
-- [`module:make`](#module:make)
-- [`module:enable`](#module:enable)
 - [`module:disable`](#module:disable)
-- [`module:migration`](#module:migration)
+- [`module:enable`](#module:enable)
+- [`module:make`](#module:make)
+- [`module:make-migration`](#module:migration)
 
 ---
 
-#### module:make [MODULE]
-Generate a new module. This will generate all the necessary folders and files needed to bootstrap your new module. The new module will be automatically enabled and work out of the box.
+#### module:disable [MODULE]
+Disable a module. Disabling a module ensures it is not loaded during the boot process of your application.
 
 ##### Parameters
 - [MODULE] - Module slug
 
 ##### Example
 ```
-php artisan module:make blog
+php artisan module:disable blog
 ```
 
 ---
@@ -121,20 +120,20 @@ php artisan module:enable blog
 
 ---
 
-#### module:disable [MODULE]
-Disable a module. Disabling a module ensures it is not loaded during the boot process of your application.
+#### module:make [MODULE]
+Generate a new module. This will generate all the necessary folders and files needed to bootstrap your new module. The new module will be automatically enabled and work out of the box.
 
 ##### Parameters
 - [MODULE] - Module slug
 
 ##### Example
 ```
-php artisan module:disable blog
+php artisan module:make blog
 ```
 
 ---
 
-#### module:migration [MODULE] [TABLE]
+#### module:make-migration [MODULE] [TABLE]
 Create a new module migration file.
 
 ##### Parameters
