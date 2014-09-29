@@ -12,10 +12,10 @@ Table of Contents
 -----------------
 
 - [Introduction](#introduction)
-- [Roadmap](#roadmap)
 - [Conventions](#conventions)
 - [Installation](#installation)
 - [Artisan Commands](#artisan-commands)
+- [Roadmap](#roadmap)
 - [Changelog](#changelog)
 
 ---
@@ -51,32 +51,6 @@ laravel-project/
 ```
 
 ---
-
-Roadmap
--------
-The following are the planned features left to be developed for each version.
-
-### 1.0
-
-- [x] Proper use of Service Providers to autoload modules
-- [x] `module:disable` Artisan command
-- [x] `module:enable` Artisan command
-- [x] `module:make` Artisan command
-- [ ] `module:make-controller` Artisan command
-- [x] `module:make-migration` Artisan command
-- [ ] `module:make-seed` Artisan command
-- [ ] `module:migrate` Artisan command
-- [ ] `module:reset` Artisan command
-- [ ] `module:seed` Artisan command
-
-### 1.1
-
-- [ ] Maintain modules either through the `module.json` files (flat) or via a database (database).
-- [ ] Add the ability to see multiple module locations. Great for when you want to maintain a "core" set of modules vs. add-on modules seperate from each other.
-
----
-
-
 
 Conventions
 -----------
@@ -181,6 +155,30 @@ Create a new module migration file.
 ```
 php artisan module:make-migration blog posts
 ```
+
+---
+
+Roadmap
+-------
+The following are the planned features to be developed for each version.
+
+### 1.0
+
+- [x] Proper use of Service Providers to autoload modules
+- [x] `module:disable` Artisan command
+- [x] `module:enable` Artisan command
+- [x] `module:make` Artisan command
+- [ ] `module:make-controller` Artisan command
+- [x] `module:make-migration` Artisan command
+- [ ] `module:make-seed` Artisan command
+- [ ] `module:migrate` Artisan command
+- [ ] `module:reset` Artisan command
+- [ ] `module:seed` Artisan command
+
+### 1.1
+
+- [ ] Maintain modules either through the `module.json` files (flat) or via a database (database).
+- [ ] Add the ability to see multiple module locations. Great for when you want to maintain a "core" set of modules vs. add-on modules seperate from each other.
 
 ---
 
