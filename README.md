@@ -96,7 +96,7 @@ The Caffeinated Modules package comes with a handful of commands to make creatin
 - [`module:disable`](#module:disable)
 - [`module:enable`](#module:enable)
 - [`module:make`](#module:make)
-- [`module:make-migration`](#module:migration)
+- [`module:make-migration`](#modulemake-migration-module-table)
 
 ---
 
