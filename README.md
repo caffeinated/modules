@@ -1,6 +1,6 @@
 Caffeinated Modules
 ===================
-Before you delve into this, I want to start out by saying that this package is under **heavy development** and is not ready for production use.
+Before you delve into this, I want to start out by saying that this package is under **heavy development** and is not ready for production use. 
 
 Table of Contents
 -----------------
