@@ -79,6 +79,7 @@ The Caffeinated Modules package comes with a handful of commands to make managin
 - [`module:make`](#module:make)
 - [`module:enable`](#module:enable)
 - [`module:disable`](#module:disable)
+- [`module:migration`](#module:migration)
 
 ---
 
@@ -88,9 +89,12 @@ Generate a new module. This will generate all the necessary folders and files ne
 ##### Parameters
 - [MODULE] - Module slug
 
+##### Example
 ```
 php artisan module:make blog
 ```
+
+---
 
 #### module:enable [MODULE]
 Enable a module.
@@ -98,9 +102,12 @@ Enable a module.
 ##### Parameters
 - [MODULE] - Module slug
 
+##### Example
 ```
 php artisan module:enable blog
 ```
+
+---
 
 #### module:disable [MODULE]
 Disable a module. Disabling a module ensures it is not loaded during the boot process of your application.
@@ -108,9 +115,12 @@ Disable a module. Disabling a module ensures it is not loaded during the boot pr
 ##### Parameters
 - [MODULE] - Module slug
 
+##### Example
 ```
 php artisan module:disable blog
 ```
+
+---
 
 #### module:migration [MODULE] [TABLE]
 Create a new module migration file.
@@ -119,6 +129,7 @@ Create a new module migration file.
 - [MODULE] - Module slug
 - [TABLE] - Table to be created by migration file
 
+##### Example
 ```
 php artisan module:migration blog posts
 ```
