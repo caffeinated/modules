@@ -84,7 +84,7 @@ The Caffeinated Modules package comes with a handful of commands to make managin
 ---
 
 #### module:make [MODULE]
-Generate a new module. This will generate all the necessary folders and files needed to bootstrap your new module. The new module will be automatically enabled and work out of the box. Feel free to add or remove any un-needed folders and files per your needs.
+Generate a new module. This will generate all the necessary folders and files needed to bootstrap your new module. The new module will be automatically enabled and work out of the box.
 
 ##### Parameters
 - [MODULE] - Module slug
