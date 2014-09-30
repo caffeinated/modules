@@ -17,6 +17,7 @@ Table of Contents
 - [Artisan Commands](#artisan-commands)
 - [Roadmap](#roadmap)
 - [Changelog](#changelog)
+- [Credits](#credits)
 
 ---
 
@@ -172,7 +173,9 @@ The following are the planned features to be developed for each version.
 - [x] `module:make-migration` Artisan command
 - [ ] `module:make-seed` Artisan command
 - [ ] `module:migrate` Artisan command
-- [ ] `module:reset` Artisan command
+- [ ] `module:migrate-refresh` Artisan command
+- [ ] `module:migrate-reset` Artisan command
+- [ ] `module:migrate-rollback` Artisan command
 - [ ] `module:seed` Artisan command
 
 ### 1.1
@@ -186,3 +189,9 @@ Changelog
 ---------
 
 Nothing at the moment.
+
+---
+
+Credits
+-------
+This Laravel package was originally a fork of Pingpong Labs Module Package, developed by Gravitino.
