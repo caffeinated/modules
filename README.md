@@ -17,7 +17,6 @@ Table of Contents
 - [Artisan Commands](#artisan-commands)
 - [Roadmap](#roadmap)
 - [Changelog](#changelog)
-- [Credits](#credits)
 
 ---
 
@@ -189,9 +188,3 @@ Changelog
 ---------
 
 Nothing at the moment.
-
----
-
-Credits
--------
-This Laravel package was originally a fork of Pingpong Labs Module Package, developed by Gravitino.
