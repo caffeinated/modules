@@ -128,7 +128,9 @@ class ModulesServiceProvider extends ServiceProvider
 	protected function registerMakeMigrationCommand()
 	{
 		$this->app->bindShared('modules.makeMigration', function($app) {
-			return new Console\ModuleMakeMigrationCommand($app['modules'], $app['files']);
+			$handler = new Handlers\ModuleMakeMigrationHandler($app['modules'], $app['files']);
+
+			return new Console\ModuleMakeMigrationCommand($handler);
 		});
 	}
 }
