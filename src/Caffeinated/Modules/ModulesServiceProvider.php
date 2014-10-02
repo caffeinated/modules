@@ -63,12 +63,14 @@ class ModulesServiceProvider extends ServiceProvider
 		$this->registerEnableCommand();
 		$this->registerDisableCommand();
 		$this->registerMakeMigrationCommand();
+		$this->registerMigrateCommand();
 
 		$this->commands([
 			'modules.make',
 			'modules.enable',
 			'modules.disable',
-			'modules.makeMigration'
+			'modules.makeMigration',
+			'modules.migrate'
 		]);
 	}
 
@@ -131,6 +133,18 @@ class ModulesServiceProvider extends ServiceProvider
 			$handler = new Handlers\ModuleMakeMigrationHandler($app['modules'], $app['files']);
 
 			return new Console\ModuleMakeMigrationCommand($handler);
+		});
+	}
+
+	/**
+	 * Register the "module:migrate" console command.
+	 *
+	 * @return Console\ModuleMigrateCommand
+	 */
+	protected function registerMigrateCommand()
+	{
+		$this->app->bindShared('modules.migrate', function($app) {
+			return new Console\ModuleMigrateCommand($app['modules']);
 		});
 	}
 }
