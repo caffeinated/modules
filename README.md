@@ -180,7 +180,7 @@ The following are the planned features to be developed for each version.
 ### 1.1
 
 - [ ] Maintain modules either through the `module.json` files (flat) or via a database (database).
-- [ ] Add the ability to see multiple module locations. Great for when you want to maintain a "core" set of modules vs. add-on modules seperate from each other.
+- [ ] Add the ability to set multiple module locations. Great for when you want to maintain a "core" set of modules vs. add-on modules seperate from each other.
 
 ---
 
