@@ -1,4 +1,5 @@
 <?php
+
 namespace Caffeinated\Modules\Handlers;
 
 use Caffeinated\Modules\Modules;
@@ -35,6 +36,7 @@ class ModuleMakeHandler
 	 * @var array
 	 */
 	protected $files = [
+		'Database/Seeds/{{name}}DatabaseSeeder.php',
 		'Http/routes.php',
 		'Providers/{{name}}ServiceProvider.php',
 		'Providers/RouteServiceProvider.php',
@@ -47,6 +49,7 @@ class ModuleMakeHandler
 	 * @var array
 	 */
 	protected $stubs = [
+		'seeder.stub',
 		'routes.stub',
 		'moduleserviceprovider.stub',
 		'routeserviceprovider.stub',
