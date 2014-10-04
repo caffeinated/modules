@@ -48,13 +48,12 @@ class ModuleSeedCommand extends Command
 	 */
 	public function fire()
 	{
-		$module = $this->argument('module');
+		$module     = $this->argument('module');
+		$moduleName = Str::studly($module);
 
 		if (isset($module)) {
 			if ($this->module->has($module)) {
-				return $this->seed($module);
-
-				$moduleName = Str::studly($module);
+				$this->seed($module);
 
 				return $this->info("Module [$moduleName] has been seeded.");
 			}
