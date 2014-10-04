@@ -48,10 +48,10 @@ class ModuleMigrateCommand extends Command
 	 */
 	public function fire()
 	{
-		$slug = $this->argument('module');
+		$module = $this->argument('module');
 
-		if (isset($slug)) {
-			return $this->migrate($slug);
+		if (isset($module)) {
+			return $this->migrate($module);
 		} else {
 			foreach ($this->module->all() as $module) {
 				$this->migrate($module['slug']);

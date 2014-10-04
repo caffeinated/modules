@@ -65,13 +65,15 @@ class ModulesServiceProvider extends ServiceProvider
 		$this->registerDisableCommand();
 		$this->registerMakeMigrationCommand();
 		$this->registerMigrateCommand();
+		$this->registerSeedCommand();
 
 		$this->commands([
 			'modules.make',
 			'modules.enable',
 			'modules.disable',
 			'modules.makeMigration',
-			'modules.migrate'
+			'modules.migrate',
+			'modules.seed'
 		]);
 	}
 
@@ -146,6 +148,18 @@ class ModulesServiceProvider extends ServiceProvider
 	{
 		$this->app->bindShared('modules.migrate', function($app) {
 			return new Console\ModuleMigrateCommand($app['modules']);
+		});
+	}
+
+	/**
+	 * Register the "module:seed" console command.
+	 *
+	 * @return Console\ModuleSeedCommand
+	 */
+	protected function registerSeedCommand()
+	{
+		$this->app->bindShared('modules.seed', function($app) {
+			return new Console\ModuleSeedCommand($app['modules']);
 		});
 	}
 }
