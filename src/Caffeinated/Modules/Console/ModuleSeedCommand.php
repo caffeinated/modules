@@ -52,7 +52,7 @@ class ModuleSeedCommand extends Command
 		$moduleName = Str::studly($module);
 
 		if (isset($module)) {
-			if ($this->module->has($module)) {
+			if ($this->module->has($moduleName)) {
 				$this->seed($module);
 
 				return $this->info("Module [$moduleName] has been seeded.");
@@ -78,7 +78,16 @@ class ModuleSeedCommand extends Command
 	 */
 	protected function seed($module)
 	{
-		$params['--class'] = $this->option('class') ? $this->option('class') : Str::studly($module).'DatabaseSeeder';
+		$moduleName = Str::studly($module);
+		$namespace  = $this->module->getNamespace();
+		$rootSeeder = $moduleName.'DatabaseSeeder';
+		$fullPath   = $namespace.$moduleName.'\Database\Seeds\\'.$rootSeeder;
+
+		if ($this->option('class')) {
+			$params['--class'] = $this->option('class');
+		} else {
+			$params['--class'] = $fullPath;
+		}
 
 		if ($option = $this->option('database')) {
 			$params['--database'] = $option;

@@ -1,5 +1,7 @@
 <?php
 
+namespace {{namespace}}{{name}}\Database\Seeds;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +16,7 @@ class {{name}}DatabaseSeeder extends Seeder {
 	{
 		Model::unguard();
 
-		// $this->call('FoobarTableSeeder');
+		// $this->call('{{namespace}}{{name}}\Database\Seeds\FoobarTableSeeder');
 	}
 
 }
