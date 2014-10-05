@@ -78,6 +78,7 @@ class ModuleSeedCommand extends Command
 	 */
 	protected function seed($module)
 	{
+		$params     = array();
 		$moduleName = Str::studly($module);
 		$namespace  = $this->module->getNamespace();
 		$rootSeeder = $moduleName.'DatabaseSeeder';
