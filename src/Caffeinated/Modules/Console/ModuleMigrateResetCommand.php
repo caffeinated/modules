@@ -147,10 +147,6 @@ class ModuleMigrateResetCommand extends Command
 			$params['--pretend'] = $option;
 		}
 
-		if ($option = $this->option('seed')) {
-			$params['--seed'] = $option;
-		}
-
 		return $params;
 	}
 
@@ -185,8 +181,7 @@ class ModuleMigrateResetCommand extends Command
 	{
 		return [
 			['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'],
-			['pretend', null, InputOption::VALUE_OPTIONAL, 'Dump the SQL queries that would be run.'],
-			['seed', null, InputOption::VALUE_OPTIONAL, 'Indicates if the seed task should be re-run.']
+			['pretend', null, InputOption::VALUE_OPTIONAL, 'Dump the SQL queries that would be run.']
 		];
 	}
 }
