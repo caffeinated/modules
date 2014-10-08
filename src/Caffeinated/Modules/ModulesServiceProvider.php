@@ -65,6 +65,7 @@ class ModulesServiceProvider extends ServiceProvider
 		$this->registerDisableCommand();
 		$this->registerMakeMigrationCommand();
 		$this->registerMigrateCommand();
+		$this->registerMigrateResetCommand();
 		$this->registerSeedCommand();
 
 		$this->commands([
@@ -73,6 +74,7 @@ class ModulesServiceProvider extends ServiceProvider
 			'modules.disable',
 			'modules.makeMigration',
 			'modules.migrate',
+			'modules.migrateReset',
 			'modules.seed'
 		]);
 	}
@@ -148,6 +150,18 @@ class ModulesServiceProvider extends ServiceProvider
 	{
 		$this->app->bindShared('modules.migrate', function($app) {
 			return new Console\ModuleMigrateCommand($app['modules']);
+		});
+	}
+
+	/**
+	 * Register the "module:migrate-reset" console command.
+	 *
+	 * @return Console\ModuleMigrateResetCommand
+	 */
+	protected function registerMigrateResetCommand()
+	{
+		$this->app->bindShared('modules.migrateReset', function($app) {
+			return new Console\ModuleMigrateResetCommand($app['modules'], $app['files'], $app['migrator']);
 		});
 	}
 
