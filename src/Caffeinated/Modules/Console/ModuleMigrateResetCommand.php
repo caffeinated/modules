@@ -97,7 +97,7 @@ class ModuleMigrateResetCommand extends Command
 		// and properly reverse the entire database schema operation that originally
 		// ran.
 		foreach ($migrations as $migration) {
-			$this->info('Migration: '.$migration);
+			$this->info('Rolled back: '.$migration);
 			$this->runDown($slug, $migration, $pretend);
 		}
 	}

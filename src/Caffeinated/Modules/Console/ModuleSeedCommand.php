@@ -55,7 +55,7 @@ class ModuleSeedCommand extends Command
 			if ($this->module->has($moduleName)) {
 				$this->seed($module);
 
-				return $this->info("Module [$moduleName] has been seeded.");
+				return;
 			}
 
 			return $this->error("Module [$moduleName] does not exist.");
@@ -64,8 +64,6 @@ class ModuleSeedCommand extends Command
 				$this->seed($module['slug']);
 
 				$moduleName = $module['name'];
-				
-				return $this->info("Module [$moduleName] has been seeded.");
 			}
 		}
 	}
