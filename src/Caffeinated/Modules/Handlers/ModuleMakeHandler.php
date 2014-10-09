@@ -22,7 +22,7 @@ class ModuleMakeHandler
 		'Database/Seeds',
 		'Http/',
 		'Http/Controllers/',
-		'Http/Filters/',
+		'Http/Middleware/',
 		'Http/Requests/',
 		'Providers/',
 		'Resources/',
