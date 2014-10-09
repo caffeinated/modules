@@ -63,7 +63,6 @@ class ModuleMigrateRefreshCommand extends Command
 		} else {
 			$this->info("All modules have been refreshed.");
 		}
-		
 	}
 
 	/**

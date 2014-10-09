@@ -7,7 +7,7 @@ Caffeinated Modules
 [![Latest Unstable Version](https://poser.pugx.org/caffeinated/modules/v/unstable.svg)](https://packagist.org/packages/caffeinated/modules)
 [![License](https://poser.pugx.org/caffeinated/modules/license.svg)](https://packagist.org/packages/caffeinated/modules)
 
-Before you delve into this, I want to start out by saying that this package is under **heavy development** and is not ready for production use.
+Before you delve into this, I want to start out by saying that this package is under **heavy development** and is not ready for production use. The stable v1.0 version will not be officially released until Laravel 5.0 is released to ensure everything is properly covered. In the meantime if I meet all the features as specified in the [roadmap](https://github.com/caffeinated/modules/wiki/Roadmap#10-beta), I will tag and release a v1.0-beta version.
 
 ---
 
