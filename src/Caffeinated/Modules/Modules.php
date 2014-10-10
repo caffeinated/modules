@@ -112,6 +112,8 @@ class Modules implements Countable
 	 */
 	public function all()
 	{
+		$modules = array();
+		
 		foreach ($this->finder->all() as $module) {
 			$modules[] = $this->finder->getJsonContents($module);
 		}
