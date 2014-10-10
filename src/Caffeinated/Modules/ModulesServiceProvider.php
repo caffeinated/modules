@@ -98,7 +98,7 @@ class ModulesServiceProvider extends ServiceProvider
 	 */
 	protected function registerEnableCommand()
 	{
-		$this->app->bindShared('modules.enable', function($app) {
+		$this->app->bindShared('modules.enable', function() {
 			return new Console\ModuleEnableCommand;
 		});
 	}
@@ -110,7 +110,7 @@ class ModulesServiceProvider extends ServiceProvider
 	 */
 	protected function registerDisableCommand()
 	{
-		$this->app->bindShared('modules.disable', function($app) {
+		$this->app->bindShared('modules.disable', function() {
 			return new Console\ModuleDisableCommand;
 		});
 	}
@@ -162,7 +162,7 @@ class ModulesServiceProvider extends ServiceProvider
 	 */
 	protected function registerMigrateRefreshCommand()
 	{
-		$this->app->bindShared('modules.migrateRefresh', function($app) {
+		$this->app->bindShared('modules.migrateRefresh', function() {
 			return new Console\ModuleMigrateRefreshCommand;
 		});
 	}
