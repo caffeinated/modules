@@ -62,8 +62,6 @@ class ModuleSeedCommand extends Command
 		} else {
 			foreach ($this->module->all() as $module) {
 				$this->seed($module['slug']);
-
-				$moduleName = $module['name'];
 			}
 		}
 	}

@@ -177,8 +177,6 @@ class Finder implements Countable
 
 			throw new FileMissingException($message);
 		}
-
-		return $default;
 	}
 
 	/**

@@ -20,6 +20,31 @@ class ModuleMakeMigrationHandler
 	protected $finder;
 
 	/**
+	 * @var Command
+	 */
+	protected $console;
+
+	/**
+	 * @var string
+	 */
+	protected $moduleName;
+
+	/**
+	 * @var string
+	 */
+	protected $table;
+
+	/**
+	 * @var string
+	 */
+	protected $migrationName;
+
+	/**
+	 * @var string
+	 */
+	protected $className;
+
+	/**
 	 * Constructor method.
 	 *
 	 * @return void
