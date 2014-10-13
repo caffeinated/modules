@@ -107,6 +107,10 @@ class ModuleMigrateCommand extends Command
 			$params['--database'] = $option;
 		}
 
+		if ($option = $this->option('force')) {
+			$params['--force'] = $option;
+		}
+
 		if ($option = $this->option('pretend')) {
 			$params['--pretend'] = $option;
 		}
@@ -137,6 +141,7 @@ class ModuleMigrateCommand extends Command
 	{
 		return [
 			['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'],
+			['force', null, InputOption::VALUE_NONE, 'Force the operation to run while in production.'],
 			['pretend', null, InputOption::VALUE_OPTIONAL, 'Dump the SQL queries that would be run.'],
 			['seed', null, InputOption::VALUE_OPTIONAL, 'Indicates if the seed task should be re-run.']
 		];

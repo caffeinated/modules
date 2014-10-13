@@ -67,6 +67,7 @@ class ModulesServiceProvider extends ServiceProvider
 		$this->registerMigrateCommand();
 		$this->registerMigrateRefreshCommand();
 		$this->registerMigrateResetCommand();
+		$this->registerMigrateRollbackCommand();
 		$this->registerSeedCommand();
 
 		$this->commands([
@@ -77,6 +78,7 @@ class ModulesServiceProvider extends ServiceProvider
 			'modules.migrate',
 			'modules.migrateRefresh',
 			'modules.migrateReset',
+			'modules.migrateRollback',
 			'modules.seed'
 		]);
 	}
@@ -175,7 +177,19 @@ class ModulesServiceProvider extends ServiceProvider
 	protected function registerMigrateResetCommand()
 	{
 		$this->app->bindShared('modules.migrateReset', function($app) {
-			return new Console\ModuleMigrateResetCommand($app['modules'], $app['files'], $app['migrator']);
+			return new Console\ModuleMigrateResetCommand($app['modules']);
+		});
+	}
+
+	/**
+	 * Register the "module:migrate-rollback" console command.
+	 *
+	 * @return Console\ModuleMigrateRollbackCommand
+	 */
+	protected function registerMigrateRollbackCommand()
+	{
+		$this->app->bindShared('modules.migrateRollback', function($app) {
+			return new Console\ModuleMigrateRollbackCommand($app['modules']);
 		});
 	}
 
