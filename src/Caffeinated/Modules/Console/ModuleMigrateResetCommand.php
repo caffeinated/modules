@@ -75,9 +75,9 @@ class ModuleMigrateResetCommand extends Command
 		$this->requireMigrations($moduleName);
 
 		$this->call('migrate:reset', [
-			'--pretend'  => $this->option('pretend'),
 			'--database' => $this->option('database'),
-			'--force'    => $this->option('force')
+			'--force'    => $this->option('force'),
+			'--pretend'  => $this->option('pretend'),
 		]);
 	}
 

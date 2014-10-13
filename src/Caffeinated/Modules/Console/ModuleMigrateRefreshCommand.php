@@ -42,20 +42,21 @@ class ModuleMigrateRefreshCommand extends Command
 	{
 		$module     = $this->argument('module');
 		$moduleName = Str::studly($module);
-		$database   = $this->option('database');
 
 		$this->call('module:migrate-reset', [
 			'module'     => $module,
-			'--database' => $database
+			'--database' => $this->option('database'),
+			'--force'    => $this->option('force'),
+			'--pretend'  => $this->option('pretend'),
 		]);
 
 		$this->call('module:migrate', [
 			'module'     => $module,
-			'--database' => $database
+			'--database' => $this->option('database')
 		]);
 
 		if ($this->needsSeeding()) {
-			$this->runSeeder($module, $database);
+			$this->runSeeder($module, $this->option('database'));
 		}
 
 		if (isset($module)) {
@@ -108,6 +109,8 @@ class ModuleMigrateRefreshCommand extends Command
 	{
 		return [
 			['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'],
+			['force', null, InputOption::VALUE_NONE, 'Force the operation to run while in production.'],
+			['pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'],
 			['seed', null, InputOption::VALUE_NONE, 'Indicates if the seed task should be re-run.']
 		];
 	}
