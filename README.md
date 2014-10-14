@@ -17,18 +17,10 @@ To learn more about the usage of this package, please refer to the full set of [
 
 Installation
 ------------
-Begin by installing the package through Composer. Edit your project's `composer.json` file to require `caffeinated/modules`:
+Begin by installing the package through Composer. The best way to do this is through your terminal via Composer itself:
 
 ```
-"require": {
-	"caffeinated/modules": "dev-master"
-}
-```
-
-Next, update Composer from your Terminal:
-
-```
-composer update
+composer require caffeinated/modules
 ```
 
 Once this operation is complete, simply add both the service provider and facade classes to your project's `config/app.php` file:
