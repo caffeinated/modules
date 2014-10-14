@@ -18,8 +18,8 @@
         "illuminate/routing": ">=5.0.0"
     },
     "autoload": {
-        "psr-4": {
-            "Caffeinated\\Modules\\": "src/"
+        "psr-0": {
+            "Caffeinated\\Modules": "src/"
         }
     },
     "extra": {
