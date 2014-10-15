@@ -134,6 +134,9 @@ class ModuleMakeHandler
 	 */
 	protected function generateFolders()
 	{
+		if ( ! $this->finder->isDirectory($this->modules->getPath()))
+			$this->finder->makeDirectory($this->modules->getPath());
+
 		$this->finder->makeDirectory($this->getModulePath($this->slug));
 
 		foreach ($this->folders as $folder) {
