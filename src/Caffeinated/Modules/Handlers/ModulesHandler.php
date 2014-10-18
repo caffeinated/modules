@@ -93,6 +93,19 @@ class ModulesHandler implements Countable
 	}
 
 	/**
+	 * Sets module path.
+	 *
+	 * @param string $path
+	 * @return self
+	 */
+	public function setPath($path)
+	{
+		$this->path = $path;
+
+		return $this;
+	}
+
+	/**
 	 * Gets the path of specified module.
 	 *
 	 * @param string $module
