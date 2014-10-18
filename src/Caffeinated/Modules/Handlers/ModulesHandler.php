@@ -1,6 +1,6 @@
 <?php
 
-namespace Caffeinated\Modules;
+namespace Caffeinated\Modules\Handlers;
 
 use Countable;
 use Caffeinated\Modules\Exceptions\FileMissingException;
@@ -9,7 +9,7 @@ use Illuminate\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\Collection;
 
-class Finder implements Countable
+class ModulesHandler implements Countable
 {
 	/**
 	 * @var Filesystem

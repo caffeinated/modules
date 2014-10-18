@@ -2,6 +2,7 @@
 
 namespace Caffeinated\Modules;
 
+use Caffeinated\Modules\Handlers\ModulesHandler;
 use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
 
@@ -38,18 +39,15 @@ class ModulesServiceProvider extends ServiceProvider
 
 	protected function registerServices()
 	{
-		$this->app->bindShared('modules.finder', function ($app) {
-			return new Finder($app['files'], $app['config']);
+		$this->app->bindShared('modules.handler', function ($app) {
+			return new ModulesHandler($app['files'], $app['config']);
 		});
 
 		$this->app->bindShared('modules', function ($app) {
 			return new Modules(
-				$app['modules.finder'],
+				$app['modules.handler'],
 				$app['config'],
-				$app['view'],
-				$app['translator'],
-				$app['files'],
-				$app['url']
+				$app['files']
 			);
 		});
 
@@ -90,7 +88,7 @@ class ModulesServiceProvider extends ServiceProvider
 	 */
 	public function provides()
 	{
-		return ['modules.finder', 'modules'];
+		return ['modules.handler', 'modules'];
 	}
 
 	/**

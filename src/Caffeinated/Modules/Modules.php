@@ -4,21 +4,19 @@ namespace Caffeinated\Modules;
 
 use App;
 use Countable;
+use Caffeinated\Modules\Handlers\ModulesHandler;
 use Caffeinated\Modules\Exceptions\FileMissingException;
 use Illuminate\Config\Repository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Str;
-use Illuminate\Translation\Translator;
-use Illuminate\View\Factory;
 
 class Modules implements Countable
 {
 	/**
-	 * @var Finder
+	 * @var ModulesHandler
 	 */
-	protected $finder;
+	protected $handler;
 
 	/**
 	 * @var Repository
@@ -26,47 +24,25 @@ class Modules implements Countable
 	protected $config;
 
 	/**
-	 * @var Translator
-	 */
-	protected $lang;
-
-	/**
 	 * @var Filesystem
 	 */
 	protected $files;
 
 	/**
-	 * @var Factory
-	 */
-	protected $views;
-
-	/**
-	 * @var UrlGenerator
-	 */
-	protected $url;
-
-	/**
 	 * Constructor method.
 	 *
-	 * @param Finder $finder
+	 * @param ModulesHandler $handle
 	 * @param Repository $config
-	 * @param Factory $view
 	 * @param Translator $lang
 	 */
 	public function __construct(
-		Finder $finder,
+		ModulesHandler $handler,
 		Repository $config,
-		Factory $views,
-		Translator $lang,
-		Filesystem $files,
-		UrlGenerator $url
+		Filesystem $files
 	) {
-		$this->finder = $finder;
+		$this->handler = $handler;
 		$this->config = $config;
-		$this->lang   = $lang;
-		$this->views  = $views;
 		$this->files  = $files;
-		$this->url    = $url;
 	}
 
 	/**
@@ -114,8 +90,8 @@ class Modules implements Countable
 	{
 		$modules = array();
 		
-		foreach ($this->finder->all() as $module) {
-			$modules[] = $this->finder->getJsonContents($module);
+		foreach ($this->handler->all() as $module) {
+			$modules[] = $this->handler->getJsonContents($module);
 		}
 
 		if (isset($modules))
@@ -130,7 +106,7 @@ class Modules implements Countable
 	 */
 	public function has($slug)
 	{
-		return $this->finder->has($slug);
+		return $this->handler->has($slug);
 	}
 
 	/**
@@ -161,7 +137,7 @@ class Modules implements Countable
 	 */
 	public function setPath($path)
 	{
-		$this->finder->setPath($path);
+		$this->handler->setPath($path);
 
 		return $this;
 	}
@@ -184,7 +160,7 @@ class Modules implements Countable
 	 */
 	public function getModulePath($slug)
 	{
-		return $this->finder->getModulePath($slug, true);
+		return $this->handler->getModulePath($slug, true);
 	}
 
 	/**
@@ -195,7 +171,7 @@ class Modules implements Countable
 	 */
 	public function getProperties($slug)
 	{
-		return $this->finder->getJsonContents($slug);
+		return $this->handler->getJsonContents($slug);
 	}
 
 	/**
@@ -207,7 +183,7 @@ class Modules implements Countable
 	 */
 	public function getProperty($key, $default = null)
 	{
-		return $this->finder->getProperty($key, $default);
+		return $this->handler->getProperty($key, $default);
 	}
 
 	/**
@@ -219,7 +195,7 @@ class Modules implements Countable
 	 */
 	public function setProperty($key, $value)
 	{
-		return $this->finder->setProperty($key, $value);
+		return $this->handler->setProperty($key, $value);
 	}
 
 	/**
@@ -298,7 +274,7 @@ class Modules implements Countable
 	 */
 	public function enable($slug)
 	{
-		return $this->finder->enable($slug);
+		return $this->handler->enable($slug);
 	}
 
 	/**
@@ -309,6 +285,6 @@ class Modules implements Countable
 	 */
 	public function disable($slug)
 	{
-		return $this->finder->disable($slug);
+		return $this->handler->disable($slug);
 	}
 }
