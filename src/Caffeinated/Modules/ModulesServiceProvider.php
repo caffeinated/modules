@@ -37,6 +37,11 @@ class ModulesServiceProvider extends ServiceProvider
 		$this->registerConsoleCommands();
 	}
 
+	/**
+	 * Register the package services.
+	 *
+	 * @return void
+	 */
 	protected function registerServices()
 	{
 		$this->app->bindShared('modules.handler', function ($app) {
@@ -56,6 +61,11 @@ class ModulesServiceProvider extends ServiceProvider
 		});
 	}
 
+	/**
+	 * Register the package console commands.
+	 *
+	 * @return void
+	 */
 	protected function registerConsoleCommands()
 	{
 		$this->registerMakeCommand();
@@ -67,6 +77,7 @@ class ModulesServiceProvider extends ServiceProvider
 		$this->registerMigrateResetCommand();
 		$this->registerMigrateRollbackCommand();
 		$this->registerSeedCommand();
+		$this->registerListCommand();
 
 		$this->commands([
 			'modules.make',
@@ -77,7 +88,8 @@ class ModulesServiceProvider extends ServiceProvider
 			'modules.migrateRefresh',
 			'modules.migrateReset',
 			'modules.migrateRollback',
-			'modules.seed'
+			'modules.seed',
+			'modules.list'
 		]);
 	}
 
@@ -200,6 +212,18 @@ class ModulesServiceProvider extends ServiceProvider
 	{
 		$this->app->bindShared('modules.seed', function($app) {
 			return new Console\ModuleSeedCommand($app['modules']);
+		});
+	}
+
+	/**
+	 * Register the "module:list" console command.
+	 *
+	 * @return Console\ModuleListCommand
+	 */
+	protected function registerListCommand()
+	{
+		$this->app->bindShared('modules.list', function($app) {
+			return new Console\ModuleListCommand($app['modules']);
 		});
 	}
 }

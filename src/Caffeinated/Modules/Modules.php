@@ -46,25 +46,25 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Register the global.php file from all modules.
+	 * Register the module service provider file from all modules.
 	 *
 	 * @return mixed
 	 */
 	public function register()
 	{
 		foreach ($this->enabled() as $module) {
-			$this->includeGlobalFile($module);
+			$this->registerServiceProvider($module);
 		}
 	}
 
 	/**
-	 * Get global.php file for the specified module.
+	 * Register the module service provider.
 	 *
 	 * @param array $module
 	 * @return string
 	 * @throws \Caffeinated\Modules\Exception\FileMissingException
 	 */
-	protected function includeGlobalFile($module)
+	protected function registerServiceProvider($module)
 	{
 		$module = Str::studly($module['slug']);
 
