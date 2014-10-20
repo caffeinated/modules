@@ -35,11 +35,8 @@ class Modules implements Countable
 	 * @param Repository $config
 	 * @param Translator $lang
 	 */
-	public function __construct(
-		ModulesHandler $handler,
-		Repository $config,
-		Filesystem $files
-	) {
+	public function __construct(ModulesHandler $handler, Repository $config, Filesystem $files)
+	{
 		$this->handler = $handler;
 		$this->config = $config;
 		$this->files  = $files;

@@ -38,6 +38,16 @@ class ModulesServiceProvider extends ServiceProvider
 	}
 
 	/**
+	 * Get the services provided by the provider.
+	 *
+	 * @return array
+	 */
+	public function provides()
+	{
+		return ['modules.handler', 'modules'];
+	}
+
+	/**
 	 * Register the package services.
 	 *
 	 * @return void
@@ -49,11 +59,7 @@ class ModulesServiceProvider extends ServiceProvider
 		});
 
 		$this->app->bindShared('modules', function ($app) {
-			return new Modules(
-				$app['modules.handler'],
-				$app['config'],
-				$app['files']
-			);
+			return new Modules($app['modules.handler'], $app['config'],	$app['files']);
 		});
 
 		$this->app->booting(function ($app) {
@@ -91,16 +97,6 @@ class ModulesServiceProvider extends ServiceProvider
 			'modules.seed',
 			'modules.list'
 		]);
-	}
-
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return ['modules.handler', 'modules'];
 	}
 
 	/**
