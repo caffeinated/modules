@@ -86,7 +86,7 @@ class Modules implements Countable
 	public function all()
 	{
 		$modules = array();
-		
+
 		foreach ($this->handler->all() as $module) {
 			$modules[] = $this->handler->getJsonContents($module);
 		}
@@ -101,14 +101,14 @@ class Modules implements Countable
 	 * @param string $slug
 	 * @return bool
 	 */
-	public function has($slug)
+	public function exists($slug)
 	{
-		return $this->handler->has($slug);
+		return $this->handler->exists($slug);
 	}
 
 	/**
 	 * Count all modules.
-	 * 
+	 *
 	 * @return int
 	 */
 	public function count()

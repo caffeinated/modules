@@ -67,7 +67,7 @@ class ModulesHandler implements Countable
 	 * @param string $slug
 	 * @return bool
 	 */
-	public function has($slug)
+	public function exists($slug)
 	{
 		return in_array($slug, $this->all()->toArray());
 	}
@@ -116,7 +116,7 @@ class ModulesHandler implements Countable
 	{
 		$module = Str::studly($module);
 
-		if ( ! $this->has($module) and $allowNotExists === false)
+		if ( ! $this->exists($module) and $allowNotExists === false)
 			return null;
 
 		return $this->getPath()."/{$module}/";
@@ -173,10 +173,10 @@ class ModulesHandler implements Countable
 	public function getJsonContents($module)
 	{
 		$module = Str::studly($module);
-		
+
 		$default = [];
 
-		if ( ! $this->has($module))
+		if ( ! $this->exists($module))
 			return $default;
 
 		$path = $this->getJsonPath($module);
