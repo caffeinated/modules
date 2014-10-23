@@ -116,7 +116,7 @@ class ModulesHandler implements Countable
 	{
 		$module = Str::studly($module);
 
-		if ( ! $this->exists($module) and $allowNotExists === false)
+		if ( ! $this->exists($module) && $allowNotExists === false)
 			return null;
 
 		return $this->getPath()."/{$module}/";
