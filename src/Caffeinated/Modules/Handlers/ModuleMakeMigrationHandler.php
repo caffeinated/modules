@@ -70,7 +70,7 @@ class ModuleMakeMigrationHandler
 		$this->migrationName = 'create_'.snake_case($this->table).'_table';
 		$this->className     = studly_case($this->migrationName);
 
-		if ($this->module->has($this->moduleName)) {
+		if ($this->module->exists($this->moduleName)) {
 			$this->makeFile();
 
 			$this->console->info("Created Module Migration: [$this->moduleName] ".$this->getFilename());

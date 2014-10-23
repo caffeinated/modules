@@ -101,7 +101,7 @@ class ModuleMakeHandler
 		$this->slug    = $slug;
 		$this->name    = Str::studly($slug);
 
-		if ($this->modules->has($this->slug)) {
+		if ($this->modules->exists($this->slug)) {
 			$console->comment('Module [{$this->name}] already exists.');
 
 			return false;
@@ -153,7 +153,7 @@ class ModuleMakeHandler
 	{
 		foreach ($this->files as $key => $file) {
 			$file = $this->formatContent($file);
-			
+
 			$this->makeFile($key, $file);
 		}
 	}

@@ -52,7 +52,7 @@ class ModuleSeedCommand extends Command
 		$moduleName = Str::studly($module);
 
 		if (isset($module)) {
-			if ($this->module->has($moduleName)) {
+			if ($this->module->exists($moduleName)) {
 				$this->seed($module);
 
 				return;

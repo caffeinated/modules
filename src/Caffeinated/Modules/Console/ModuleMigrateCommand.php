@@ -69,12 +69,12 @@ class ModuleMigrateCommand extends Command
 	{
 		$moduleName = Str::studly($slug);
 
-		if ($this->module->has($moduleName)) {
+		if ($this->module->exists($moduleName)) {
 			$params = $this->getParameters($slug);
 
 			return $this->call('migrate', $params);
 		}
-		
+
 		return $this->error("Module [$moduleName] does not exist.");
 	}
 
