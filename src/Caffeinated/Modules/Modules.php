@@ -107,7 +107,7 @@ class Modules implements Countable
 	}
 
 	/**
-	 * Count all modules.
+	 * Returns count of all modules.
 	 *
 	 * @return int
 	 */
@@ -174,25 +174,25 @@ class Modules implements Countable
 	/**
 	 * Get a module property value.
 	 *
-	 * @param string $key
+	 * @param string $property
 	 * @param null $default
 	 * @return mixed
 	 */
-	public function getProperty($key, $default = null)
+	public function getProperty($property, $default = null)
 	{
-		return $this->handler->getProperty($key, $default);
+		return $this->handler->getProperty($property, $default);
 	}
 
 	/**
 	 * Set a module property value.
 	 *
-	 * @param string $key
+	 * @param string $property
 	 * @param mixed $value
 	 * @return mixed
 	 */
-	public function setProperty($key, $value)
+	public function setProperty($property, $value)
 	{
-		return $this->handler->setProperty($key, $value);
+		return $this->handler->setProperty($property, $value);
 	}
 
 	/**
