@@ -260,7 +260,7 @@ class Modules implements Countable
 	 */
 	public function isDisabled($slug)
 	{
-		return $this->getProperty("{$slug}::enabled") == false;
+		return $this->getProperty("{$slug}::enabled") === false;
 	}
 
 	/**
