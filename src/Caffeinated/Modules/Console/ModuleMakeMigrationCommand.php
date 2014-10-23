@@ -4,7 +4,6 @@ namespace Caffeinated\Modules\Console;
 
 use Caffeinated\Modules\Handlers\ModuleMakeMigrationHandler;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
 class ModuleMakeMigrationCommand extends Command

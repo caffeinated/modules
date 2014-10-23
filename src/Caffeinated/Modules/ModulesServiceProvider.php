@@ -3,7 +3,6 @@
 namespace Caffeinated\Modules;
 
 use Caffeinated\Modules\Handlers\ModulesHandler;
-use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
 
 class ModulesServiceProvider extends ServiceProvider
