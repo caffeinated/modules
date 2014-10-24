@@ -1,6 +1,6 @@
 <?php
 
 return [
-	'path'      => '/app/Modules',
+	'path'      => realpath('/app/Modules'),
 	'namespace' => 'App\Modules\\'
 ];
