@@ -123,7 +123,7 @@ class Modules implements Countable
 	 */
 	public function getPath()
 	{
-		return $this->config->get('modules::paths.modules');
+		return $this->config->get('modules::path');
 	}
 
 	/**
@@ -146,7 +146,7 @@ class Modules implements Countable
 	 */
 	public function getNamespace()
 	{
-		return $this->config->get('modules::namespaces.modules');
+		return $this->config->get('modules::namespace');
 	}
 
 	/**
