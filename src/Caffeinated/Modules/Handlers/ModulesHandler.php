@@ -30,7 +30,7 @@ class ModulesHandler implements Countable
 	 * Constructor method.
 	 *
 	 * @param Filesystem $files
-	 * @param Repository $confid
+	 * @param Repository $config
 	 */
 	public function __construct(Filesystem $files, Repository $config)
 	{
