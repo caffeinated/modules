@@ -2,16 +2,37 @@
 
 namespace {{namespace}}{{name}}\Providers;
 
+use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
 {
 	/**
-	 * Register the {{name}} module routes.
+	 * All of the module's route middleware keys.
+	 *
+	 * @var array
+	 */
+	protected $middleware = [];
+
+	/**
+	 * Called before routes are registered.
+	 *
+	 * Register any model bindings or pattern based filters.
+	 *
+	 * @param  \Illuminate\Routing\Router $router
+	 * @return void
+	 */
+	public function before(Router $router)
+	{
+		//
+	}
+
+	/**
+	 * Map the {{name}} module routes.
 	 *
 	 * @return void
 	 */
-	public function register()
+	public function map(Router $router)
 	{
 		$this->app->booted(function()
 		{
