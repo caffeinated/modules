@@ -15,22 +15,14 @@ class ModulesServiceProvider extends ServiceProvider
 	protected $defer = false;
 
 	/**
-	 * Bootstrap the application events.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		$this->package('caffeinated/modules');
-	}
-
-	/**
 	 * Register the service provider.
 	 *
 	 * @return void
 	 */
 	public function register()
 	{
+		$this->package('caffeinated/modules');
+
 		$this->registerServices();
 
 		$this->registerConsoleCommands();
