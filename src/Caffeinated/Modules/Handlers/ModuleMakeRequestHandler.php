@@ -129,7 +129,7 @@ class ModuleMakeRequestHandler
 	{
 		return str_replace(
 			['{{className}}', '{{moduleName}}', '{{namespace}}'],
-			[$this->className, $this->moduleName, $this->modules->getNamespace()],
+			[$this->className, $this->moduleName, $this->module->getNamespace()],
 			$content
 		);
 	}
