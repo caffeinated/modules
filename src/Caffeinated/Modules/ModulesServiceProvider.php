@@ -1,5 +1,4 @@
 <?php
-
 namespace Caffeinated\Modules;
 
 use Caffeinated\Modules\Handlers\ModulesHandler;
@@ -69,6 +68,7 @@ class ModulesServiceProvider extends ServiceProvider
 		$this->registerEnableCommand();
 		$this->registerDisableCommand();
 		$this->registerMakeMigrationCommand();
+		$this->registerMakeRequestCommand();
 		$this->registerMigrateCommand();
 		$this->registerMigrateRefreshCommand();
 		$this->registerMigrateResetCommand();
@@ -81,6 +81,7 @@ class ModulesServiceProvider extends ServiceProvider
 			'modules.enable',
 			'modules.disable',
 			'modules.makeMigration',
+			'modules.makeRequest',
 			'modules.migrate',
 			'modules.migrateRefresh',
 			'modules.migrateReset',
@@ -139,6 +140,20 @@ class ModulesServiceProvider extends ServiceProvider
 			$handler = new Handlers\ModuleMakeMigrationHandler($app['modules'], $app['files']);
 
 			return new Console\ModuleMakeMigrationCommand($handler);
+		});
+	}
+
+	/**
+	 * Register the "module:make-request" console command.
+	 *
+	 * @return Console\ModuleMakeRequestCommand
+	 */
+	protected function registerMakeRequestCommand()
+	{
+		$this->app->bindShared('modules.makeRequest', function($app) {
+			$handler = new Handlers\ModuleMakeRequestHandler($app['modules'], $app['files']);
+
+			return new Console\ModuleMakeRequestCommand($handler);
 		});
 	}
 
