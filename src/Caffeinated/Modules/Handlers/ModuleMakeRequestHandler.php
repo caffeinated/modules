@@ -55,7 +55,7 @@ class ModuleMakeRequestHandler
 	{
 		$this->console       = $console;
 		$this->moduleName    = Str::studly($slug);
-		$this->className     = studly_case(strtolower($class));
+		$this->className     = studly_case($class);
 
 		if ($this->module->exists($this->moduleName)) {
 			$this->makeFile();
