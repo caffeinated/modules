@@ -189,7 +189,7 @@ class ModulesServiceProvider extends ServiceProvider
 	protected function registerMigrateResetCommand()
 	{
 		$this->app->bindShared('modules.migrateReset', function($app) {
-			return new Console\ModuleMigrateResetCommand($app['modules']);
+			return new Console\ModuleMigrateResetCommand($app['modules'], $app['files'], $app['migrator']);
 		});
 	}
 
