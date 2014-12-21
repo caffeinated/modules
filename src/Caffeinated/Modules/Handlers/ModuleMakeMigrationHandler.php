@@ -1,5 +1,4 @@
 <?php
-
 namespace Caffeinated\Modules\Handlers;
 
 use Caffeinated\Modules\Modules;

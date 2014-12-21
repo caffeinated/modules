@@ -1,5 +1,4 @@
 <?php
-
 namespace {{namespace}}{{name}}\Providers;
 
 use Illuminate\Routing\Router;

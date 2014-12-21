@@ -1,5 +1,4 @@
 <?php
-
 namespace Caffeinated\Modules\Console;
 
 use Illuminate\Console\Command;

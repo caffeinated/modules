@@ -1,5 +1,4 @@
 <?php
-
 namespace Caffeinated\Modules;
 
 use App;

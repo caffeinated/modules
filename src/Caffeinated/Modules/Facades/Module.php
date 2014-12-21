@@ -1,5 +1,4 @@
 <?php
-
 namespace Caffeinated\Modules\Facades;
 
 use Illuminate\Support\Facades\Facade;
