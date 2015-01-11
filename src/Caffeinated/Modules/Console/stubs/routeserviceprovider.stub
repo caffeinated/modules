@@ -35,7 +35,7 @@ class RouteServiceProvider extends ServiceProvider
 	{
 		$this->app->booted(function()
 		{
-			require (config('modules::path').'/{{name}}/Http/routes.php');
+			require (config('modules.path').'/{{name}}/Http/routes.php');
 		});
 	}
 }

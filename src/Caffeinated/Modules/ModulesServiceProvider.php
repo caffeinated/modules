@@ -53,7 +53,7 @@ class ModulesServiceProvider extends ServiceProvider
 			$config     = array_replace_recursive($config, $userConfig);
 		}
 
-		$this->app['config']->set('modules::config', $config);
+		$this->app['config']->set('modules', $config);
 	}
 
 	/**

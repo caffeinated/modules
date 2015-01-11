@@ -88,7 +88,7 @@ class ModulesHandler implements Countable
 	 */
 	public function getPath()
 	{
-		return $this->path ?: $this->config->get('modules::path');
+		return $this->path ?: $this->config->get('modules.path');
 	}
 
 	/**
