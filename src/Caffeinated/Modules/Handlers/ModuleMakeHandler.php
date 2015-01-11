@@ -14,7 +14,6 @@ class ModuleMakeHandler
 	 * @var array
 	 */
 	protected $folders = [
-		'Config/',
 		'Console/',
 		'Database/',
 		'Database/Migrations/',

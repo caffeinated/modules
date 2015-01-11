@@ -31,8 +31,6 @@ class {{name}}ServiceProvider extends ServiceProvider
 	 */
 	protected function registerNamespaces()
 	{
-		Config::addNamespace('{{slug}}', __DIR__.'/../Config/');
-
 		Lang::addNamespace('{{slug}}', __DIR__.'/../Resources/Lang/');
 
 		View::addNamespace('{{slug}}', __DIR__.'/../Resources/Views/');
