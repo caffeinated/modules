@@ -122,7 +122,7 @@ class Modules implements Countable
 	 */
 	public function getPath()
 	{
-		return $this->config->get('modules.path');
+		return $this->config->get('caffeinated::modules.path');
 	}
 
 	/**
@@ -145,7 +145,7 @@ class Modules implements Countable
 	 */
 	public function getNamespace()
 	{
-		return $this->config->get('modules.namespace');
+		return $this->config->get('caffeinated::modules.namespace');
 	}
 
 	/**
