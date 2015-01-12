@@ -49,7 +49,7 @@ class ModulesServiceProvider extends ServiceProvider
 		$config            = $this->app['files']->getRequire($packageConfigFile);
 
 		if (file_exists($userConfigFile)) {
-			$userConfig = $this->app['files']->getRequire($userconfigFile);
+			$userConfig = $this->app['files']->getRequire($userConfigFile);
 			$config     = array_replace_recursive($config, $userConfig);
 		}
 
