@@ -44,7 +44,7 @@ class ModulesServiceProvider extends ServiceProvider
 	 */
 	protected function registerResources()
 	{
-		$userConfigFile    = app()->configPath().'/modules.php';
+		$userConfigFile    = app()->configPath().'/caffeinated/modules.php';
 		$packageConfigFile = __DIR__.'/../../config/config.php';
 		$config            = $this->app['files']->getRequire($packageConfigFile);
 
