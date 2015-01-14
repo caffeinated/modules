@@ -3,6 +3,7 @@ namespace Caffeinated\Modules\Console;
 
 use Caffeinated\Modules\Modules;
 use Illuminate\Console\Command;
+use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -29,15 +30,23 @@ class ModuleMigrateCommand extends Command
 	protected $module;
 
 	/**
+	 * The migrator instance.
+	 *
+	 * @var \Illuminate\Database\Migrations\Migrator
+	 */
+	protected $migrator;
+
+	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
 	 */
-	public function __construct(Modules $module)
+	public function __construct(Migrator $migrator, Modules $module)
 	{
 		parent::__construct();
 
-		$this->module = $module;
+		$this->migrator = $migrator;
+		$this->module   = $module;
 	}
 
 	/**
@@ -69,9 +78,26 @@ class ModuleMigrateCommand extends Command
 		$moduleName = Str::studly($slug);
 
 		if ($this->module->exists($moduleName)) {
-			$params = $this->getParameters($slug);
+			$pretend = $this->input->getOption('pretend');
+			$path    = $this->getMigrationPath($slug);
 
-			return $this->call('migrate', $params);
+			$this->migrator->run($path, $pretend);
+
+			// Once the migrator has run we will grab the note output and send it out to
+			// the console screen, since the migrator itself functions without having
+			// any instances of the OutputInterface contract passed into the class.
+			foreach ($this->migrator->getNotes() as $note)
+			{
+				$this->output->writeln($note);
+			}
+
+			// Finally, if the "seed" option has been given, we will re-run the database
+			// seed task to re-populate the database, which is convenient when adding
+			// a migration and a seed at the same time, as it is only this command.
+			if ($this->input->getOption('seed'))
+			{
+				$this->call('module:seed '.$slug, ['--force' => true]);
+			}
 		}
 
 		return $this->error("Module [$moduleName] does not exist.");
@@ -99,8 +125,6 @@ class ModuleMigrateCommand extends Command
 	protected function getParameters($slug)
 	{
 		$params = [];
-
-		$params['--path'] = $this->getMigrationPath($slug);
 
 		if ($option = $this->option('database')) {
 			$params['--database'] = $option;
