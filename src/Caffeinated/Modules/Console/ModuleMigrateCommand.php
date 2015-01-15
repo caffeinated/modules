@@ -83,8 +83,6 @@ class ModuleMigrateCommand extends Command
 			$pretend = $this->input->getOption('pretend');
 			$path    = $this->getMigrationPath($slug);
 
-			$this->info($path);
-
 			$this->migrator->run($path, $pretend);
 
 			// Once the migrator has run we will grab the note output and send it out to
