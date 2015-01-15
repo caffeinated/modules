@@ -81,6 +81,8 @@ class ModuleMigrateCommand extends Command
 			$pretend = $this->input->getOption('pretend');
 			$path    = $this->getMigrationPath($slug);
 
+			$this->info($path);
+
 			$this->migrator->run($path, $pretend);
 
 			// Once the migrator has run we will grab the note output and send it out to
@@ -98,9 +100,9 @@ class ModuleMigrateCommand extends Command
 			{
 				$this->call('module:seed '.$slug, ['--force' => true]);
 			}
-		}
-
-		return $this->error("Module [$moduleName] does not exist.");
+		} else {
+			return $this->error("Module [$moduleName] does not exist.");
+		}		
 	}
 
 	/**
@@ -111,9 +113,9 @@ class ModuleMigrateCommand extends Command
 	 */
 	protected function getMigrationPath($slug)
 	{
-		$path = str_replace(base_path(), '', $this->module->getModulePath($slug));
+		$path = $this->module->getModulePath($slug);
 
-		return $path.'/Database/Migrations/';
+		return $path.'Database/Migrations/';
 	}
 
 	/**

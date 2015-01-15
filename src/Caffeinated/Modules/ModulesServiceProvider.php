@@ -2,6 +2,8 @@
 namespace Caffeinated\Modules;
 
 use Caffeinated\Modules\Handlers\ModulesHandler;
+use Illuminate\Database\Migrations\Migrator;
+use Illuminate\Database\Migrations\DatabaseMigrationRepository;
 use Illuminate\Support\ServiceProvider;
 
 class ModulesServiceProvider extends ServiceProvider
@@ -23,6 +25,13 @@ class ModulesServiceProvider extends ServiceProvider
 		$this->registerResources();
 
 		$this->registerServices();
+
+		$this->registerRepository();
+
+		// Once we have registered the migrator instance we will go ahead and register
+		// all of the migration related commands that are used by the "Artisan" CLI
+		// so that they may be easily accessed for registering with the consoles.
+		$this->registerMigrator();
 
 		$this->registerConsoleCommands();
 	}
@@ -73,6 +82,39 @@ class ModulesServiceProvider extends ServiceProvider
 
 		$this->app->booting(function ($app) {
 			$app['modules']->register();
+		});
+	}
+
+	/**
+	 * Register the migration repository service.
+	 *
+	 * @return void
+	 */
+	protected function registerRepository()
+	{
+		$this->app->singleton('migration.repository', function($app)
+		{
+			$table = $app['config']['database.migrations'];
+
+			return new DatabaseMigrationRepository($app['db'], $table);
+		});
+	}
+
+	/**
+	 * Register the migrator service.
+	 *
+	 * @return void
+	 */
+	protected function registerMigrator()
+	{
+		// The migrator is responsible for actually running and rollback the migration
+		// files in the application. We'll pass in our database connection resolver
+		// so the migrator can resolve any of these connections when it needs to.
+		$this->app->singleton('migrator', function($app)
+		{
+			$repository = $app['migration.repository'];
+
+			return new Migrator($repository, $app['db'], $app['files']);
 		});
 	}
 
@@ -184,7 +226,7 @@ class ModulesServiceProvider extends ServiceProvider
 	protected function registerMigrateCommand()
 	{
 		$this->app->bindShared('modules.migrate', function($app) {
-			return new Console\ModuleMigrateCommand($app['modules']);
+			return new Console\ModuleMigrateCommand($app['migrator'], $app['modules']);
 		});
 	}
 
