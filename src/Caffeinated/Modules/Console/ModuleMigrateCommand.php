@@ -56,6 +56,8 @@ class ModuleMigrateCommand extends Command
 	 */
 	public function fire()
 	{
+		$this->prepareDatabase();
+
 		$module = $this->argument('module');
 
 		if (isset($module)) {
@@ -116,6 +118,23 @@ class ModuleMigrateCommand extends Command
 		$path = $this->module->getModulePath($slug);
 
 		return $path.'Database/Migrations/';
+	}
+
+	/**
+	 * Prepare the migration database for running.
+	 *
+	 * @return void
+	 */
+	protected function prepareDatabase()
+	{
+		$this->migrator->setConnection($this->input->getOption('database'));
+
+		if ( ! $this->migrator->repositoryExists())
+		{
+			$options = array('--database' => $this->input->getOption('database'));
+
+			$this->call('migrate:install', $options);
+		}
 	}
 
 	/**
