@@ -1,11 +1,11 @@
 Caffeinated Modules
 ===================
-[![Build Status](https://travis-ci.org/caffeinated/modules.svg?branch=master)](https://travis-ci.org/caffeinated/modules)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/caffeinated/modules/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/caffeinated/modules/?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/caffeinated/modules/v/stable.svg)](https://packagist.org/packages/caffeinated/modules)
-[![Total Downloads](https://poser.pugx.org/caffeinated/modules/downloads.svg)](https://packagist.org/packages/caffeinated/modules)
-[![Latest Unstable Version](https://poser.pugx.org/caffeinated/modules/v/unstable.svg)](https://packagist.org/packages/caffeinated/modules)
-[![License](https://poser.pugx.org/caffeinated/modules/license.svg)](https://packagist.org/packages/caffeinated/modules)
+[![Laravel](https://img.shields.io/badge/Laravel-5.0-orange.svg?style=flat-square)](http://laravel.com)
+[![Source](http://img.shields.io/badge/source-caffeinated/modules-blue.svg?style=flat-square)](https://github.com/caffeinated/modules)
+[![Build Status](http://img.shields.io/travis/caffeinated/modules/master.svg?style=flat-square)](https://travis-ci.org/caffeinated/modules)
+[![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/caffeinated/modules.svg?style=flat-square)](https://scrutinizer-ci.com/g/caffeinated/modules/?branch=master)
+[![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/caffeinated/modules.svg?style=flat-square)](https://scrutinizer-ci.com/g/caffeinated/modules/?branch=master)
+[![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
 
 All features for the initial release as outlined within the [roadmap](http://codex.caffeinated.ninja/modules/master/roadmap) have been completed. I'm simply waiting until Laravel 5.0 is officially released to tag this as stable v1.0. In the meantime I will continue to clean up the code that currently stands.
 
