@@ -74,7 +74,7 @@ class ModuleMakeMigrationHandler
 
 			$this->console->info("Created Module Migration: [$this->moduleName] ".$this->getFilename());
 
-			return $this->console->call('dump-autoload');
+			return exec('composer dump-autoload');
 		}
 
 		return $this->console->info("Module [$this->moduleName] does not exist.");
