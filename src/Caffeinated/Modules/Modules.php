@@ -85,13 +85,15 @@ class Modules implements Countable
 	public function all()
 	{
 		$modules = array();
+		$folders = $this->handler->all();
 
-		foreach ($this->handler->all() as $module) {
-			$modules[] = $this->handler->getJsonContents($module);
+		if (isset($folders)) {
+			foreach ($folders as $module) {
+				$modules[] = $this->handler->getJsonContents($module);
+			}
 		}
 
-		if (isset($modules))
-			return new Collection($modules);
+		return new Collection($modules);
 	}
 
 	/**

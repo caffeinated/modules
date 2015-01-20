@@ -56,7 +56,7 @@ class ModulesHandler implements Countable
 			if ( ! Str::startsWith($module, '.'))
 				$modules[] = basename($module);
 		}
-
+		
 		return new Collection($modules);
 	}
 

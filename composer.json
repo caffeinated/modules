@@ -11,10 +11,14 @@
     ],
     "require": {
         "php": ">=5.4.0",
+        "illuminate/database": ">=5.0.0",
         "illuminate/support": ">=5.0.0",
         "illuminate/filesystem": ">=5.0.0",
         "illuminate/config": ">=5.0.0",
         "illuminate/routing": ">=5.0.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "dev-master"
     },
     "autoload": {
         "psr-0": {
