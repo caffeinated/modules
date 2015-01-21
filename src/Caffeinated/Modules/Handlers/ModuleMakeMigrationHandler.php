@@ -57,9 +57,9 @@ class ModuleMakeMigrationHandler
 	/**
 	 * Fire off the handler.
 	 *
-	 * @param Command $console
-	 * @param string $slug
-	 * @return bool
+	 * @param  Command $console
+	 * @param  string $slug
+	 * @return string
 	 */
 	public function fire(Command $console, $slug, $table)
 	{
