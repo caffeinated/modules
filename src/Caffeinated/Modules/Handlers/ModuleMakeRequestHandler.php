@@ -36,7 +36,6 @@ class ModuleMakeRequestHandler
 	/**
 	 * Constructor method.
 	 *
-	 * @return void
 	 */
 	public function __construct(Modules $module, Filesystem $finder)
 	{
@@ -47,8 +46,8 @@ class ModuleMakeRequestHandler
 	/**
 	 * Fire off the handler.
 	 *
-	 * @param Command $console
-	 * @param string $slug
+	 * @param  \Caffeinated\Modules\Console\ModuleMakeRequestCommand $console
+	 * @param  string $slug
 	 * @return bool
 	 */
 	public function fire(Command $console, $slug, $class)
@@ -71,7 +70,7 @@ class ModuleMakeRequestHandler
 	/**
 	 * Create new migration file.
 	 *
-	 * @return string
+	 * @return integer
 	 */
 	protected function makeFile()
 	{
@@ -123,6 +122,7 @@ class ModuleMakeRequestHandler
 	/**
 	 * Replace placeholder text with correct values.
 	 *
+	 * @param  string $content
 	 * @return string
 	 */
 	protected function formatContent($content)

@@ -41,7 +41,7 @@ class ModuleMakeMigrationCommand extends Command
 	/**
 	 * Execute the console command.
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public function fire()
 	{

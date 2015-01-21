@@ -46,7 +46,6 @@ class ModuleMakeMigrationHandler
 	/**
 	 * Constructor method.
 	 *
-	 * @return void
 	 */
 	public function __construct(Modules $module, Filesystem $finder)
 	{
@@ -57,7 +56,7 @@ class ModuleMakeMigrationHandler
 	/**
 	 * Fire off the handler.
 	 *
-	 * @param  Command $console
+	 * @param  \Caffeinated\Modules\Console\ModuleMakeMigrationCommand $console
 	 * @param  string $slug
 	 * @return string
 	 */
@@ -83,7 +82,7 @@ class ModuleMakeMigrationHandler
 	/**
 	 * Create new migration file.
 	 *
-	 * @return string
+	 * @return integer
 	 */
 	protected function makeFile()
 	{
@@ -135,6 +134,7 @@ class ModuleMakeMigrationHandler
 	/**
 	 * Replace placeholder text with correct values.
 	 *
+	 * @param  string $content
 	 * @return string
 	 */
 	protected function formatContent($content)

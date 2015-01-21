@@ -30,9 +30,9 @@ class Modules implements Countable
 	/**
 	 * Constructor method.
 	 *
-	 * @param ModulesHandler $handle
+	 * @param ModulesHandler $handler
 	 * @param Repository $config
-	 * @param Translator $lang
+	 * @param Filesystem $files
 	 */
 	public function __construct(ModulesHandler $handler, Repository $config, Filesystem $files)
 	{
@@ -187,9 +187,9 @@ class Modules implements Countable
 	/**
 	 * Set a module property value.
 	 *
-	 * @param string $property
-	 * @param mixed $value
-	 * @return mixed
+	 * @param  string $property
+	 * @param  mixed $value
+	 * @return boolean
 	 */
 	public function setProperty($property, $value)
 	{
@@ -199,7 +199,7 @@ class Modules implements Countable
 	/**
 	 * Get all modules by enabled status.
 	 *
-	 * @param bool $enabled
+	 * @param  boolean $enabled
 	 * @return array
 	 */
 	public function getByEnabled($enabled = true)

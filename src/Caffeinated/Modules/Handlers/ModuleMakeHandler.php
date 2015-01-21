@@ -89,8 +89,8 @@ class ModuleMakeHandler
 	/**
 	 * Fire off the handler.
 	 *
-	 * @param Command $console
-	 * @param string $slug
+	 * @param  \Caffeinated\Modules\Console\ModuleMakeCommand $console
+	 * @param  string $slug
 	 * @return bool
 	 */
 	public function fire(Command $console, $slug)
@@ -111,8 +111,8 @@ class ModuleMakeHandler
 	/**
 	 * Generate module folders and files.
 	 *
-	 * @param Command $console
-	 * @return bool
+	 * @param  \Caffeinated\Modules\Console\ModuleMakeCommand $console
+	 * @return boolean
 	 */
 	public function generate(Command $console)
 	{
@@ -159,9 +159,9 @@ class ModuleMakeHandler
 	/**
 	 * Create module file.
 	 *
-	 * @param int $key
-	 * @param string $file
-	 * @return string
+	 * @param  integer $key
+	 * @param  string $file
+	 * @return integer
 	 */
 	protected function makeFile($key, $file)
 	{
@@ -171,7 +171,7 @@ class ModuleMakeHandler
 	/**
 	 * Get the path to the module.
 	 *
-	 * @param string $slug
+	 * @param  string $slug
 	 * @return string
 	 */
 	protected function getModulePath($slug = null)
@@ -185,7 +185,7 @@ class ModuleMakeHandler
 	/**
 	 * Get destination file.
 	 *
-	 * @param string $file
+	 * @param  string $file
 	 * @return string
 	 */
 	protected function getDestinationFile($file)
@@ -196,7 +196,7 @@ class ModuleMakeHandler
 	/**
 	 * Get stub content by key.
 	 *
-	 * @param int $key
+	 * @param  integer $key
 	 * @return string
 	 */
 	protected function getStubContent($key)

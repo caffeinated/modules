@@ -41,7 +41,7 @@ class ModuleMakeRequestCommand extends Command
 	/**
 	 * Execute the console command.
 	 *
-	 * @return mixed
+	 * @return boolean
 	 */
 	public function fire()
 	{

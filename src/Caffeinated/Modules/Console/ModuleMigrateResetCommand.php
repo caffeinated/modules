@@ -104,8 +104,9 @@ class ModuleMigrateResetCommand extends Command
 	/**
 	 * Run "down" a migration instance.
 	 *
-	 * @param object $migration
-	 * @param bool $pretend
+	 * @param  string $slug
+	 * @param  object $migration
+	 * @param  bool $pretend
 	 * @return void
 	 */
 	protected function runDown($slug, $migration, $pretend)
@@ -129,7 +130,7 @@ class ModuleMigrateResetCommand extends Command
 	/**
 	 * Get the console command parameters.
 	 *
-	 * @param string $slug
+	 * @param  string $slug
 	 * @return array
 	 */
 	protected function getParameters($slug)

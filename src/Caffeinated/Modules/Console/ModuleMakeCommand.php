@@ -41,7 +41,7 @@ class ModuleMakeCommand extends Command
 	/**
 	 * Execute the console command.
 	 *
-	 * @return mixed
+	 * @return false|null
 	 */
 	public function fire()
 	{
