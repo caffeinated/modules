@@ -82,7 +82,7 @@ class ModuleMakeHandler
 	 */
 	public function __construct(Modules $module, Filesystem $finder)
 	{
-		$this->modules = $module;
+		$this->module = $module;
 		$this->finder  = $finder;
 	}
 
@@ -99,7 +99,7 @@ class ModuleMakeHandler
 		$this->slug    = $slug;
 		$this->name    = Str::studly($slug);
 
-		if ($this->modules->exists($this->slug)) {
+		if ($this->module->exists($this->slug)) {
 			$console->comment('Module [{$this->name}] already exists.');
 
 			return false;
@@ -132,8 +132,8 @@ class ModuleMakeHandler
 	 */
 	protected function generateFolders()
 	{
-		if ( ! $this->finder->isDirectory($this->modules->getPath()))
-			$this->finder->makeDirectory($this->modules->getPath());
+		if ( ! $this->finder->isDirectory($this->module->getPath()))
+			$this->finder->makeDirectory($this->module->getPath());
 
 		$this->finder->makeDirectory($this->getModulePath($this->slug));
 
@@ -177,9 +177,9 @@ class ModuleMakeHandler
 	protected function getModulePath($slug = null)
 	{
 		if ($slug)
-			return $this->modules->getModulePath($slug);
+			return $this->module->getModulePath($slug);
 
-		return $this->modules->getPath();
+		return $this->module->getPath();
 	}
 
 	/**
@@ -213,7 +213,7 @@ class ModuleMakeHandler
 	{
 		return str_replace(
 			['{{slug}}', '{{name}}', '{{namespace}}'],
-			[$this->slug, $this->name, $this->modules->getNamespace()],
+			[$this->slug, $this->name, $this->module->getNamespace()],
 			$content
 		);
 	}
