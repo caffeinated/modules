@@ -53,8 +53,7 @@ class ModulesHandler implements Countable
 		$folders = $this->files->directories($path);
 
 		foreach ($folders as $module) {
-			if ( ! Str::startsWith($module, '.'))
-				$modules[] = basename($module);
+			$modules[] = basename($module);
 		}
 		
 		return new Collection($modules);

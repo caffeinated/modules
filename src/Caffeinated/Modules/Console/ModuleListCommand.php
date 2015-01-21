@@ -52,7 +52,6 @@ class ModuleListCommand extends Command
 		parent::__construct();
 
 		$this->module  = $module;
-		$this->modules = $module->all();
 	}
 
 	/**
@@ -62,7 +61,9 @@ class ModuleListCommand extends Command
 	 */
 	public function fire()
 	{
-		if (count($this->modules) == 0)
+		$modules = $this->module->all();
+
+		if (count($modules) == 0)
 		{
 			return $this->error("Your application doesn't have any modules.");
 		}
@@ -72,9 +73,10 @@ class ModuleListCommand extends Command
 
 	protected function getModules()
 	{
+		$modules = $this->module->all();
 		$results = array();
 
-		foreach ($this->modules as $module)
+		foreach ($modules as $module)
 		{
 			$results[] = $this->getModuleInformation($module);
 		}
