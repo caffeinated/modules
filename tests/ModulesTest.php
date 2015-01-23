@@ -1,5 +1,6 @@
 <?php
 
+use Mockery as m;
 use Caffeinated\Modules\Modules;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -17,25 +18,23 @@ class ModulesTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$this->handler = Mockery::mock('Caffeinated\Modules\Handlers\ModulesHandler');
-		$this->config  = Mockery::mock('Illuminate\Config\Repository');
-		$this->files   = Mockery::mock('Illuminate\Filesystem\Filesystem');
+		$this->handler = m::mock('Caffeinated\Modules\Handlers\ModulesHandler');
+		$this->config  = m::mock('Illuminate\Config\Repository');
+		$this->files   = m::mock('Illuminate\Filesystem\Filesystem');
 		$this->module  = new Modules($this->handler, $this->config, $this->files);
 	}
 
 	public function tearDown()
 	{
-		Mockery::close();
+		m::close();
 	}
 
-	/** @test */
-	public function hasCorrectInstance()
+	public function testHasCorrectInstance()
 	{
 		$this->assertInstanceOf('Caffeinated\Modules\Modules', $this->module);
 	}
 
-	/** @test */
-	public function getsAllModules()
+	public function testAllModules()
 	{
 		$this->handler->shouldReceive('all')->once();
 
