@@ -11,35 +11,30 @@ use Symfony\Component\Console\Input\InputArgument;
 class ModuleMigrateCommand extends Command
 {
 	/**
-	 * The console command name.
-	 *
-	 * @var string
+	 * @var string $name The console command name.
 	 */
 	protected $name = 'module:migrate';
 
 	/**
-	 * The console command description.
-	 *
-	 * @var string
+	 * @var string $description The console command description.
 	 */
 	protected $description = 'Run the database migrations for a specific or all modules';
 
 	/**
-	 * @var Caffeinated\Modules\Modules
+	 * @var \Caffeinated\Modules\Modules
 	 */
 	protected $module;
 
 	/**
-	 * The migrator instance.
-	 *
-	 * @var \Illuminate\Database\Migrations\Migrator
+	 * @var \Illuminate\Database\Migrations\Migrator $migrator The migrator instance.
 	 */
 	protected $migrator;
 
 	/**
 	 * Create a new command instance.
 	 *
-	 * @return void
+	 * @param \Illuminate\Database\Migrations\Migrator $migrator
+	 * @param \Caffeinated\Modules\Modules             $module
 	 */
 	public function __construct(Migrator $migrator, Modules $module)
 	{
@@ -72,7 +67,7 @@ class ModuleMigrateCommand extends Command
 	/**
 	 * Run migrations for the specified module.
 	 *
-	 * @param string $slug
+	 * @param  string $slug
 	 * @return mixed
 	 */
 	protected function migrate($slug)
@@ -108,7 +103,7 @@ class ModuleMigrateCommand extends Command
 	/**
 	 * Get migration directory path.
 	 *
-	 * @param string $slug
+	 * @param  string $slug
 	 * @return string
 	 */
 	protected function getMigrationPath($slug)
@@ -138,7 +133,7 @@ class ModuleMigrateCommand extends Command
 	/**
 	 * Get the console command parameters.
 	 *
-	 * @param string $slug
+	 * @param  string $slug
 	 * @return array
 	 */
 	protected function getParameters($slug)

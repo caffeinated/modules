@@ -10,28 +10,24 @@ use Symfony\Component\Console\Input\InputOption;
 class ModuleSeedCommand extends Command
 {
 	/**
-	 * The console command name.
-	 *
-	 * @var string
+	 * @var string $name The console command name.
 	 */
 	protected $name = 'module:seed';
 
 	/**
-	 * The console command description.
-	 *
-	 * @var string
+	 * @var string $description The console command description.
 	 */
 	protected $description = 'Seed the database with records for a specific or all modules';
 
 	/**
-	 * @var Caffeinated\Modules\Modules
+	 * @var \Caffeinated\Modules\Modules
 	 */
 	protected $module;
 
 	/**
 	 * Create a new command instance.
 	 *
-	 * @return void
+	 * @param \Caffeinated\Modules\Modules $module
 	 */
 	public function __construct(Modules $module)
 	{
@@ -68,7 +64,7 @@ class ModuleSeedCommand extends Command
 	/**
 	 * Seed the specific module.
 	 *
-	 * @param string $module
+	 * @param  string $module
 	 * @return array
 	 */
 	protected function seed($module)

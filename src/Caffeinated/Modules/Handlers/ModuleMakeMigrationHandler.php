@@ -9,43 +9,45 @@ use Illuminate\Support\Str;
 class ModuleMakeMigrationHandler
 {
 	/**
-	 * @var Modules
+	 * @var \Caffeinated\Modules\Modules
 	 */
 	protected $module;
 
 	/**
-	 * @var Filesystem
+	 * @var \Illuminate\Filesystem\Filesystem
 	 */
 	protected $finder;
 
 	/**
-	 * @var Command
+	 * @var \Illuminate\Console\Command
 	 */
 	protected $console;
 
 	/**
-	 * @var string
+	 * @var string $moduleName The name of the module
 	 */
 	protected $moduleName;
 
 	/**
-	 * @var string
+	 * @var string $table The name of the table
 	 */
 	protected $table;
 
 	/**
-	 * @var string
+	 * @var string $migrationName The name of the migration
 	 */
 	protected $migrationName;
 
 	/**
-	 * @var string
+	 * @var string $className The name of the migration class
 	 */
 	protected $className;
 
 	/**
 	 * Constructor method.
 	 *
+	 * @param \Caffeinated\Modules\Modules      $module
+	 * @param \Illuminate\Filesystem\Filesystem $finder
 	 */
 	public function __construct(Modules $module, Filesystem $finder)
 	{
@@ -57,7 +59,7 @@ class ModuleMakeMigrationHandler
 	 * Fire off the handler.
 	 *
 	 * @param  \Caffeinated\Modules\Console\ModuleMakeMigrationCommand $console
-	 * @param  string $slug
+	 * @param  string                                                  $slug
 	 * @return string
 	 */
 	public function fire(Command $console, $slug, $table)
@@ -82,7 +84,7 @@ class ModuleMakeMigrationHandler
 	/**
 	 * Create new migration file.
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	protected function makeFile()
 	{

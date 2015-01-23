@@ -9,23 +9,17 @@ use Symfony\Component\Console\Input\InputOption;
 class ModuleMigrateRefreshCommand extends Command
 {
 	/**
-	 * The console command name.
-	 *
-	 * @var string
+	 * @var string $name The console command name.
 	 */
 	protected $name = 'module:migrate-refresh';
 
 	/**
-	 * The console command description.
-	 *
-	 * @var string
+	 * @var string $description The console command description.
 	 */
 	protected $description = 'Reset and re-run all migrations for a specific or all modules';
 
 	/**
 	 * Create a new command instance.
-	 *
-	 * @return void
 	 */
 	public function __construct()
 	{
@@ -78,7 +72,7 @@ class ModuleMigrateRefreshCommand extends Command
 	/**
 	 * Run the module seeder command.
 	 *
-	 * @param string $database
+	 * @param  string $database
 	 * @return void
 	 */
 	protected function runSeeder($module = null, $database = null)

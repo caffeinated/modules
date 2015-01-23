@@ -13,26 +13,26 @@ use Illuminate\Support\Str;
 class Modules implements Countable
 {
 	/**
-	 * @var ModulesHandler
+	 * @var \Caffeinated\Modules\Handlers\ModulesHandler
 	 */
 	protected $handler;
 
 	/**
-	 * @var Repository
+	 * @var \Illuminate\Config\Repository
 	 */
 	protected $config;
 
 	/**
-	 * @var Filesystem
+	 * @var \Illuminate\Filesystem\Filesystem
 	 */
 	protected $files;
 
 	/**
 	 * Constructor method.
 	 *
-	 * @param ModulesHandler $handler
-	 * @param Repository $config
-	 * @param Filesystem $files
+	 * @param \Caffeinated\Modules\Handlers\ModulesHandler $handler
+	 * @param \Illuminate\Config\Repository                $config
+	 * @param \Illuminate\Filesystem\Filesystem            $files
 	 */
 	public function __construct(ModulesHandler $handler, Repository $config, Filesystem $files)
 	{
@@ -56,7 +56,7 @@ class Modules implements Countable
 	/**
 	 * Register the module service provider.
 	 *
-	 * @param array $module
+	 * @param  string $module
 	 * @return string
 	 * @throws \Caffeinated\Modules\Exception\FileMissingException
 	 */
@@ -80,7 +80,7 @@ class Modules implements Countable
 	/**
 	 * Get all modules.
 	 *
-	 * @return Collection
+	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function all()
 	{
@@ -99,7 +99,7 @@ class Modules implements Countable
 	/**
 	 * Check if given module exists.
 	 *
-	 * @param string $slug
+	 * @param  string $slug
 	 * @return bool
 	 */
 	public function exists($slug)
@@ -130,8 +130,8 @@ class Modules implements Countable
 	/**
 	 * Set modules path in "RunTime" mode.
 	 *
-	 * @param string $path
-	 * @return $this
+	 * @param  string $path
+	 * @return object $this
 	 */
 	public function setPath($path)
 	{
@@ -153,7 +153,7 @@ class Modules implements Countable
 	/**
 	 * Get path for the specified module.
 	 *
-	 * @param string $slug
+	 * @param  string $slug
 	 * @return string
 	 */
 	public function getModulePath($slug)
@@ -164,7 +164,7 @@ class Modules implements Countable
 	/**
 	 * Get a module's properties.
 	 *
-	 * @param string $slug
+	 * @param  string $slug
 	 * @return mixed
 	 */
 	public function getProperties($slug)
@@ -175,8 +175,8 @@ class Modules implements Countable
 	/**
 	 * Get a module property value.
 	 *
-	 * @param string $property
-	 * @param null $default
+	 * @param  string $property
+	 * @param  mixed  $default
 	 * @return mixed
 	 */
 	public function getProperty($property, $default = null)
@@ -188,8 +188,8 @@ class Modules implements Countable
 	 * Set a module property value.
 	 *
 	 * @param  string $property
-	 * @param  mixed $value
-	 * @return boolean
+	 * @param  mixed  $value
+	 * @return bool
 	 */
 	public function setProperty($property, $value)
 	{
@@ -199,7 +199,7 @@ class Modules implements Countable
 	/**
 	 * Get all modules by enabled status.
 	 *
-	 * @param  boolean $enabled
+	 * @param  bool $enabled
 	 * @return array
 	 */
 	public function getByEnabled($enabled = true)
@@ -245,7 +245,7 @@ class Modules implements Countable
 	/**
 	 * Check if specified module is enabled.
 	 *
-	 * @param string $slug
+	 * @param  string $slug
 	 * @return bool
 	 */
 	public function isEnabled($slug)
@@ -256,7 +256,7 @@ class Modules implements Countable
 	/**
 	 * Check if specified module is disabled.
 	 *
-	 * @param string $slug
+	 * @param  string $slug
 	 * @return bool
 	 */
 	public function isDisabled($slug)
@@ -267,7 +267,7 @@ class Modules implements Countable
 	/**
 	 * Enables the specified module.
 	 *
-	 * @param string $slug
+	 * @param  string $slug
 	 * @return bool
 	 */
 	public function enable($slug)
@@ -278,7 +278,7 @@ class Modules implements Countable
 	/**
 	 * Disables the specified module.
 	 *
-	 * @param string $slug
+	 * @param  string $slug
 	 * @return bool
 	 */
 	public function disable($slug)

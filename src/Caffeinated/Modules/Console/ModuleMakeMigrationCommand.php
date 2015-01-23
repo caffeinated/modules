@@ -8,28 +8,24 @@ use Symfony\Component\Console\Input\InputArgument;
 class ModuleMakeMigrationCommand extends Command
 {
 	/**
-	 * The console command name.
-	 *
-	 * @var string
+	 * @var string $name The console command name.
 	 */
 	protected $name = 'module:make-migration';
 
 	/**
-	 * The console command description.
-	 *
-	 * @var string
+	 * @var string $description The console command description.
 	 */
 	protected $description = 'Create a new module migration file';
 
 	/**
-	 * @var ModuleMakeMigrationHandler
+	 * @var \Caffeinated\Modules\Handlers\ModuleMakeMigrationHandler
 	 */
 	protected $handler;
 
 	/**
 	 * Create a new command instance.
 	 *
-	 * @return void
+	 * @param \Caffeinated\Modules\Handlers\ModuleMakeMigrationHandler $handler
 	 */
 	public function __construct(ModuleMakeMigrationHandler $handler)
 	{
@@ -41,7 +37,7 @@ class ModuleMakeMigrationCommand extends Command
 	/**
 	 * Execute the console command.
 	 *
-	 * @return string
+	 * @return mixed
 	 */
 	public function fire()
 	{

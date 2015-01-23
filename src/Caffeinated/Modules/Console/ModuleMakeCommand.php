@@ -8,28 +8,24 @@ use Symfony\Component\Console\Input\InputArgument;
 class ModuleMakeCommand extends Command
 {
 	/**
-	 * The console command name.
-	 *
-	 * @var string
+	 * @var string $name The console command name.
 	 */
 	protected $name = 'module:make';
 
 	/**
-	 * The console command description.
-	 *
-	 * @var string
+	 * @var string $description The console command description.
 	 */
 	protected $description = 'Create a new module';
 
 	/**
-	 * @var ModuleMakeHandler
+	 * @var \Caffeinated\Modules\Handlers\ModuleMakeHandler
 	 */
 	protected $handler;
 
 	/**
 	 * Create a new command instance.
 	 *
-	 * @return void
+	 * @param \Caffeinated\Modules\Handlers\ModuleMakeHandler $handler
 	 */
 	public function __construct(ModuleMakeHandler $handler)
 	{
@@ -41,7 +37,7 @@ class ModuleMakeCommand extends Command
 	/**
 	 * Execute the console command.
 	 *
-	 * @return false|null
+	 * @return mixed
 	 */
 	public function fire()
 	{

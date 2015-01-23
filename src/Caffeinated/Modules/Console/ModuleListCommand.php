@@ -7,57 +7,41 @@ use Illuminate\Console\Command;
 class ModuleListCommand extends Command
 {
 	/**
-	 * The console command name.
-	 *
-	 * @var string
+	 * @var string $name The console command name.
 	 */
 	protected $name = 'module:list';
 
 	/**
-	 * The console command description.
-	 *
-	 * @var string
+	 * @var string $description The console command description.
 	 */
 	protected $description = 'List all application modules';
 
 	/**
-	 * The modules instance.
-	 *
 	 * @var \Caffeinated\Modules\Modules
 	 */
 	protected $module;
 
 	/**
-	 * An array of all the registered modules.
-	 *
-	 * @var Collection
-	 */
-	protected $modules;
-
-	/**
-	 * The table headers for the command.
-	 *
-	 * @var array
+	 * @var array $header The table headers for the command.
 	 */
 	protected $headers = ['Name', 'Slug', 'Description', 'Status'];
 
 	/**
 	 * Create a new command instance.
 	 *
-	 * @param Modules $module
-	 * @return void
+	 * @param \Caffeinated\Modules\Modules $module
 	 */
 	public function __construct(Modules $module)
 	{
 		parent::__construct();
 
-		$this->module  = $module;
+		$this->module = $module;
 	}
 
 	/**
 	 * Execute the console command.
 	 *
-	 * @return void
+	 * @return mixed
 	 */
 	public function fire()
 	{
@@ -71,6 +55,11 @@ class ModuleListCommand extends Command
 		$this->displayModules($this->getModules());
 	}
 
+	/**
+	 * Get all modules.
+	 *
+	 * @return array
+	 */
 	protected function getModules()
 	{
 		$modules = $this->module->all();
@@ -84,6 +73,12 @@ class ModuleListCommand extends Command
 		return array_filter($results);
 	}
 
+	/**
+	 * Returns module manifest information.
+	 *
+	 * @param  string $module
+	 * @return array
+	 */
 	protected function getModuleInformation($module)
 	{
 		return [
@@ -97,7 +92,7 @@ class ModuleListCommand extends Command
 	/**
 	 * Display the module information on the console.
 	 *
-	 * @param array $modules
+	 * @param  array $modules
 	 * @return void
 	 */
 	protected function displayModules(array $modules)

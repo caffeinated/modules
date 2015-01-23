@@ -6,7 +6,7 @@ trait MigrationTrait
 	/**
 	 * Require (once) all migration files for the supplied module.
 	 *
-	 * @param string $module
+	 * @param  string $module
 	 * @return void
 	 */
 	protected function requireMigrations($module)
@@ -23,7 +23,7 @@ trait MigrationTrait
 	/**
 	 * Get migration directory path.
 	 *
-	 * @param string $module
+	 * @param  string $module
 	 * @return string
 	 */
 	protected function getMigrationPath($module)

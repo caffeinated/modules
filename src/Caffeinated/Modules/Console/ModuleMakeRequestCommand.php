@@ -8,28 +8,24 @@ use Symfony\Component\Console\Input\InputArgument;
 class ModuleMakeRequestCommand extends Command
 {
 	/**
-	 * The console command name.
-	 *
-	 * @var string
+	 * @var string $name The console command name.
 	 */
 	protected $name = 'module:make-request';
 
 	/**
-	 * The console command description.
-	 *
-	 * @var string
+	 * @var string $description The console command description.
 	 */
 	protected $description = 'Create a new module form request class';
 
 	/**
-	 * @var ModuleMakeRequestHandler
+	 * @var \Caffeinated\Modules\Handlers\ModuleMakeRequestHandler
 	 */
 	protected $handler;
 
 	/**
 	 * Create a new command instance.
 	 *
-	 * @return void
+	 * @param \Caffeinated\Modules\Handlers\ModuleMakeRequestHandler $handler
 	 */
 	public function __construct(ModuleMakeRequestHandler $handler)
 	{
@@ -41,7 +37,7 @@ class ModuleMakeRequestCommand extends Command
 	/**
 	 * Execute the console command.
 	 *
-	 * @return boolean
+	 * @return mixed
 	 */
 	public function fire()
 	{

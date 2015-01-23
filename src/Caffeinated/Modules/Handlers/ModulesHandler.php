@@ -11,25 +11,25 @@ use Illuminate\Database\Eloquent\Collection;
 class ModulesHandler implements Countable
 {
 	/**
-	 * @var Filesystem
+	 * @var \Illuminate\Filesystem\Filesystem
 	 */
 	protected $files;
 
 	/**
-	 * @var Repository
+	 * @var \Illuminate\Config\Repository
 	 */
 	protected $config;
 
 	/**
-	 * @var String
+	 * @var string $path Path to the defined modules directory
 	 */
 	protected $path;
 
 	/**
 	 * Constructor method.
 	 *
-	 * @param Filesystem $files
-	 * @param Repository $config
+	 * @param \Illuminate\Filesystem\Filesystem $files
+	 * @param \Illuminate\Config\Repository     $config
 	 */
 	public function __construct(Filesystem $files, Repository $config)
 	{
@@ -40,7 +40,7 @@ class ModulesHandler implements Countable
 	/**
 	 * Get all modules.
 	 *
-	 * @return Collection
+	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function all()
 	{
@@ -62,7 +62,7 @@ class ModulesHandler implements Countable
 	/**
 	 * Check if given module exists.
 	 *
-	 * @param string $slug
+	 * @param  string $slug
 	 * @return bool
 	 */
 	public function exists($slug)
@@ -93,8 +93,8 @@ class ModulesHandler implements Countable
 	/**
 	 * Sets module path.
 	 *
-	 * @param string $path
-	 * @return self
+	 * @param  string $path
+	 * @return object
 	 */
 	public function setPath($path)
 	{
@@ -106,8 +106,8 @@ class ModulesHandler implements Countable
 	/**
 	 * Gets the path of specified module.
 	 *
-	 * @param string $module
-	 * @param bool $allowNotExists
+	 * @param  string $module
+	 * @param  bool   $allowNotExists
 	 * @return null|string
 	 */
 	public function getModulePath($module, $allowNotExists = false)
@@ -123,8 +123,8 @@ class ModulesHandler implements Countable
 	/**
 	 * Get a module property value.
 	 *
-	 * @param string $property
-	 * @param null|String $default
+	 * @param  string      $property
+	 * @param  null|string $default
 	 * @return mixed
 	 */
 	public function getProperty($property, $default = null)
@@ -137,8 +137,8 @@ class ModulesHandler implements Countable
 	/**
 	 * Set a module property value.
 	 *
-	 * @param string $property
-	 * @param mixed $value
+	 * @param  string $property
+	 * @param  mixed  $value
 	 * @return bool
 	 */
 	public function setProperty($property, $value)
@@ -165,7 +165,7 @@ class ModulesHandler implements Countable
 	/**
 	 * Get module JSON content as an array.
 	 *
-	 * @param string $module
+	 * @param  string $module
 	 * @return array|mixed
 	 */
 	public function getJsonContents($module)
@@ -193,8 +193,8 @@ class ModulesHandler implements Countable
 	/**
 	 * Set module JSON content property value.
 	 *
-	 * @param $module
-	 * @param array $content
+	 * @param  string $module
+	 * @param  array  $content
 	 * @return int
 	 */
 	public function setJsonContents($module, array $content)
@@ -207,7 +207,7 @@ class ModulesHandler implements Countable
 	/**
 	 * Get path of module JSON file.
 	 *
-	 * @param string $module
+	 * @param  string $module
 	 * @return string
 	 */
 	public function getJsonPath($module)
@@ -218,7 +218,7 @@ class ModulesHandler implements Countable
 	/**
 	 * Enables the specified module.
 	 *
-	 * @param string $slug
+	 * @param  string $slug
 	 * @return bool
 	 */
 	public function enable($slug)
@@ -229,7 +229,7 @@ class ModulesHandler implements Countable
 	/**
 	 * Disables the specified module.
 	 *
-	 * @param string $slug
+	 * @param  string $slug
 	 * @return bool
 	 */
 	public function disable($slug)

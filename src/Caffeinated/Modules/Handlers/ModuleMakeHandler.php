@@ -9,9 +9,7 @@ use Illuminate\Support\Str;
 class ModuleMakeHandler
 {
 	/**
-	 * Module folders to be created.
-	 *
-	 * @var array
+	 * @var array $folders Module folders to be created.
 	 */
 	protected $folders = [
 		'Console/',
@@ -29,9 +27,7 @@ class ModuleMakeHandler
 	];
 
 	/**
-	 * Module files to be created.
-	 *
-	 * @var array
+	 * @var array $files Module files to be created.
 	 */
 	protected $files = [
 		'Database/Seeds/{{name}}DatabaseSeeder.php',
@@ -42,9 +38,7 @@ class ModuleMakeHandler
 	];
 
 	/**
-	 * Module stubs used to populate defined files.
-	 *
-	 * @var array
+	 * @var array $stubs Module stubs used to populate defined files.
 	 */
 	protected $stubs = [
 		'seeder.stub',
@@ -55,12 +49,12 @@ class ModuleMakeHandler
 	];
 
 	/**
-	 * @var Modules
+	 * @var \Caffeinated\Modules\Modules
 	 */
 	protected $module;
 
 	/**
-	 * @var Filesystem
+	 * @var \Illuminate\Filesystem\Filesystem
 	 */
 	protected $finder;
 
@@ -77,8 +71,8 @@ class ModuleMakeHandler
 	/**
 	 * Constructor method.
 	 *
-	 * @param Modules $module
-	 * @param Filesystem $finder
+	 * @param \Caffeinated\Modules\Modules      $module
+	 * @param \Illuminate\Filesystem\Filesystem $finder
 	 */
 	public function __construct(Modules $module, Filesystem $finder)
 	{
@@ -90,7 +84,7 @@ class ModuleMakeHandler
 	 * Fire off the handler.
 	 *
 	 * @param  \Caffeinated\Modules\Console\ModuleMakeCommand $console
-	 * @param  string $slug
+	 * @param  string                                         $slug
 	 * @return bool
 	 */
 	public function fire(Command $console, $slug)
@@ -159,9 +153,9 @@ class ModuleMakeHandler
 	/**
 	 * Create module file.
 	 *
-	 * @param  integer $key
-	 * @param  string $file
-	 * @return integer
+	 * @param  int     $key
+	 * @param  string  $file
+	 * @return int
 	 */
 	protected function makeFile($key, $file)
 	{
@@ -196,7 +190,7 @@ class ModuleMakeHandler
 	/**
 	 * Get stub content by key.
 	 *
-	 * @param  integer $key
+	 * @param  int $key
 	 * @return string
 	 */
 	protected function getStubContent($key)

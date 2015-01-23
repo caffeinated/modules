@@ -11,21 +11,17 @@ use Symfony\Component\Console\Input\InputArgument;
 class ModuleMigrateResetCommand extends Command
 {
 	/**
-	 * The console command name.
-	 *
-	 * @var string
+	 * @var string $name The console command name.
 	 */
 	protected $name = 'module:migrate-reset';
 
 	/**
-	 * The console command description.
-	 *
-	 * @var string
+	 * @var string $description The console command description.
 	 */
 	protected $description = 'Rollback all database migrations for a specific or all modules';
 
 	/**
-	 * @var Caffeinated\Modules\Modules
+	 * @var \Caffeinated\Modules\Modules
 	 */
 	protected $module;
 
@@ -35,14 +31,16 @@ class ModuleMigrateResetCommand extends Command
 	protected $migrator;
 
 	/**
-	 * @var \Illuminate\Filesystem\Filesystem;
+	 * @var \Illuminate\Filesystem\Filesystem
 	 */
 	protected $files;
 
 	/**
 	 * Create a new command instance.
 	 *
-	 * @return void
+	 * @param \Caffeinated\Modules\Modules             $module
+	 * @param \Illuminate\Filesystem\Filesystem        $files
+	 * @param \Illuminate\Database\Migrations\Migrator $migrator
 	 */
 	public function __construct(Modules $module, Filesystem $files, Migrator $migrator)
 	{
@@ -74,7 +72,7 @@ class ModuleMigrateResetCommand extends Command
 	/**
 	 * Run the migration reset for the specified module.
 	 *
-	 * @param string $slug
+	 * @param  string $slug
 	 * @return mixed
 	 */
 	protected function reset($slug)
@@ -106,7 +104,7 @@ class ModuleMigrateResetCommand extends Command
 	 *
 	 * @param  string $slug
 	 * @param  object $migration
-	 * @param  bool $pretend
+	 * @param  bool   $pretend
 	 * @return void
 	 */
 	protected function runDown($slug, $migration, $pretend)

@@ -9,9 +9,7 @@ use Illuminate\Support\ServiceProvider;
 class ModulesServiceProvider extends ServiceProvider
 {
 	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
+	 * @var bool $defer Indicates if loading of the provider is deferred.
 	 */
 	protected $defer = false;
 
@@ -39,7 +37,7 @@ class ModulesServiceProvider extends ServiceProvider
 	/**
 	 * Get the services provided by the provider.
 	 *
-	 * @return string[]
+	 * @return string
 	 */
 	public function provides()
 	{

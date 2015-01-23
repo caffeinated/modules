@@ -13,34 +13,30 @@ class ModuleMigrateRollbackCommand extends Command
 	use MigrationTrait;
 
 	/**
-	 * The console command name.
-	 *
-	 * @var string
+	 * @var string $name The console command name.
 	 */
 	protected $name = 'module:migrate-rollback';
 
 	/**
-	 * The console command description.
-	 *
-	 * @var string
+	 * @var string $description The console command description.
 	 */
 	protected $description = 'Rollback the last database migrations for a specific or all modules';
 
 	/**
-	 * @var Caffeinated\Modules\Modules
+	 * @var \Caffeinated\Modules\Modules
 	 */
 	protected $module;
 
 	/**
 	 * Create a new command instance.
 	 *
-	 * @return void
+	 * @param \Caffeinated\Modules\Modules $module
 	 */
 	public function __construct(Modules $module)
 	{
 		parent::__construct();
 
-		$this->module   = $module;
+		$this->module = $module;
 	}
 
 	/**
@@ -64,7 +60,7 @@ class ModuleMigrateRollbackCommand extends Command
 	/**
 	 * Run the migration rollback for the specified module.
 	 *
-	 * @param string $slug
+	 * @param  string $slug
 	 * @return mixed
 	 */
 	protected function rollback($slug)
