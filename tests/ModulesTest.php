@@ -29,13 +29,13 @@ class ModulesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/** @test */
-	public function is_has_correct_instance()
+	public function hasCorrectInstance()
 	{
 		$this->assertInstanceOf('Caffeinated\Modules\Modules', $this->module);
 	}
 
 	/** @test */
-	public function it_gets_all_modules()
+	public function getsAllModules()
 	{
 		$this->handler->shouldReceive('all')->once();
 
