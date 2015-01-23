@@ -7,33 +7,36 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 class RouteServiceProvider extends ServiceProvider
 {
 	/**
-	 * All of the module's route middleware keys.
+	 * This namespace is applied to the controller routes in your module's routes file.
 	 *
-	 * @var array
+	 * In addition, it is set as the URL generator's root namespace.
+	 *
+	 * @var string
 	 */
-	protected $middleware = [];
+	protected $namespace = '{{namespace}}{{name}}\Http\Controllers';
 
 	/**
-	 * Called before routes are registered.
+	 * Define your module's route model bindings, pattern filters, etc.
 	 *
-	 * Register any model bindings or pattern based filters.
-	 *
-	 * @param  \Illuminate\Routing\Router $router
+	 * @param  \Illuminate\Routing\Router  $router
 	 * @return void
 	 */
-	public function before(Router $router)
+	public function boot(Router $router)
 	{
+		parent::boot($router);
+
 		//
 	}
 
 	/**
-	 * Map the {{name}} module routes.
+	 * Define the routes for the module.
 	 *
+	 * @param  \Illuminate\Routing\Router  $router
 	 * @return void
 	 */
 	public function map(Router $router)
 	{
-		$this->app->booted(function()
+		$router->group(['namespace' => $this->namespace], function($router)
 		{
 			require (config('caffeinated::modules.path').'/{{name}}/Http/routes.php');
 		});
