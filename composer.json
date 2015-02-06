@@ -21,8 +21,8 @@
         "mockery/mockery": "dev-master"
     },
     "autoload": {
-        "psr-0": {
-            "Caffeinated\\Modules": "src/"
+        "psr-4": {
+            "Caffeinated\\Modules\\": "src/Caffeinated/Modules/"
         }
     },
     "extra": {
