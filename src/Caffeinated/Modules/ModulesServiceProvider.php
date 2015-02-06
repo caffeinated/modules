@@ -55,7 +55,7 @@ class ModulesServiceProvider extends ServiceProvider
 	 */
 	public function provides()
 	{
-		return ['modules.handler', 'modules'];
+		return ['modules'];
 	}
 
 	/**
@@ -65,12 +65,8 @@ class ModulesServiceProvider extends ServiceProvider
 	 */
 	protected function registerServices()
 	{
-		$this->app->bindShared('modules.handler', function ($app) {
-			return new ModulesHandler($app['files'], $app['config']);
-		});
-
 		$this->app->bindShared('modules', function ($app) {
-			return new Modules($app['modules.handler'], $app['config'],	$app['files']);
+			return new Modules($app['config'],	$app['files']);
 		});
 
 		$this->app->booting(function ($app) {

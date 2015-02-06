@@ -38,28 +38,6 @@ class ModulesHandler implements Countable
 	}
 
 	/**
-	 * Get all modules.
-	 *
-	 * @return \Illuminate\Database\Eloquent\Collection
-	 */
-	public function all()
-	{
-		$modules = [];
-		$path    = $this->getPath();
-
-		if ( ! is_dir($path))
-			return new Collection($modules);
-
-		$folders = $this->files->directories($path);
-
-		foreach ($folders as $module) {
-			$modules[] = basename($module);
-		}
-		
-		return new Collection($modules);
-	}
-
-	/**
 	 * Check if given module exists.
 	 *
 	 * @param  string $slug

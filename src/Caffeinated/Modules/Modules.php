@@ -3,7 +3,6 @@ namespace Caffeinated\Modules;
 
 use App;
 use Countable;
-use Caffeinated\Modules\Handlers\ModulesHandler;
 use Caffeinated\Modules\Exceptions\FileMissingException;
 use Illuminate\Config\Repository;
 use Illuminate\Database\Eloquent\Collection;
@@ -13,30 +12,28 @@ use Illuminate\Support\Str;
 class Modules implements Countable
 {
 	/**
-	 * @var \Caffeinated\Modules\Handlers\ModulesHandler
-	 */
-	protected $handler;
-
-	/**
 	 * @var \Illuminate\Config\Repository
 	 */
 	protected $config;
-
+	
 	/**
 	 * @var \Illuminate\Filesystem\Filesystem
 	 */
 	protected $files;
 
 	/**
+	 * @var string $path Path to the defined modules directory
+	 */
+	protected $path;
+
+	/**
 	 * Constructor method.
 	 *
-	 * @param \Caffeinated\Modules\Handlers\ModulesHandler $handler
 	 * @param \Illuminate\Config\Repository                $config
 	 * @param \Illuminate\Filesystem\Filesystem            $files
 	 */
-	public function __construct(ModulesHandler $handler, Repository $config, Filesystem $files)
+	public function __construct(Repository $config, Filesystem $files)
 	{
-		$this->handler = $handler;
 		$this->config = $config;
 		$this->files  = $files;
 	}
@@ -62,13 +59,11 @@ class Modules implements Countable
 	 */
 	protected function registerServiceProvider($module)
 	{
-		$module = Str::studly($module['slug']);
-
-		$file = $this->getPath()."/{$module}/Providers/{$module}ServiceProvider.php";
-
+		$module    = Str::studly($module['slug']);
+		$file      = $this->getPath()."/{$module}/Providers/{$module}ServiceProvider.php";
 		$namespace = $this->getNamespace().$module."\\Providers\\{$module}ServiceProvider";
 
-		if ( ! $this->files->exists($file)) {
+		if (! $this->files->exists($file)) {
 			$message = "Module [{$module}] must have a \"{$module}/Providers/{$module}ServiceProvider.php\" file for bootstrapping purposes.";
 
 			throw new FileMissingException($message);
@@ -80,20 +75,39 @@ class Modules implements Countable
 	/**
 	 * Get all modules.
 	 *
-	 * @return \Illuminate\Database\Eloquent\Collection
+	 * @return Collection
 	 */
 	public function all()
 	{
-		$modules = array();
-		$folders = $this->handler->all();
+		$allModules = $this->getAllBasenames();
 
-		if (isset($folders)) {
-			foreach ($folders as $module) {
-				$modules[] = $this->handler->getJsonContents($module);
-			}
+		foreach ($allModules as $module) {
+			$modules[] = $this->getJsonContents($module);
 		}
 
 		return new Collection($modules);
+	}
+
+	/**
+	 * Get all module basenames
+	 *
+	 * @return array
+	 */
+	protected function getAllBasenames()
+	{
+		$modules = [];
+		$path    = $this->getPath();
+
+		if ( ! is_dir($path))
+			return $modules;
+
+		$folders = $this->files->directories($path);
+
+		foreach ($folders as $module) {
+			$modules[] = basename($module);
+		}
+		
+		return $modules;
 	}
 
 	/**
@@ -104,7 +118,7 @@ class Modules implements Countable
 	 */
 	public function exists($slug)
 	{
-		return $this->handler->exists($slug);
+		return in_array($slug, $this->getAllBasenames());
 	}
 
 	/**
@@ -124,7 +138,7 @@ class Modules implements Countable
 	 */
 	public function getPath()
 	{
-		return $this->config->get('modules.path');
+		return $this->path ?: $this->config->get('modules.path');
 	}
 
 	/**
@@ -135,7 +149,7 @@ class Modules implements Countable
 	 */
 	public function setPath($path)
 	{
-		$this->handler->setPath($path);
+		$this->path = $path;
 
 		return $this;
 	}
@@ -158,7 +172,12 @@ class Modules implements Countable
 	 */
 	public function getModulePath($slug)
 	{
-		return $this->handler->getModulePath($slug, true);
+		$module = Str::studly($slug);
+
+		if ( ! $this->exists($module) && $allowNotExists === false)
+			return null;
+
+		return $this->getPath()."/{$module}/";
 	}
 
 	/**
@@ -169,7 +188,7 @@ class Modules implements Countable
 	 */
 	public function getProperties($slug)
 	{
-		return $this->handler->getJsonContents($slug);
+		return $this->getJsonContents($slug);
 	}
 
 	/**
@@ -181,7 +200,9 @@ class Modules implements Countable
 	 */
 	public function getProperty($property, $default = null)
 	{
-		return $this->handler->getProperty($property, $default);
+		list($module, $key) = explode('::', $property);
+
+		return array_get($this->getJsonContents($module), $key, $default);
 	}
 
 	/**
@@ -193,7 +214,23 @@ class Modules implements Countable
 	 */
 	public function setProperty($property, $value)
 	{
-		return $this->handler->setProperty($property, $value);
+		list($module, $key) = explode('::', $property);
+
+		$content = $this->getJsonContents($module);
+
+		if (count($content)) {
+			if (isset($content[$key])) {
+				unset($content[$key]);
+			}
+
+			$content[$key] = $value;
+
+			$this->setJsonContents($module, $content);
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -204,22 +241,32 @@ class Modules implements Countable
 	 */
 	public function getByEnabled($enabled = true)
 	{
-		$data    = [];
 		$modules = $this->all();
+		$order   = [];
 
-		if (count($modules)) {
-			foreach ($modules as $module) {
-				if ($enabled === true) {
-					if ($this->isEnabled($module['slug']))
-						$data[] = $module;
-				} else {
-					if ($this->isDisabled($module['slug']))
-						$data[] = $module;
-				}
+		foreach ($modules as $module) {
+			if (! isset($module['order'])) {
+				// It's over 9000!
+				$module['order'] = 9001;
+			}
+
+			if ($this->isEnabled($module['slug'])) {
+				$data['enabled'][] = $module;
+				$order[]           = $module['order'];
+			} else {
+				$data['disabled'][] = $module;
 			}
 		}
 
-		return $data;
+		if ($enabled === true) {
+			array_multisort($order, SORT_ASC, $data['enabled']);
+
+			dd($data['enabled']);
+
+			return $data['enabled'];
+		}
+
+		return $data['disabled'];
 	}
 
 	/**
@@ -272,7 +319,7 @@ class Modules implements Countable
 	 */
 	public function enable($slug)
 	{
-		return $this->handler->enable($slug);
+		return $this->setProperty("{$slug}::enabled", true);
 	}
 
 	/**
@@ -283,6 +330,60 @@ class Modules implements Countable
 	 */
 	public function disable($slug)
 	{
-		return $this->handler->disable($slug);
+		return $this->setProperty("{$slug}::enabled", false);
+	}
+
+	/**
+	 * Get module JSON content as an array.
+	 *
+	 * @param  string $module
+	 * @return array|mixed
+	 */
+	protected function getJsonContents($module)
+	{
+		$module = Str::studly($module);
+
+		$default = [];
+
+		if ( ! $this->exists($module))
+			return $default;
+
+		$path = $this->getJsonPath($module);
+
+		if ($this->files->exists($path)) {
+			$contents = $this->files->get($path);
+
+			return json_decode($contents, true);
+		} else {
+			$message = "Module [{$module}] must have a valid module.json file.";
+
+			throw new FileMissingException($message);
+		}
+	}
+
+	/**
+	 * Set module JSON content property value.
+	 *
+	 * @param  string $module
+	 * @param  array  $content
+	 * @return int
+	 */
+	public function setJsonContents($module, array $content)
+	{
+		$module = strtolower($module);
+		$content = json_encode($content, JSON_PRETTY_PRINT);
+
+		return $this->files->put($this->getJsonPath($module), $content);
+	}
+
+	/**
+	 * Get path of module JSON file.
+	 *
+	 * @param  string $module
+	 * @return string
+	 */
+	protected function getJsonPath($module)
+	{
+		return $this->getModulePath($module).'/module.json';
 	}
 }
