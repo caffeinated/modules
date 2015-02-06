@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ModulesTest extends PHPUnit_Framework_TestCase
 {
-	protected $handler;
-
 	protected $config;
 
 	protected $files;
@@ -18,10 +16,9 @@ class ModulesTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$this->handler = m::mock('Caffeinated\Modules\Handlers\ModulesHandler');
 		$this->config  = m::mock('Illuminate\Config\Repository');
 		$this->files   = m::mock('Illuminate\Filesystem\Filesystem');
-		$this->module  = new Modules($this->handler, $this->config, $this->files);
+		$this->module  = new Modules($this->config, $this->files);
 	}
 
 	public function tearDown()
