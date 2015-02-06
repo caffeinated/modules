@@ -25,12 +25,12 @@ Once this operation is complete, simply add both the service provider and facade
 
 #### Service Provider
 ```
-'Caffeinated\Modules\ModulesServiceProvider'
+'Caffeinated\Modules\ModulesServiceProvider',
 ```
 
 #### Facade
 ```
-'Module' => 'Caffeinated\Modules\Facades\Module'
+'Module' => 'Caffeinated\Modules\Facades\Module',
 ```
 
 And that's it! With your coffee in reach, start building out some awesome modules!
