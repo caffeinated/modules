@@ -261,8 +261,6 @@ class Modules implements Countable
 		if ($enabled === true) {
 			array_multisort($order, SORT_ASC, $data['enabled']);
 
-			dd($data['enabled']);
-
 			return $data['enabled'];
 		}
 
