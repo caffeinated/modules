@@ -24,5 +24,11 @@
         "psr-4": {
             "Caffeinated\\Modules\\": "src/Caffeinated/Modules/"
         }
-    }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev"
 }
