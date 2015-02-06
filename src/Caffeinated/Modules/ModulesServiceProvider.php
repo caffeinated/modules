@@ -14,13 +14,27 @@ class ModulesServiceProvider extends ServiceProvider
 	protected $defer = false;
 
 	/**
+	 * Boot the service provider.
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
+		$this->publishes([
+			__DIR__.'/../../config/modules.php' => config_path('modules.php'),
+		]);
+	}
+
+	/**
 	 * Register the service provider.
 	 *
 	 * @return void
 	 */
 	public function register()
 	{
-		$this->registerResources();
+		$this->mergeConfigFrom(
+			__DIR__.'/../../config/modules.php', 'modules'
+		);
 
 		$this->registerServices();
 
@@ -42,25 +56,6 @@ class ModulesServiceProvider extends ServiceProvider
 	public function provides()
 	{
 		return ['modules.handler', 'modules'];
-	}
-
-	/**
-	 * Register the package resources.
-	 *
-	 * @return void
-	 */
-	protected function registerResources()
-	{
-		$userConfigFile    = app()->configPath().'/caffeinated/modules.php';
-		$packageConfigFile = __DIR__.'/../../config/config.php';
-		$config            = $this->app['files']->getRequire($packageConfigFile);
-
-		if (file_exists($userConfigFile)) {
-			$userConfig = $this->app['files']->getRequire($userConfigFile);
-			$config     = array_replace_recursive($config, $userConfig);
-		}
-
-		$this->app['config']->set('caffeinated::modules', $config);
 	}
 
 	/**
