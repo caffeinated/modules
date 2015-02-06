@@ -30,16 +30,4 @@ class ModulesTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertInstanceOf('Caffeinated\Modules\Modules', $this->module);
 	}
-
-	public function testAllModules()
-	{
-		$this->handler->shouldReceive('all')->once();
-
-		$modules = $this->module->all();
-
-		$this->assertInstanceOf(
-			'Illuminate\Database\Eloquent\Collection',
-			$modules
-		);
-	}
 }
