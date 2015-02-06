@@ -79,6 +79,7 @@ class Modules implements Countable
 	 */
 	public function all()
 	{
+		$modules    = array();
 		$allModules = $this->getAllBasenames();
 
 		foreach ($allModules as $module) {
@@ -241,8 +242,9 @@ class Modules implements Countable
 	 */
 	public function getByEnabled($enabled = true)
 	{
+		$data    = array();
 		$modules = $this->all();
-		$order   = [];
+		$order   = array();
 
 		foreach ($modules as $module) {
 			if (! isset($module['order'])) {

@@ -9,6 +9,11 @@ use Illuminate\Support\Str;
 class ModuleMakeHandler
 {
 	/**
+	 * @var Console
+	 */
+	protected $console;
+
+	/**
 	 * @var array $folders Module folders to be created.
 	 */
 	protected $folders = [
