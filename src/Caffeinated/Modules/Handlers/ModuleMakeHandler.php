@@ -131,10 +131,11 @@ class ModuleMakeHandler
 	 */
 	protected function generateFolders()
 	{
-		if ( ! $this->finder->isDirectory($this->module->getPath()))
+		if (! $this->finder->isDirectory($this->module->getPath())) {
 			$this->finder->makeDirectory($this->module->getPath());
+		}
 
-		$this->finder->makeDirectory($this->getModulePath($this->slug));
+		$this->finder->makeDirectory($this->getModulePath($this->slug, true));
 
 		foreach ($this->folders as $folder) {
 			$this->finder->makeDirectory($this->getModulePath($this->slug).$folder);
@@ -173,10 +174,10 @@ class ModuleMakeHandler
 	 * @param  string $slug
 	 * @return string
 	 */
-	protected function getModulePath($slug = null)
+	protected function getModulePath($slug = null, $allowNotExists = false)
 	{
 		if ($slug)
-			return $this->module->getModulePath($slug);
+			return $this->module->getModulePath($slug, $allowNotExists);
 
 		return $this->module->getPath();
 	}

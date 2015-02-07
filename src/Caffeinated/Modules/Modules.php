@@ -171,11 +171,11 @@ class Modules implements Countable
 	 * @param  string $slug
 	 * @return string
 	 */
-	public function getModulePath($slug)
+	public function getModulePath($slug, $allowNotExists = false)
 	{
 		$module = Str::studly($slug);
 
-		if ( ! $this->exists($module) && $allowNotExists === false)
+		if ( ! $this->exists($module) and $allowNotExists === false)
 			return null;
 
 		return $this->getPath()."/{$module}/";
@@ -242,9 +242,10 @@ class Modules implements Countable
 	 */
 	public function getByEnabled($enabled = true)
 	{
-		$data    = array();
-		$modules = $this->all();
-		$order   = array();
+		$disabledModules = array();
+		$enabledModules  = array();
+		$modules         = $this->all();
+		$order           = array();
 
 		foreach ($modules as $module) {
 			if (! isset($module['order'])) {
@@ -253,22 +254,22 @@ class Modules implements Countable
 			}
 
 			if ($this->isEnabled($module['slug'])) {
-				$data['enabled'][] = $module;
-				$order[]           = $module['order'];
+				$enabledModules[] = $module;
+				$order[]          = $module['order'];
 			} else {
-				$data['disabled'][] = $module;
+				$disabledModules[] = $module;
 			}
 		}
 
 		if ($enabled === true) {
-			if (count($data['enabled']) > 0) {
-				array_multisort($order, SORT_ASC, $data['enabled']);
+			if (count($enabledModules) > 0) {
+				array_multisort($order, SORT_ASC, $enabledModules);
 			}
 
-			return $data['enabled'];
+			return $enabledModules;
 		}
 
-		return $data['disabled'];
+		return $disabledModules;
 	}
 
 	/**
