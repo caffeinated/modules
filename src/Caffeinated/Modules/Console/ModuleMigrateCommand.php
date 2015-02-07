@@ -75,7 +75,7 @@ class ModuleMigrateCommand extends Command
 		$moduleName = Str::studly($slug);
 
 		if ($this->module->exists($moduleName)) {
-			$pretend = $this->input->getOption('pretend');
+			$pretend = $this->option('pretend');
 			$path    = $this->getMigrationPath($slug);
 
 			$this->migrator->run($path, $pretend);
@@ -91,9 +91,9 @@ class ModuleMigrateCommand extends Command
 			// Finally, if the "seed" option has been given, we will re-run the database
 			// seed task to re-populate the database, which is convenient when adding
 			// a migration and a seed at the same time, as it is only this command.
-			if ($this->input->getOption('seed'))
+			if ($this->option('seed'))
 			{
-				$this->call('module:seed '.$slug, ['--force' => true]);
+				$this->call('module:seed', ['module' => $slug, '--force']);
 			}
 		} else {
 			return $this->error("Module [$moduleName] does not exist.");
@@ -120,43 +120,14 @@ class ModuleMigrateCommand extends Command
 	 */
 	protected function prepareDatabase()
 	{
-		$this->migrator->setConnection($this->input->getOption('database'));
+		$this->migrator->setConnection($this->option('database'));
 
 		if ( ! $this->migrator->repositoryExists())
 		{
-			$options = array('--database' => $this->input->getOption('database'));
+			$options = array('--database' => $this->option('database'));
 
 			$this->call('migrate:install', $options);
 		}
-	}
-
-	/**
-	 * Get the console command parameters.
-	 *
-	 * @param  string $slug
-	 * @return array
-	 */
-	protected function getParameters($slug)
-	{
-		$params = [];
-
-		if ($option = $this->option('database')) {
-			$params['--database'] = $option;
-		}
-
-		if ($option = $this->option('force')) {
-			$params['--force'] = $option;
-		}
-
-		if ($option = $this->option('pretend')) {
-			$params['--pretend'] = $option;
-		}
-
-		if ($option = $this->option('seed')) {
-			$params['--seed'] = $option;
-		}
-
-		return $params;
 	}
 
 	/**
@@ -178,9 +149,12 @@ class ModuleMigrateCommand extends Command
 	{
 		return [
 			['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'],
+			
 			['force', null, InputOption::VALUE_NONE, 'Force the operation to run while in production.'],
-			['pretend', null, InputOption::VALUE_OPTIONAL, 'Dump the SQL queries that would be run.'],
-			['seed', null, InputOption::VALUE_OPTIONAL, 'Indicates if the seed task should be re-run.']
+			
+			['pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'],
+			
+			['seed', null, InputOption::VALUE_NONE, 'Indicates if the seed task should be re-run.'],
 		];
 	}
 }
