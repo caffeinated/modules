@@ -62,9 +62,7 @@ class ModuleMakeRequestHandler
 		if ($this->module->exists($this->moduleName)) {
 			$this->makeFile();
 
-			$this->console->info("Created Module Form Request: [$this->moduleName] ".$this->getFilename());
-
-			return $this->console->call('dump-autoload');
+			return $this->console->info("Created Module Form Request: [$this->moduleName] ".$this->getFilename());
 		}
 
 		return $this->console->info("Module [$this->moduleName] does not exist.");
