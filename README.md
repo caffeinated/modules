@@ -15,13 +15,11 @@ You will find user friendly documentation here: [Modules Documentation](http://c
 
 Quick Installation
 ------------------
-Begin by installing the package through Composer. Add `caffeinated/modules` to your composer.json file:
+Begin by installing the package through Composer. The best way to do this is through your terminal via Composer itself:
 
 ```
-"caffeinated/modules": "~1.0@dev"
+composer require caffeinated/modules
 ```
-
-Then run `composer install` to pull the package in.
 
 Once this operation is complete, simply add both the service provider and facade classes to your project's `config/app.php` file:
 
