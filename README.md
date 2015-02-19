@@ -34,3 +34,19 @@ Once this operation is complete, simply add both the service provider and facade
 ```
 
 And that's it! With your coffee in reach, start building out some awesome modules!
+
+Update Notes
+------------
+
+### v1.0.1 to v1.1.0
+For all existing modules that you have, you'll need to update the following `use` statement within your module's `Providers/RouteServiceProvider.php` file:
+
+```php
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+```
+
+to
+
+```php
+use Caffeinated\Modules\Providers\RouteServiceProvider as ServiceProvider;
+```
