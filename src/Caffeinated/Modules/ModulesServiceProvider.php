@@ -38,6 +38,8 @@ class ModulesServiceProvider extends ServiceProvider
 
 		$this->registerServices();
 
+        $this->registerMiddleware();
+
 		$this->registerRepository();
 
 		// Once we have registered the migrator instance we will go ahead and register
@@ -278,4 +280,12 @@ class ModulesServiceProvider extends ServiceProvider
 			return new Console\ModuleListCommand($app['modules']);
 		});
 	}
+
+    /**
+     * Register the ModuleMiddleware
+     */
+    protected function registerMiddleware()
+    {
+        $this->app['router']->middleware('caffeinated.module','Caffeinated\Modules\Middleware\ModuleMiddleware');
+    }
 }
