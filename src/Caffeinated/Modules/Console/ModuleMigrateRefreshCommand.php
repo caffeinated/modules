@@ -2,12 +2,15 @@
 namespace Caffeinated\Modules\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 class ModuleMigrateRefreshCommand extends Command
 {
+    use ConfirmableTrait;
+
 	/**
 	 * @var string $name The console command name.
 	 */
@@ -33,7 +36,9 @@ class ModuleMigrateRefreshCommand extends Command
 	 */
 	public function fire()
 	{
-		$module     = $this->argument('module');
+        if ( ! $this->confirmToProceed()) return null;
+
+        $module     = $this->argument('module');
 		$moduleName = Str::studly($module);
 
 		$this->call('module:migrate-reset', [
