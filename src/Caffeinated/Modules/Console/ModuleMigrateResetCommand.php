@@ -2,6 +2,7 @@
 namespace Caffeinated\Modules\Console;
 
 use Caffeinated\Modules\Modules;
+use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Console\Command;
@@ -10,6 +11,8 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class ModuleMigrateResetCommand extends Command
 {
+    use ConfirmableTrait;
+
 	/**
 	 * @var string $name The console command name.
 	 */
@@ -58,6 +61,8 @@ class ModuleMigrateResetCommand extends Command
 	 */
 	public function fire()
 	{
+        if ( ! $this->confirmToProceed()) return null;
+
 		$module = $this->argument('module');
 
 		if ($module) {
@@ -183,7 +188,8 @@ class ModuleMigrateResetCommand extends Command
 	{
 		return [
 			['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'],
-			['pretend', null, InputOption::VALUE_OPTIONAL, 'Dump the SQL queries that would be run.'],
+            ['force', null, InputOption::VALUE_NONE, 'Force the operation to run while in production.'],
+            ['pretend', null, InputOption::VALUE_OPTIONAL, 'Dump the SQL queries that would be run.'],
 			['seed', null, InputOption::VALUE_OPTIONAL, 'Indicates if the seed task should be re-run.']
 		];
 	}

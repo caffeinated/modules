@@ -85,6 +85,10 @@ class ModuleSeedCommand extends Command
 			$params['--database'] = $option;
 		}
 
+        if ($option = $this->option('force')) {
+            $params['--force'] = $option;
+        }
+
 		$this->call('db:seed', $params);
 	}
 
@@ -107,7 +111,8 @@ class ModuleSeedCommand extends Command
 	{
 		return [
 			['class', null, InputOption::VALUE_OPTIONAL, 'The class name of the module\'s root seeder.'],
-			['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to seed.']
+			['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to seed.'],
+            ['force', null, InputOption::VALUE_NONE, 'Force the operation to run while in production.'],
 		];
 	}
 }

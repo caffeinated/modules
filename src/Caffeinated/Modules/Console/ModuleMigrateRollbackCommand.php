@@ -3,6 +3,7 @@ namespace Caffeinated\Modules\Console;
 
 use Caffeinated\Modules\Modules;
 use Caffeinated\Modules\Traits\MigrationTrait;
+use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
@@ -11,6 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 class ModuleMigrateRollbackCommand extends Command
 {
 	use MigrationTrait;
+    use ConfirmableTrait;
 
 	/**
 	 * @var string $name The console command name.
@@ -46,6 +48,8 @@ class ModuleMigrateRollbackCommand extends Command
 	 */
 	public function fire()
 	{
+        if ( ! $this->confirmToProceed()) return null;
+
 		$module = $this->argument('module');
 
 		if ($module) {
