@@ -3,13 +3,17 @@ namespace Caffeinated\Modules\Console;
 
 use Caffeinated\Modules\Modules;
 use Illuminate\Console\Command;
+use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
+
 class ModuleMigrateCommand extends Command
 {
+    use ConfirmableTrait;
+
 	/**
 	 * @var string $name The console command name.
 	 */
@@ -51,6 +55,8 @@ class ModuleMigrateCommand extends Command
 	 */
 	public function fire()
 	{
+        if ( ! $this->confirmToProceed()) return null ;
+
 		$this->prepareDatabase();
 
 		$module = $this->argument('module');
