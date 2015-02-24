@@ -55,7 +55,7 @@ class Modules implements Countable
 	 *
 	 * @param  string $module
 	 * @return string
-	 * @throws \Caffeinated\Modules\Exception\FileMissingException
+	 * @throws \Caffeinated\Modules\Exceptions\FileMissingException
 	 */
 	protected function registerServiceProvider($module)
 	{
@@ -202,7 +202,8 @@ class Modules implements Countable
 	 * Get path for the specified module.
 	 *
 	 * @param  string $slug
-	 * @return string
+     * @param  bool   $allowNotExists
+     * @return string
 	 */
 	public function getModulePath($slug, $allowNotExists = false)
 	{
@@ -369,12 +370,14 @@ class Modules implements Countable
 		return $this->setProperty("{$slug}::enabled", false);
 	}
 
-	/**
-	 * Get module JSON content as an array.
-	 *
-	 * @param  string $module
-	 * @return array|mixed
-	 */
+    /**
+     * Get module JSON content as an array.
+     *
+     * @param  string $module
+     * @return array|mixed
+     * @throws FileMissingException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
 	protected function getJsonContents($module)
 	{
 		$module = Str::studly($module);
