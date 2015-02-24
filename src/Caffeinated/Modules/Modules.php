@@ -26,7 +26,12 @@ class Modules implements Countable
 	 */
 	protected $path;
 
-	/**
+    /**
+     * @var array $runtimeEnabled Run-time enabled modules
+     */
+    protected $runtimeEnabled;
+
+    /**
 	 * Constructor method.
 	 *
 	 * @param \Illuminate\Config\Repository                $config
@@ -36,7 +41,9 @@ class Modules implements Countable
 	{
 		$this->config = $config;
 		$this->files  = $files;
-	}
+        $this->runtimeEnabled = [];
+
+    }
 
 	/**
 	 * Register the module service provider file from all modules.
@@ -55,7 +62,7 @@ class Modules implements Countable
 	 *
 	 * @param  string $module
 	 * @return string
-	 * @throws \Caffeinated\Modules\Exception\FileMissingException
+	 * @throws \Caffeinated\Modules\Exceptions\FileMissingException
 	 */
 	protected function registerServiceProvider($module)
 	{
@@ -202,7 +209,8 @@ class Modules implements Countable
 	 * Get path for the specified module.
 	 *
 	 * @param  string $slug
-	 * @return string
+     * @param  bool   $allowNotExists
+     * @return string
 	 */
 	public function getModulePath($slug, $allowNotExists = false)
 	{
@@ -325,7 +333,20 @@ class Modules implements Countable
 		return $this->getByEnabled(false);
 	}
 
-	/**
+    /**
+     * Check if specified module is enabled at runtime.
+     * @param $slug
+     * @return bool
+     */
+    protected function isRuntimeEnabled($slug)
+    {
+        if (isset($this->runtimeEnabled[$slug])) {
+            return $this->runtimeEnabled[$slug] === true;
+        }
+        return false;
+    }
+
+    /**
 	 * Check if specified module is enabled.
 	 *
 	 * @param  string $slug
@@ -333,8 +354,8 @@ class Modules implements Countable
 	 */
 	public function isEnabled($slug)
 	{
-		return $this->getProperty("{$slug}::enabled") === true;
-	}
+        return $this->isRuntimeEnabled($slug) || $this->getProperty("{$slug}::enabled") === true;
+    }
 
 	/**
 	 * Check if specified module is disabled.
@@ -344,8 +365,8 @@ class Modules implements Countable
 	 */
 	public function isDisabled($slug)
 	{
-		return $this->getProperty("{$slug}::enabled") === false;
-	}
+        return !$this->isRuntimeEnabled($slug) || $this->getProperty("{$slug}::enabled") === false;
+    }
 
 	/**
 	 * Enables the specified module.
@@ -355,8 +376,12 @@ class Modules implements Countable
 	 */
 	public function enable($slug)
 	{
-		return $this->setProperty("{$slug}::enabled", true);
-	}
+        if ($this->exists($slug)) {
+            $this->runtimeEnabled[$slug] = true;
+            return true;
+        }
+        return false;
+    }
 
 	/**
 	 * Disables the specified module.
@@ -366,15 +391,44 @@ class Modules implements Countable
 	 */
 	public function disable($slug)
 	{
-		return $this->setProperty("{$slug}::enabled", false);
+        if ($this->exists($slug)) {
+            $this->runtimeEnabled[$slug] = false;
+            return true;
+        }
+        return false;
 	}
 
-	/**
-	 * Get module JSON content as an array.
-	 *
-	 * @param  string $module
-	 * @return array|mixed
-	 */
+    /**
+     * Saves enabled state in the specified module.
+     *
+     * @param  string $slug
+     * @return bool
+     */
+    public function setEnabled($slug)
+    {
+        return $this->setProperty("{$slug}::enabled", true);
+    }
+
+    /**
+     * Saves disbled state in the specified module.
+     *
+     * @param  string $slug
+     * @return bool
+     */
+    public function setDisabled($slug)
+    {
+        return $this->setProperty("{$slug}::enabled", false);
+    }
+
+
+    /**
+     * Get module JSON content as an array.
+     *
+     * @param  string $module
+     * @return array|mixed
+     * @throws FileMissingException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
 	protected function getJsonContents($module)
 	{
 		$module = Str::studly($module);
