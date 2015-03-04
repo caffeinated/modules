@@ -20,7 +20,7 @@ class ModuleMakeHandler
 		'Console/',
 		'Database/',
 		'Database/Migrations/',
-		'Database/Seeds',
+		'Database/Seeds/',
 		'Http/',
 		'Http/Controllers/',
 		'Http/Middleware/',
@@ -82,7 +82,7 @@ class ModuleMakeHandler
 	public function __construct(Modules $module, Filesystem $finder)
 	{
 		$this->module = $module;
-		$this->finder  = $finder;
+		$this->finder = $finder;
 	}
 
 	/**
@@ -117,9 +117,9 @@ class ModuleMakeHandler
 	{
 		$this->generateFolders();
 
-		$this->generateFiles();
-
         $this->generateGitkeep();
+
+		$this->generateFiles();
 
 		$console->info("Module [{$this->name}] has been created successfully.");
 
@@ -159,18 +159,18 @@ class ModuleMakeHandler
 	}
 
     /**
-     * Generate .gitkeep files within empty generated folders.
+     * Generate .gitkeep files within generated folders.
      *
-     * @param string $directory
+	 * @return null
      */
-    protected function generateGitkeep($directory = null)
+    protected function generateGitkeep()
     {
         $modulePath = $this->getModulePath($this->slug);
 
         foreach ($this->folders as $folder) {
-        	if (empty($this->finder->files($folder))) {
-    			$this->finder->put($modulePath.$folder.'.gitkeep', '');
-        	}
+			$gitkeep    = $modulePath.$folder.'/.gitkeep';
+
+    		$this->finder->put($gitkeep, '');
     	}
     }
 
