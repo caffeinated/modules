@@ -55,7 +55,7 @@ class ModuleMigrateCommand extends Command
 	 */
 	public function fire()
 	{
-        if ( ! $this->confirmToProceed()) return null ;
+        if (! $this->confirmToProceed()) return null;
 
 		$this->prepareDatabase();
 
@@ -103,7 +103,7 @@ class ModuleMigrateCommand extends Command
 			}
 		} else {
 			return $this->error("Module [$moduleName] does not exist.");
-		}		
+		}
 	}
 
 	/**
@@ -155,11 +155,11 @@ class ModuleMigrateCommand extends Command
 	{
 		return [
 			['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'],
-			
+
 			['force', null, InputOption::VALUE_NONE, 'Force the operation to run while in production.'],
-			
+
 			['pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'],
-			
+
 			['seed', null, InputOption::VALUE_NONE, 'Indicates if the seed task should be re-run.'],
 		];
 	}

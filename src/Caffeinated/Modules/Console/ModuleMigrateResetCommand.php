@@ -61,7 +61,7 @@ class ModuleMigrateResetCommand extends Command
 	 */
 	public function fire()
 	{
-        if ( ! $this->confirmToProceed()) return null;
+        if (! $this->confirmToProceed()) return null;
 
 		$module = $this->argument('module');
 
