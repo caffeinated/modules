@@ -159,19 +159,19 @@ class ModuleMakeHandler
 	}
 
     /**
-     *  Generate .gitkeep files into empty generated folders
+     * Generate .gitkeep files within empty generated folders.
      *
      * @param string $directory
      */
     protected function generateGitkeep($directory = null)
     {
-        $module_path=$this->getModulePath($this->slug);
+        $modulePath = $this->getModulePath($this->slug);
 
         foreach ($this->folders as $folder) {
-           if ( empty($this->finder->files($folder)) && empty($this->finder->files($folder)) ) {
-               $this->finder->put($module_path.$folder.'.gitkeep','');
-           }
-        }
+        	if (empty($this->finder->files($folder))) {
+    			$this->finder->put($modulePath.$folder.'.gitkeep', '');
+        	}
+    	}
     }
 
 	/**
