@@ -91,7 +91,9 @@ class ModuleMigrateCommand extends Command
 			// any instances of the OutputInterface contract passed into the class.
 			foreach ($this->migrator->getNotes() as $note)
 			{
-				$this->output->writeln($note);
+                if (! $this->option('quiet')) {
+                    $this->output->writeln($note);
+                }
 			}
 
 			// Finally, if the "seed" option has been given, we will re-run the database
