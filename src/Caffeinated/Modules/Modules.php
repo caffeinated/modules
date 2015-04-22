@@ -420,15 +420,14 @@ class Modules implements Countable
 	 */
 	public function sortByOrder($modules)
 	{
-		$order = array();
-
+		$orderedModules = array();
+		
 		foreach ($modules as $module) {
 			if (! isset($module['order'])) {
 				$module['order'] = 9001;  // It's over 9000!
 			}
 
 			$orderedModules[] = $module;
-			$order[]          = $module['order'];
 		}
 
 		if (count($orderedModules) > 0) {
