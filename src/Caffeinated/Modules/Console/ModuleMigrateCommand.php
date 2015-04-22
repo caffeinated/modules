@@ -63,7 +63,7 @@ class ModuleMigrateCommand extends Command
 		if (isset($module)) {
 			return $this->migrate($module);
 		} else {
-			foreach ($this->module->all() as $module) {
+			foreach ($this->module->getByEnabled() as $module) {
 				$this->migrate($module['slug']);
 			}
 		}

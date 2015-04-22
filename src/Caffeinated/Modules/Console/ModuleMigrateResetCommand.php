@@ -68,7 +68,9 @@ class ModuleMigrateResetCommand extends Command
 		if ($module) {
 			return $this->reset($module);
 		} else {
-			foreach ($this->module->all() as $module) {
+			$modules = array_reverse($this->module->getByEnabled());
+
+			foreach ($modules as $module) {
 				$this->reset($module['slug']);
 			}
 		}

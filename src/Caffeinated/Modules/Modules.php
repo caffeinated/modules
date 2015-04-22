@@ -86,7 +86,7 @@ class Modules implements Countable
 			$modules[] = $this->getJsonContents($module);
 		}
 
-		return new Collection($modules);
+		return new Collection($this->sortByOrder($modules));
 	}
 
 	/**
@@ -278,31 +278,20 @@ class Modules implements Countable
 		$disabledModules = array();
 		$enabledModules  = array();
 		$modules         = $this->all();
-		$order           = array();
 
 		foreach ($modules as $module) {
-			if (! isset($module['order'])) {
-				// It's over 9000!
-				$module['order'] = 9001;
-			}
-
 			if ($this->isEnabled($module['slug'])) {
 				$enabledModules[] = $module;
-				$order[]          = $module['order'];
 			} else {
 				$disabledModules[] = $module;
 			}
 		}
 
 		if ($enabled === true) {
-			if (count($enabledModules) > 0) {
-				array_multisort($order, SORT_ASC, $enabledModules);
-			}
-
-			return $enabledModules;
+			return $this->sortByOrder($enabledModules);
 		}
 
-		return $disabledModules;
+		return $this->sortByOrder($disabledModules);
 	}
 
 	/**
@@ -421,5 +410,60 @@ class Modules implements Countable
 	protected function getJsonPath($module)
 	{
 		return $this->getModulePath($module).'/module.json';
+	}
+
+	/**
+	 * Sort modules by order.
+	 *
+	 * @param  array  $modules
+	 * @return array
+	 */
+	public function sortByOrder($modules)
+	{
+		$order = array();
+
+		foreach ($modules as $module) {
+			if (! isset($module['order'])) {
+				$module['order'] = 9001;  // It's over 9000!
+			}
+
+			$orderedModules[] = $module;
+			$order[]          = $module['order'];
+		}
+
+		if (count($orderedModules) > 0) {
+			$orderedModules = $this->arrayOrderBy($orderedModules, 'order', SORT_ASC, 'slug', SORT_ASC);
+		}
+
+		return $orderedModules;
+	}
+
+	/**
+	 * Helper method to order multiple values easily.
+	 *
+	 * @return array
+	 */
+	protected function arrayOrderBy()
+	{
+		$arguments = func_get_args();
+		$data      = array_shift($arguments);
+
+		foreach ($arguments as $argument => $field) {
+			if (is_string($field)) {
+				$temp = array();
+
+				foreach ($data as $key => $row) {
+					$temp[$key] = $row[$field];
+				}
+
+				$arguments[$argument] = $temp;
+			}
+		}
+
+		$arguments[] =& $data;
+
+		call_user_func_array('array_multisort', $arguments);
+
+		return array_pop($arguments);
 	}
 }
