@@ -66,8 +66,8 @@ class ModuleMakeMigrationHandler
 	{
 		$this->console       = $console;
 		$this->moduleName    = Str::studly($slug);
-		$this->table         = str_plural(strtolower($table));
-		$this->migrationName = 'create_'.snake_case($this->table).'_table';
+		$this->table         = strtolower($table);
+		$this->migrationName = snake_case($this->table);
 		$this->className     = studly_case($this->migrationName);
 
 		if ($this->module->exists($this->moduleName)) {
