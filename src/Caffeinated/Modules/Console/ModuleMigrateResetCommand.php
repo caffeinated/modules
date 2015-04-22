@@ -77,6 +77,10 @@ class ModuleMigrateResetCommand extends Command
 	/**
 	 * Run the migration reset for the specified module.
 	 *
+	 * Migrations should be reset in the reverse order that they were
+	 * migrated up as. This ensures the database is properly reversed
+	 * without conflict.
+	 *
 	 * @param  string $slug
 	 * @return mixed
 	 */
@@ -84,20 +88,14 @@ class ModuleMigrateResetCommand extends Command
 	{
 		$this->migrator->setconnection($this->input->getOption('database'));
 
-		$pretend = $this->input->getOption('pretend');
-
+		$pretend       = $this->input->getOption('pretend');
 		$migrationPath = $this->getMigrationPath($slug);
-
-		$migrations = $this->migrator->getMigrationFiles($migrationPath);
+		$migrations    = array_reverse($this->migrator->getMigrationFiles($migrationPath));
 
 		if (count($migrations) == 0) {
 			return $this->error('Nothing to rollback.');
 		}
 
-		// We need to reverse these migrations so that theya re "downed" in reverse
-		// to what they run on "up". It lets us backtrack through the migrations
-		// and properly reverse the entire database schema operation that originally
-		// ran.
 		foreach ($migrations as $migration) {
 			$this->info('Migration: '.$migration);
 			$this->runDown($slug, $migration, $pretend);
@@ -123,8 +121,8 @@ class ModuleMigrateResetCommand extends Command
 		include ($file);
 
 		$instance = new $class;
-
 		$instance->down();
+
 		$this->laravel['db']->table($table)
 			->where('migration', $migration)
 			->delete();
