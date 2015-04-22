@@ -95,7 +95,7 @@ class ModuleMakeHandler
 	public function fire(Command $console, $slug)
 	{
 		$this->console = $console;
-		$this->slug    = $slug;
+		$this->slug    = strtolower($slug);
 		$this->name    = Str::studly($slug);
 
 		if ($this->module->exists($this->slug)) {
