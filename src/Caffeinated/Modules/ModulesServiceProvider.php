@@ -180,7 +180,7 @@ class ModulesServiceProvider extends ServiceProvider
 	}
 
 	/**
-	 * Register the "module:make-migration" console command.
+	 * Register the "module:make:migration" console command.
 	 *
 	 * @return Console\ModuleMakeMigrationCommand
 	 */
@@ -194,7 +194,7 @@ class ModulesServiceProvider extends ServiceProvider
 	}
 
 	/**
-	 * Register the "module:make-request" console command.
+	 * Register the "module:make:request" console command.
 	 *
 	 * @return Console\ModuleMakeRequestCommand
 	 */
@@ -220,7 +220,7 @@ class ModulesServiceProvider extends ServiceProvider
 	}
 
 	/**
-	 * Register the "module:migrate-refresh" console command.
+	 * Register the "module:migrate:refresh" console command.
 	 *
 	 * @return Console\ModuleMigrateRefreshCommand
 	 */
@@ -232,7 +232,7 @@ class ModulesServiceProvider extends ServiceProvider
 	}
 
 	/**
-	 * Register the "module:migrate-reset" console command.
+	 * Register the "module:migrate:reset" console command.
 	 *
 	 * @return Console\ModuleMigrateResetCommand
 	 */
@@ -244,7 +244,7 @@ class ModulesServiceProvider extends ServiceProvider
 	}
 
 	/**
-	 * Register the "module:migrate-rollback" console command.
+	 * Register the "module:migrate:rollback" console command.
 	 *
 	 * @return Console\ModuleMigrateRollbackCommand
 	 */

@@ -10,7 +10,7 @@ class ModuleMakeRequestCommand extends Command
 	/**
 	 * @var string $name The console command name.
 	 */
-	protected $name = 'module:make-request';
+	protected $name = 'module:make:request';
 
 	/**
 	 * @var string $description The console command description.

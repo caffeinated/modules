@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-
 class ModuleMigrateCommand extends Command
 {
     use ConfirmableTrait;

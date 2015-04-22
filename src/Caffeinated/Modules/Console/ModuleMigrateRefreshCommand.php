@@ -14,7 +14,7 @@ class ModuleMigrateRefreshCommand extends Command
 	/**
 	 * @var string $name The console command name.
 	 */
-	protected $name = 'module:migrate-refresh';
+	protected $name = 'module:migrate:refresh';
 
 	/**
 	 * @var string $description The console command description.
@@ -41,7 +41,7 @@ class ModuleMigrateRefreshCommand extends Command
         $module     = $this->argument('module');
 		$moduleName = Str::studly($module);
 
-		$this->call('module:migrate-reset', [
+		$this->call('module:migrate:reset', [
 			'module'     => $module,
 			'--database' => $this->option('database'),
 			'--force'    => $this->option('force'),
