@@ -47,15 +47,17 @@ class ModuleSeedCommand extends Command
 		$moduleName = Str::studly($module);
 
 		if (isset($module)) {
-			if ($this->module->exists($moduleName)) {
-				$this->seed($module);
-
-				return;
+			if (! $this->module->exists($moduleName)) {
+				return $this->error("Module [$moduleName] does not exist.");
 			}
 
-			return $this->error("Module [$moduleName] does not exist.");
+			if ($this->module->isEnabled($moduleName)) {
+				$this->seed($module);
+
+				return true;
+			}
 		} else {
-			foreach ($this->module->all() as $module) {
+			foreach ($this->module->getByEnabled() as $module) {
 				$this->seed($module['slug']);
 			}
 		}
