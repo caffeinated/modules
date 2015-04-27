@@ -58,12 +58,22 @@ class ModuleMigrateCommand extends Command
 
 		$this->prepareDatabase();
 
-		$module = $this->argument('module');
-
-		if (isset($module)) {
-			return $this->migrate($module);
+		$module = $this->module->getProperties($this->argument('module'));
+		
+		if (! empty($module)) {
+			if ($this->module->isEnabled($module['slug'])) {
+				return $this->migrate($module['slug']);
+			} elseif ($this->option('force')) {
+				return $this->migrate($module['slug']);
+			}			
 		} else {
-			foreach ($this->module->getByEnabled() as $module) {
+			if ($this->option('force')) {
+				$modules = $this->module->all();
+			} else {
+				$modules = $this->module->getByEnabled();
+			}
+
+			foreach ($modules as $module) {
 				$this->migrate($module['slug']);
 			}
 		}
