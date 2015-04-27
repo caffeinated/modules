@@ -100,7 +100,7 @@ class ModuleMigrateCommand extends Command
 			// a migration and a seed at the same time, as it is only this command.
 			if ($this->option('seed'))
 			{
-				$this->call('module:seed', ['module' => $slug, '--force']);
+				$this->call('module:seed', ['module' => $slug, '--force' => true]);
 			}
 		} else {
 			return $this->error("Module [$moduleName] does not exist.");
