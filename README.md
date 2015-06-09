@@ -31,22 +31,22 @@ Once this operation is complete, simply add both the service provider and facade
 
 #### Laravel 5.0.x
 ##### Service Provider
-```
+```php
 'Caffeinated\Modules\ModulesServiceProvider',
 ```
 
 ##### Facade
-```
+```php
 'Module' => 'Caffeinated\Modules\Facades\Module',
 ```
 
 #### Laravel 5.1.x
-```
+```php
 Caffeinated\Modules\ModulesServiceProvider::class,
 ```
 
 ##### Facade
-```
+```php
 'Module' => Caffeinated\Modules\Facades\Module::class,
 ```
 
