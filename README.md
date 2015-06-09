@@ -41,6 +41,7 @@ Once this operation is complete, simply add both the service provider and facade
 ```
 
 #### Laravel 5.1.x
+##### Service Provider
 ```php
 Caffeinated\Modules\ModulesServiceProvider::class,
 ```
