@@ -60,7 +60,7 @@ class ModuleSeedCommand extends Command
 			return;
 		} else {
 			if ($this->option('force')) {
-				$modules = $this->module->getAll();
+				$modules = $this->module->all();
 			} else {
 				$modules = $this->module->getByEnabled();
 			}
