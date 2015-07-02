@@ -28,8 +28,8 @@ class RepositoryServiceProvider extends ServiceProvider
 	public function register()
 	{
 		$this->app->bind(
-			'\Caffeinated\Modules\Repositories\Interfaces\ModuleRepositoryInterface',
-			'\Caffeinated\Modules\Repositories\Local\ModuleRepository'
+			'Caffeinated\Modules\Repositories\Interfaces\ModuleRepositoryInterface',
+			'Caffeinated\Modules\Repositories\Local\ModuleRepository'
 		);
 	}
 }
