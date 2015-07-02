@@ -17,14 +17,6 @@ class ModuleDisableCommand extends Command
 	protected $description = 'Disable a module';
 
 	/**
-	 * Create a new command instance.
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
-	/**
 	 * Execute the console command.
 	 *
 	 * @return mixed

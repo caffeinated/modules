@@ -22,14 +22,6 @@ class ModuleMigrateRefreshCommand extends Command
 	protected $description = 'Reset and re-run all migrations for a specific or all modules';
 
 	/**
-	 * Create a new command instance.
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
-	/**
 	 * Execute the console command.
 	 *
 	 * @return mixed

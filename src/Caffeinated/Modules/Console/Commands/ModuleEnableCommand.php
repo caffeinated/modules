@@ -17,14 +17,6 @@ class ModuleEnableCommand extends Command
 	protected $description = 'Enable a module';
 
 	/**
-	 * Create a new command instance.
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
-	/**
 	 * Execute the console command.
 	 *
 	 * @return mixed
