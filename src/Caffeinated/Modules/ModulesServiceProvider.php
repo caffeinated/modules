@@ -8,7 +8,7 @@ class ModulesServiceProvider extends ServiceProvider
 	/**
 	 * @var bool $defer Indicates if loading of the provider is deferred.
 	 */
-	protected $defer = false;
+	protected $defer = true;
 
 	/**
 	 * Boot the service provider.
@@ -33,13 +33,15 @@ class ModulesServiceProvider extends ServiceProvider
 			__DIR__.'/../../config/modules.php', 'modules'
 		);
 
+		$this->app->register('Caffeinated\Modules\Providers\RepositoryServiceProvider');
+
+		$this->app->register('Caffeinated\Modules\Providers\MigrationServiceProvider');
+
+		$this->app->register('Caffeinated\Modules\Providers\ConsoleServiceProvider');
+
 		$this->app->bindShared('modules', function ($app) {
 			return new \Caffeinated\Modules\Modules($app['config'],	$app['files']);
 		});
-
-		$this->app->register('\Caffeinated\Modules\Providers\MigrationServiceProvider');
-
-		$this->app->register('\Caffeinated\Modules\Providers\ConsoleServiceProvider');
 
 		$this->app->booting(function ($app) {
 			$app['modules']->register();
