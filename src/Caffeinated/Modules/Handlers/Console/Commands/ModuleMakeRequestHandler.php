@@ -117,7 +117,7 @@ class ModuleMakeRequestHandler
 	 */
 	protected function getStubContent()
 	{
-		return $this->formatContent($this->finder->get(__DIR__.'/../Console/stubs/request.stub'));
+		return $this->formatContent($this->finder->get(__DIR__.'/../../../Console/Stubs/request.stub'));
 	}
 
 	/**

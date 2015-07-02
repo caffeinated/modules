@@ -130,7 +130,7 @@ class ModuleMakeMigrationHandler
 	 */
 	protected function getStubContent()
 	{
-		return $this->formatContent($this->finder->get(__DIR__.'/../Console/stubs/migration.stub'));
+		return $this->formatContent($this->finder->get(__DIR__.'/../../../Console/Stubs/migration.stub'));
 	}
 
 	/**

@@ -1,5 +1,5 @@
 <?php
-namespace Caffeinated\Modules\Console;
+namespace Caffeinated\Modules\Console\Commands;
 
 use Caffeinated\Modules\Modules;
 use Illuminate\Console\Command;

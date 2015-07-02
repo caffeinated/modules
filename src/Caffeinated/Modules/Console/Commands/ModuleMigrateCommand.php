@@ -1,5 +1,5 @@
 <?php
-namespace Caffeinated\Modules\Console;
+namespace Caffeinated\Modules\Console\Commands;
 
 use Caffeinated\Modules\Modules;
 use Illuminate\Console\Command;
@@ -59,13 +59,13 @@ class ModuleMigrateCommand extends Command
 		$this->prepareDatabase();
 
 		$module = $this->module->getProperties($this->argument('module'));
-		
+
 		if (! empty($module)) {
 			if ($this->module->isEnabled($module['slug'])) {
 				return $this->migrate($module['slug']);
 			} elseif ($this->option('force')) {
 				return $this->migrate($module['slug']);
-			}			
+			}
 		} else {
 			if ($this->option('force')) {
 				$modules = $this->module->all();

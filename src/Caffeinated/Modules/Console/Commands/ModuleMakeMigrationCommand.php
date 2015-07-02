@@ -1,7 +1,7 @@
 <?php
-namespace Caffeinated\Modules\Console;
+namespace Caffeinated\Modules\Console\Commands;
 
-use Caffeinated\Modules\Handlers\ModuleMakeMigrationHandler;
+use Caffeinated\Modules\Handlers\Console\Commands\ModuleMakeMigrationHandler;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -18,14 +18,14 @@ class ModuleMakeMigrationCommand extends Command
 	protected $description = 'Create a new module migration file';
 
 	/**
-	 * @var \Caffeinated\Modules\Handlers\ModuleMakeMigrationHandler
+	 * @var \Caffeinated\Modules\Handlers\Console\Commands\ModuleMakeMigrationHandler
 	 */
 	protected $handler;
 
 	/**
 	 * Create a new command instance.
 	 *
-	 * @param \Caffeinated\Modules\Handlers\ModuleMakeMigrationHandler $handler
+	 * @param \Caffeinated\Modules\Handlers\Console\Commands\ModuleMakeMigrationHandler $handler
 	 */
 	public function __construct(ModuleMakeMigrationHandler $handler)
 	{

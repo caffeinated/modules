@@ -219,7 +219,7 @@ class ModuleMakeHandler
 	 */
 	protected function getStubContent($key)
 	{
-		return $this->formatContent($this->finder->get(__DIR__.'/../Console/stubs/'.$this->stubs[$key]));
+		return $this->formatContent($this->finder->get(__DIR__.'/../../../Console/Stubs/'.$this->stubs[$key]));
 	}
 
 	/**

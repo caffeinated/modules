@@ -1,5 +1,5 @@
 <?php
-namespace Caffeinated\Modules\Console;
+namespace Caffeinated\Modules\Console\Commands;
 
 use Caffeinated\Modules\Modules;
 use Illuminate\Console\ConfirmableTrait;
@@ -70,7 +70,7 @@ class ModuleMigrateResetCommand extends Command
 				return $this->reset($module);
 			} elseif ($this->option('force')) {
 				return $this->reset($module);
-			}			
+			}
 		} else {
 			if ($this->option('force')) {
 				$modules = $this->module->all();

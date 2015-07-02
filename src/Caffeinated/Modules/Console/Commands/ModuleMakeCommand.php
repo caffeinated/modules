@@ -1,7 +1,7 @@
 <?php
-namespace Caffeinated\Modules\Console;
+namespace Caffeinated\Modules\Console\Commands;
 
-use Caffeinated\Modules\Handlers\ModuleMakeHandler;
+use Caffeinated\Modules\Handlers\Console\Commands\ModuleMakeHandler;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -18,7 +18,7 @@ class ModuleMakeCommand extends Command
 	protected $description = 'Create a new module';
 
 	/**
-	 * @var \Caffeinated\Modules\Handlers\ModuleMakeHandler
+	 * @var \CCaffeinated\Modules\Handlers\Console\Commands\ModuleMakeHandler
 	 */
 	protected $handler;
 
