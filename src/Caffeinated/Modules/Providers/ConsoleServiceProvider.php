@@ -62,7 +62,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	protected function registerEnableCommand()
 	{
 		$this->app->bindShared('modules.enable', function() {
-			return new \Caffeinated\Modules\Console\ModuleEnableCommand;
+			return new \Caffeinated\Modules\Console\Commands\ModuleEnableCommand;
 		});
 	}
 
@@ -74,7 +74,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	protected function registerDisableCommand()
 	{
 		$this->app->bindShared('modules.disable', function() {
-			return new \Caffeinated\Modules\Console\ModuleDisableCommand;
+			return new \Caffeinated\Modules\Console\Commands\ModuleDisableCommand;
 		});
 	}
 
@@ -86,9 +86,9 @@ class ConsoleServiceProvider extends ServiceProvider
 	protected function registerMakeCommand()
 	{
 		$this->app->bindShared('modules.make', function($app) {
-			$handler = new \Caffeinated\Modules\Handlers\ModuleMakeHandler($app['modules'], $app['files']);
+			$handler = new \Caffeinated\Modules\Handlers\Console\Commands\ModuleMakeHandler($app['modules'], $app['files']);
 
-			return new \Caffeinated\Modules\Console\ModuleMakeCommand($handler);
+			return new \Caffeinated\Modules\Console\Commands\ModuleMakeCommand($handler);
 		});
 	}
 
@@ -100,9 +100,9 @@ class ConsoleServiceProvider extends ServiceProvider
 	protected function registerMakeMigrationCommand()
 	{
 		$this->app->bindShared('modules.makeMigration', function($app) {
-			$handler = new \Caffeinated\Modules\Handlers\ModuleMakeMigrationHandler($app['modules'], $app['files']);
+			$handler = new \Caffeinated\Modules\Handlers\Console\Commands\ModuleMakeMigrationHandler($app['modules'], $app['files']);
 
-			return new \Caffeinated\Modules\Console\ModuleMakeMigrationCommand($handler);
+			return new \Caffeinated\Modules\Console\Commands\ModuleMakeMigrationCommand($handler);
 		});
 	}
 
@@ -114,9 +114,9 @@ class ConsoleServiceProvider extends ServiceProvider
 	protected function registerMakeRequestCommand()
 	{
 		$this->app->bindShared('modules.makeRequest', function($app) {
-			$handler = new \Caffeinated\Modules\Handlers\ModuleMakeRequestHandler($app['modules'], $app['files']);
+			$handler = new \Caffeinated\Modules\Handlers\Console\Commands\ModuleMakeRequestHandler($app['modules'], $app['files']);
 
-			return new \Caffeinated\Modules\Console\ModuleMakeRequestCommand($handler);
+			return new \Caffeinated\Modules\Console\Commands\ModuleMakeRequestCommand($handler);
 		});
 	}
 
@@ -128,7 +128,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	protected function registerMigrateCommand()
 	{
 		$this->app->bindShared('modules.migrate', function($app) {
-			return new \Caffeinated\Modules\Console\ModuleMigrateCommand($app['migrator'], $app['modules']);
+			return new \Caffeinated\Modules\Console\Commands\ModuleMigrateCommand($app['migrator'], $app['modules']);
 		});
 	}
 
@@ -140,7 +140,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	protected function registerMigrateRefreshCommand()
 	{
 		$this->app->bindShared('modules.migrateRefresh', function() {
-			return new \Caffeinated\Modules\Console\ModuleMigrateRefreshCommand;
+			return new \Caffeinated\Modules\Console\Commands\ModuleMigrateRefreshCommand;
 		});
 	}
 
@@ -152,7 +152,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	protected function registerMigrateResetCommand()
 	{
 		$this->app->bindShared('modules.migrateReset', function($app) {
-			return new \Caffeinated\Modules\Console\ModuleMigrateResetCommand($app['modules'], $app['files'], $app['migrator']);
+			return new \Caffeinated\Modules\Console\Commands\ModuleMigrateResetCommand($app['modules'], $app['files'], $app['migrator']);
 		});
 	}
 
@@ -164,7 +164,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	protected function registerMigrateRollbackCommand()
 	{
 		$this->app->bindShared('modules.migrateRollback', function($app) {
-			return new \Caffeinated\Modules\Console\ModuleMigrateRollbackCommand($app['modules']);
+			return new \Caffeinated\Modules\Console\Commands\ModuleMigrateRollbackCommand($app['modules']);
 		});
 	}
 
@@ -176,7 +176,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	protected function registerSeedCommand()
 	{
 		$this->app->bindShared('modules.seed', function($app) {
-			return new \Caffeinated\Modules\Console\ModuleSeedCommand($app['modules']);
+			return new \Caffeinated\Modules\Console\Commands\ModuleSeedCommand($app['modules']);
 		});
 	}
 
@@ -188,7 +188,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	protected function registerListCommand()
 	{
 		$this->app->bindShared('modules.list', function($app) {
-			return new \Caffeinated\Modules\Console\ModuleListCommand($app['modules']);
+			return new \Caffeinated\Modules\Console\Commands\ModuleListCommand($app['modules']);
 		});
 	}
 }
