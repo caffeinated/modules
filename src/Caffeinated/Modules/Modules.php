@@ -36,21 +36,21 @@ class Modules
 	{
 		$modules = $this->repository->enabled();
 
-		foreach ($modules as $module) {
-			$this->registerServiceProvider($module);
-		}
+		$modules->each(function($properties, $slug) {
+			$this->registerServiceProvider($properties);
+		});
 	}
 
 	/**
 	 * Register the module service provider.
 	 *
-	 * @param  string $module
+	 * @param  string $properties
 	 * @return string
 	 * @throws \Caffeinated\Modules\Exception\FileMissingException
 	 */
-	protected function registerServiceProvider($module)
+	protected function registerServiceProvider($properties)
 	{
-		$module    = studly_case($module['slug']);
+		$module    = studly_case($properties['slug']);
 		$file      = $this->repository->getPath()."/{$module}/Providers/{$module}ServiceProvider.php";
 		$namespace = $this->repository->getNamespace().$module."\\Providers\\{$module}ServiceProvider";
 

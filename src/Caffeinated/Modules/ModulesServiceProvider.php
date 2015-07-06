@@ -8,7 +8,7 @@ class ModulesServiceProvider extends ServiceProvider
 	/**
 	 * @var bool $defer Indicates if loading of the provider is deferred.
 	 */
-	protected $defer = true;
+	protected $defer = false;
 
 	/**
 	 * Boot the service provider.
@@ -20,6 +20,8 @@ class ModulesServiceProvider extends ServiceProvider
 		$this->publishes([
 			__DIR__.'/../../config/modules.php' => config_path('modules.php'),
 		]);
+
+		$this->app['modules']->register();
 	}
 
 	/**
@@ -43,10 +45,6 @@ class ModulesServiceProvider extends ServiceProvider
 			$repository = $app->make('Caffeinated\Modules\Repositories\Interfaces\ModuleRepositoryInterface');
 
 			return new \Caffeinated\Modules\Modules($app, $repository);
-		});
-
-		$this->app->booting(function ($app) {
-			$app['modules']->register();
 		});
 	}
 

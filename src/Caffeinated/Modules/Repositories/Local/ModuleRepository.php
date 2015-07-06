@@ -12,13 +12,14 @@ class ModuleRepository extends Repository
 	*/
 	public function all()
 	{
-		$modules = $this->getAllBasenames();
+		$basenames = $this->getAllBasenames();
+		$modules   = collect();
 
-		foreach ($modules as $key => $module) {
-			$modules[$key] = $this->getProperties($module);
-		}
+		$basenames->each(function($module, $key) use ($modules) {
+			$modules->put($module, $this->getProperties($module));
+		});
 
-		return collect($modules)->sortBy('order');
+		return $modules->sortBy('order');
 	}
 
 	/**
@@ -48,7 +49,7 @@ class ModuleRepository extends Repository
 	{
 		$collection = $this->all();
 
-		return $collection->where($key, $value)->all();
+		return $collection->where($key, $value);
 	}
 
 	/**
@@ -61,7 +62,7 @@ class ModuleRepository extends Repository
 	{
 		$collection = $this->all();
 
-		return $collection->sortBy($key)->all();
+		return $collection->sortBy($key);
 	}
 
 	/**
@@ -74,7 +75,7 @@ class ModuleRepository extends Repository
 	{
 		$collection = $this->all();
 
-		return $collection->sortByDesc($key)->all();
+		return $collection->sortByDesc($key);
 	}
 
 	/**

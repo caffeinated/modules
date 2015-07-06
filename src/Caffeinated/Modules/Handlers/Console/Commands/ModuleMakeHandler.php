@@ -123,6 +123,8 @@ class ModuleMakeHandler
 
 		$console->info("Module [{$this->name}] has been created successfully.");
 
+		$this->optimize($console);
+
 		return true;
 	}
 
@@ -156,6 +158,16 @@ class ModuleMakeHandler
 
 			$this->makeFile($key, $file);
 		}
+	}
+
+	/**
+	 * Optimize the framework for better performance.
+	 *
+	 * @return void
+	 */
+	protected function optimize(Command $console)
+	{
+		$console->call('optimize');
 	}
 
     /**
