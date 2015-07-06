@@ -41,14 +41,19 @@ abstract class Repository implements ModuleRepositoryInterface
 	 */
 	protected function getAllBasenames()
 	{
-		$path       = $this->getPath();
-        $collection = collect($this->files->directories($path));
+		$path = $this->getPath();
 
-        $basenames  = $collection->map(function($item, $key) {
-            return basename($item);
-        });
+        try {
+            $collection = collect($this->files->directories($path));
 
-		return $basenames;
+            $basenames  = $collection->map(function($item, $key) {
+                return basename($item);
+            });
+
+    		return $basenames;
+        } catch (\InvalidArgumentException $e) {
+            return collect(array());
+        }
 	}
 
     /**
