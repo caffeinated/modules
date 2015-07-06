@@ -2,6 +2,7 @@
 namespace Caffeinated\Modules;
 
 use App;
+use Cache;
 use Countable;
 use Caffeinated\Modules\Exceptions\FileMissingException;
 use Illuminate\Config\Repository;
@@ -366,24 +367,11 @@ class Modules implements Countable
 	 */
 	protected function getJsonContents($module)
 	{
-		$module = Str::studly($module);
+		$module   = Str::studly($module);
+		$path     = $this->getJsonPath($module);
+		$contents = $this->files->get($path);
 
-		$default = [];
-
-		if ( ! $this->pathExists($module))
-			return $default;
-
-		$path = $this->getJsonPath($module);
-
-		if ($this->files->exists($path)) {
-			$contents = $this->files->get($path);
-
-			return json_decode($contents, true);
-		} else {
-			$message = "Module [{$module}] must have a valid module.json file.";
-
-			throw new FileMissingException($message);
-		}
+		return json_decode($contents, true);
 	}
 
 	/**
@@ -421,7 +409,7 @@ class Modules implements Countable
 	public function sortByOrder($modules)
 	{
 		$orderedModules = array();
-		
+
 		foreach ($modules as $module) {
 			if (! isset($module['order'])) {
 				$module['order'] = 9001;  // It's over 9000!

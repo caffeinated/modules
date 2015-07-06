@@ -31,7 +31,13 @@ class ModulesServiceProvider extends ServiceProvider
 	{
 		$this->mergeConfigFrom(
 			__DIR__.'/../../config/modules.php', 'modules'
-		);
+		);$this->app->bindShared('modules', function ($app) {
+			return new \Caffeinated\Modules\Modules($app['config'],	$app['files']);
+		});
+
+		$this->app->booting(function ($app) {
+			$app['modules']->register();
+		});
 
 		$this->app->register('Caffeinated\Modules\Providers\RepositoryServiceProvider');
 
@@ -41,10 +47,6 @@ class ModulesServiceProvider extends ServiceProvider
 
 		$this->app->bindShared('modules', function ($app) {
 			return new \Caffeinated\Modules\Modules($app['config'],	$app['files']);
-		});
-
-		$this->app->booting(function ($app) {
-			$app['modules']->register();
 		});
 	}
 
