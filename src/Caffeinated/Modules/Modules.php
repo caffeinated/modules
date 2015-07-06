@@ -1,42 +1,30 @@
 <?php
 namespace Caffeinated\Modules;
 
-use App;
-use Cache;
-use Countable;
-use Caffeinated\Modules\Exceptions\FileMissingException;
-use Illuminate\Config\Repository;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
+use Caffeinated\Modules\Repositories\Interfaces\ModuleRepositoryInterface;
+use Illuminate\Foundation\Application;
 
-class Modules implements Countable
+class Modules
 {
 	/**
-	 * @var \Illuminate\Config\Repository
+	 * @var \Illuminate\Foundation\Application
 	 */
-	protected $config;
+	protected $app;
 
 	/**
-	 * @var \Illuminate\Filesystem\Filesystem
+	 * @var \Caffeinated\Modules\Repositories\Interfaces\ModuleRepositoryInterface
 	 */
-	protected $files;
-
-	/**
-	 * @var string $path Path to the defined modules directory
-	 */
-	protected $path;
+	protected $repository;
 
 	/**
 	 * Constructor method.
 	 *
-	 * @param \Illuminate\Config\Repository                $config
-	 * @param \Illuminate\Filesystem\Filesystem            $files
+	 * @param \Caffeinated\Modules\Repositories\Interfaces\ModuleRepositoryInterface  $repository
 	 */
-	public function __construct(Repository $config, Filesystem $files)
+	public function __construct(Application $app, ModuleRepositoryInterface $repository)
 	{
-		$this->config = $config;
-		$this->files  = $files;
+		$this->app        = $app;
+		$this->repository = $repository;
 	}
 
 	/**
@@ -46,7 +34,9 @@ class Modules implements Countable
 	 */
 	public function register()
 	{
-		foreach ($this->enabled() as $module) {
+		$modules = $this->repository->enabled();
+
+		foreach ($modules as $module) {
 			$this->registerServiceProvider($module);
 		}
 	}
@@ -60,17 +50,11 @@ class Modules implements Countable
 	 */
 	protected function registerServiceProvider($module)
 	{
-		$module    = Str::studly($module['slug']);
-		$file      = $this->getPath()."/{$module}/Providers/{$module}ServiceProvider.php";
-		$namespace = $this->getNamespace().$module."\\Providers\\{$module}ServiceProvider";
+		$module    = studly_case($module['slug']);
+		$file      = $this->repository->getPath()."/{$module}/Providers/{$module}ServiceProvider.php";
+		$namespace = $this->repository->getNamespace().$module."\\Providers\\{$module}ServiceProvider";
 
-		if (! $this->files->exists($file)) {
-			$message = "Module [{$module}] must have a \"{$module}/Providers/{$module}ServiceProvider.php\" file for bootstrapping purposes.";
-
-			throw new FileMissingException($message);
-		}
-
-		App::register($namespace);
+		$this->app->register($namespace);
 	}
 
 	/**
@@ -80,36 +64,7 @@ class Modules implements Countable
 	 */
 	public function all()
 	{
-		$modules    = array();
-		$allModules = $this->getAllBasenames();
-
-		foreach ($allModules as $module) {
-			$modules[] = $this->getJsonContents($module);
-		}
-
-		return new Collection($this->sortByOrder($modules));
-	}
-
-	/**
-	 * Get all module basenames
-	 *
-	 * @return array
-	 */
-	protected function getAllBasenames()
-	{
-		$modules = [];
-		$path    = $this->getPath();
-
-		if ( ! is_dir($path))
-			return $modules;
-
-		$folders = $this->files->directories($path);
-
-		foreach ($folders as $module) {
-			$modules[] = basename($module);
-		}
-
-		return $modules;
+		return $this->repository->all();
 	}
 
 	/**
@@ -117,30 +72,9 @@ class Modules implements Countable
 	 *
 	 * @return array
 	 */
-	protected function getAllSlugs()
+	public function slugs()
 	{
-		$modules = $this->all();
-		$slugs   = array();
-
-		foreach ($modules as $module)
-		{
-			$slugs[] = $module['slug'];
-		}
-
-		return $slugs;
-	}
-
-	/**
-	 * Check if given module path exists.
-	 *
-	 * @param  string  $folder
-	 * @return bool
-	 */
-	protected function pathExists($folder)
-	{
-		$folder = Str::studly($folder);
-
-		return in_array($folder, $this->getAllBasenames());
+		return $this->repository->slugs();
 	}
 
 	/**
@@ -151,9 +85,7 @@ class Modules implements Countable
 	 */
 	public function exists($slug)
 	{
-		$slug = strtolower($slug);
-
-		return in_array($slug, $this->getAllSlugs());
+		return $this->repository->exists($slug);
 	}
 
 	/**
@@ -163,7 +95,7 @@ class Modules implements Countable
 	 */
 	public function count()
 	{
-		return count($this->all());
+		return $this->repository->count();
 	}
 
 	/**
@@ -173,7 +105,7 @@ class Modules implements Countable
 	 */
 	public function getPath()
 	{
-		return $this->path ?: $this->config->get('modules.path');
+		return $this->repository->getPath();
 	}
 
 	/**
@@ -184,35 +116,28 @@ class Modules implements Countable
 	 */
 	public function setPath($path)
 	{
-		$this->path = $path;
-
-		return $this;
+		return $this->repository->setPath($path);
 	}
 
 	/**
-	 * Get modules namespace.
-	 *
-	 * @return string
-	 */
+	* Get path for the specified module.
+	*
+	* @param  string $slug
+	* @return string
+	*/
+	public function getModulePath($slug)
+	{
+		return $this->repository->getModulePath($slug);
+	}
+
+	/**
+	* Get modules namespace.
+	*
+	* @return string
+	*/
 	public function getNamespace()
 	{
-		return $this->config->get('modules.namespace');
-	}
-
-	/**
-	 * Get path for the specified module.
-	 *
-	 * @param  string $slug
-	 * @return string
-	 */
-	public function getModulePath($slug, $allowNotExists = false)
-	{
-		$module = Str::studly($slug);
-
-		if ( ! $this->pathExists($module) and $allowNotExists === false)
-			return null;
-
-		return $this->getPath()."/{$module}/";
+		return $this->repository->getNamespace();
 	}
 
 	/**
@@ -223,7 +148,7 @@ class Modules implements Countable
 	 */
 	public function getProperties($slug)
 	{
-		return $this->getJsonContents($slug);
+		return $this->repository->getProperties($slug);
 	}
 
 	/**
@@ -235,9 +160,7 @@ class Modules implements Countable
 	 */
 	public function getProperty($property, $default = null)
 	{
-		list($module, $key) = explode('::', $property);
-
-		return array_get($this->getJsonContents($module), $key, $default);
+		return $this->repository->getProperty($property, $default);
 	}
 
 	/**
@@ -249,50 +172,7 @@ class Modules implements Countable
 	 */
 	public function setProperty($property, $value)
 	{
-		list($module, $key) = explode('::', $property);
-
-		$content = $this->getJsonContents($module);
-
-		if (count($content)) {
-			if (isset($content[$key])) {
-				unset($content[$key]);
-			}
-
-			$content[$key] = $value;
-
-			$this->setJsonContents($module, $content);
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Get all modules by enabled status.
-	 *
-	 * @param  bool $enabled
-	 * @return array
-	 */
-	public function getByEnabled($enabled = true)
-	{
-		$disabledModules = array();
-		$enabledModules  = array();
-		$modules         = $this->all();
-
-		foreach ($modules as $module) {
-			if ($this->isEnabled($module['slug'])) {
-				$enabledModules[] = $module;
-			} else {
-				$disabledModules[] = $module;
-			}
-		}
-
-		if ($enabled === true) {
-			return $this->sortByOrder($enabledModules);
-		}
-
-		return $this->sortByOrder($disabledModules);
+		return $this->repository->setProperty($property, $value);
 	}
 
 	/**
@@ -302,7 +182,7 @@ class Modules implements Countable
 	 */
 	public function enabled()
 	{
-		return $this->getByEnabled(true);
+		return $this->repository->enabled();
 	}
 
 	/**
@@ -312,7 +192,7 @@ class Modules implements Countable
 	 */
 	public function disabled()
 	{
-		return $this->getByEnabled(false);
+		return $this->repository->disabled();
 	}
 
 	/**
@@ -323,7 +203,7 @@ class Modules implements Countable
 	 */
 	public function isEnabled($slug)
 	{
-		return $this->getProperty("{$slug}::enabled") === true;
+		return $this->repository->isEnabled($slug);
 	}
 
 	/**
@@ -334,7 +214,7 @@ class Modules implements Countable
 	 */
 	public function isDisabled($slug)
 	{
-		return $this->getProperty("{$slug}::enabled") === false;
+		return $this->repository->isDisabled($slug);
 	}
 
 	/**
@@ -345,7 +225,7 @@ class Modules implements Countable
 	 */
 	public function enable($slug)
 	{
-		return $this->setProperty("{$slug}::enabled", true);
+		return $this->repository->enable($slug);
 	}
 
 	/**
@@ -356,101 +236,6 @@ class Modules implements Countable
 	 */
 	public function disable($slug)
 	{
-		return $this->setProperty("{$slug}::enabled", false);
-	}
-
-	/**
-	 * Get module JSON content as an array.
-	 *
-	 * @param  string $module
-	 * @return array|mixed
-	 */
-	protected function getJsonContents($module)
-	{
-		$module   = Str::studly($module);
-		$path     = $this->getJsonPath($module);
-		$contents = $this->files->get($path);
-
-		return json_decode($contents, true);
-	}
-
-	/**
-	 * Set module JSON content property value.
-	 *
-	 * @param  string $module
-	 * @param  array  $content
-	 * @return int
-	 */
-	public function setJsonContents($module, array $content)
-	{
-		$module = strtolower($module);
-		$content = json_encode($content, JSON_PRETTY_PRINT);
-
-		return $this->files->put($this->getJsonPath($module), $content);
-	}
-
-	/**
-	 * Get path of module JSON file.
-	 *
-	 * @param  string $module
-	 * @return string
-	 */
-	protected function getJsonPath($module)
-	{
-		return $this->getModulePath($module).'/module.json';
-	}
-
-	/**
-	 * Sort modules by order.
-	 *
-	 * @param  array  $modules
-	 * @return array
-	 */
-	public function sortByOrder($modules)
-	{
-		$orderedModules = array();
-
-		foreach ($modules as $module) {
-			if (! isset($module['order'])) {
-				$module['order'] = 9001;  // It's over 9000!
-			}
-
-			$orderedModules[] = $module;
-		}
-
-		if (count($orderedModules) > 0) {
-			$orderedModules = $this->arrayOrderBy($orderedModules, 'order', SORT_ASC, 'slug', SORT_ASC);
-		}
-
-		return $orderedModules;
-	}
-
-	/**
-	 * Helper method to order multiple values easily.
-	 *
-	 * @return array
-	 */
-	protected function arrayOrderBy()
-	{
-		$arguments = func_get_args();
-		$data      = array_shift($arguments);
-
-		foreach ($arguments as $argument => $field) {
-			if (is_string($field)) {
-				$temp = array();
-
-				foreach ($data as $key => $row) {
-					$temp[$key] = $row[$field];
-				}
-
-				$arguments[$argument] = $temp;
-			}
-		}
-
-		$arguments[] =& $data;
-
-		call_user_func_array('array_multisort', $arguments);
-
-		return array_pop($arguments);
+		return $this->repository->disable($slug);
 	}
 }

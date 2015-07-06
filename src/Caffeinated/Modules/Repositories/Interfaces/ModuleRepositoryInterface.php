@@ -18,6 +18,31 @@ interface ModuleRepositoryInterface
 	public function slugs();
 
 	/**
+	* Get modules based on where clause.
+	*
+	* @param  string  $key
+	* @param  mixed   $value
+	* @return Collection
+	*/
+	public function where($key, $value);
+
+	/**
+	 * Sort modules by given key in ascending order.
+	 *
+	 * @param  string  $key
+	 * @return Collection
+	 */
+	public function sortBy($key);
+
+	/**
+	* Sort modules by given key in ascending order.
+	*
+	* @param  string  $key
+	* @return Collection
+	*/
+	public function sortByDesc($key);
+
+	/**
 	 * Determines if the given module exists.
 	 *
 	 * @param  string  $slug
@@ -31,14 +56,6 @@ interface ModuleRepositoryInterface
 	 * @return int
 	 */
 	public function count();
-
-	/**
-	 * Sort modules by the given property key.
-	 *
-	 * @param  string  $key
-	 * @return Collection
-	 */
-	public function sortBy($key);
 
 	/**
 	 * Returns the modules defined properties.
@@ -65,14 +82,6 @@ interface ModuleRepositoryInterface
 	 * @return bool
 	 */
 	public function setProperty($property, $value);
-
-	/**
-	 * Get all modules by their enabled status.
-	 *
-	 * @param  bool  $enabled
-	 * @return Collection
-	 */
-	public function getByEnabled($enabled = true);
 
 	/**
 	 * Alias method for getByEnabled(true).
@@ -102,7 +111,7 @@ interface ModuleRepositoryInterface
 	* @param  string  $slug
 	* @return bool
 	*/
-	public function isDisabled();
+	public function isDisabled($slug);
 
 	/**
 	 * Enables the specified module.
