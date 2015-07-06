@@ -2,7 +2,6 @@
 namespace Caffeinated\Modules\Repositories\Local;
 
 use Caffeinated\Modules\Repositories\Repository;
-use Illuminate\Support\Str;
 
 class ModuleRepository extends Repository
 {
@@ -86,7 +85,7 @@ class ModuleRepository extends Repository
 	 */
 	public function exists($slug)
 	{
-		return $this->slugs()->has(strtolower($slug));
+		return $this->slugs()->contains(strtolower($slug));
 	}
 
 	/**
@@ -103,20 +102,24 @@ class ModuleRepository extends Repository
 	 * Get a module's properties.
 	 *
 	 * @param  string $slug
-	 * @return mixed
+	 * @return Collection|null
 	 */
-	public function getProperties($module)
+	public function getProperties($slug)
 	{
-		$module     = Str::studly($module);
-		$path       = $this->getManifestPath($module);
-		$contents   = $this->files->get($path);
-		$collection = collect(json_decode($contents, true));
+		if (! is_null($slug)) {
+			$module     = studly_case($slug);
+			$path       = $this->getManifestPath($module);
+			$contents   = $this->files->get($path);
+			$collection = collect(json_decode($contents, true));
 
-		if (! $collection->has('order')) {
-			$collection->put('order', 9001);
+			if (! $collection->has('order')) {
+				$collection->put('order', 9001);
+			}
+
+			return $collection;
 		}
 
-		return $collection;
+		return null;
 	}
 
 	/**

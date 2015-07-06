@@ -60,7 +60,7 @@ class ModuleMigrateCommand extends Command
 
 		$module = $this->module->getProperties($this->argument('module'));
 
-		if (! empty($module)) {
+		if (! is_null($module)) {
 			if ($this->module->isEnabled($module['slug'])) {
 				return $this->migrate($module['slug']);
 			} elseif ($this->option('force')) {
@@ -70,7 +70,7 @@ class ModuleMigrateCommand extends Command
 			if ($this->option('force')) {
 				$modules = $this->module->all();
 			} else {
-				$modules = $this->module->getByEnabled();
+				$modules = $this->module->enabled();
 			}
 
 			foreach ($modules as $module) {
