@@ -24,7 +24,7 @@ class ModuleListCommand extends Command
 	/**
 	 * @var array $header The table headers for the command.
 	 */
-	protected $headers = ['Name', 'Slug', 'Description', 'Status'];
+	protected $headers = ['#', 'Name', 'Slug', 'Description', 'Status'];
 
 	/**
 	 * Create a new command instance.
@@ -82,6 +82,7 @@ class ModuleListCommand extends Command
 	protected function getModuleInformation($module)
 	{
 		return [
+			'#'           => $module['order'],
 			'name'        => $module['name'],
 			'slug'        => $module['slug'],
 			'description' => $module['description'],

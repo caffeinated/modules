@@ -19,9 +19,7 @@ class ModuleRepository extends Repository
 			$modules[$key] = $this->getProperties($module);
 		}
 
-		return collect($modules)
-			->sortBy('order')
-			->sortBy('slug');
+		return collect($modules)->sortBy('order');
 	}
 
 	/**
