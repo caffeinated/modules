@@ -3,7 +3,6 @@ namespace Caffeinated\Modules\Console\Commands;
 
 use Caffeinated\Modules\Modules;
 use Illuminate\Console\Command;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -44,7 +43,7 @@ class ModuleSeedCommand extends Command
 	public function fire()
 	{
 		$module     = $this->argument('module');
-		$moduleName = Str::studly($module);
+		$moduleName = studly_case($module);
 
 		if (isset($module)) {
 			if (! $this->module->exists($module)) {
@@ -62,7 +61,7 @@ class ModuleSeedCommand extends Command
 			if ($this->option('force')) {
 				$modules = $this->module->all();
 			} else {
-				$modules = $this->module->getByEnabled();
+				$modules = $this->module->enabled();
 			}
 
 			foreach ($modules as $module) {
@@ -80,7 +79,7 @@ class ModuleSeedCommand extends Command
 	protected function seed($module)
 	{
 		$params     = array();
-		$moduleName = Str::studly($module);
+		$moduleName = studly_case($module);
 		$namespace  = $this->module->getNamespace();
 		$rootSeeder = $moduleName.'DatabaseSeeder';
 		$fullPath   = $namespace.$moduleName.'\Database\Seeds\\'.$rootSeeder;
