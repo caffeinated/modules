@@ -84,14 +84,14 @@ interface ModuleRepositoryInterface
 	public function setProperty($property, $value);
 
 	/**
-	 * Alias method for getByEnabled(true).
+	 * Get all enabled modules.
 	 *
 	 * @return Collection
 	 */
 	public function enabled();
 
 	/**
-	 * Alias method for getByEnabled(false).
+	 * Get all disabled modules.
 	 *
 	 * @return Collection
 	 */
