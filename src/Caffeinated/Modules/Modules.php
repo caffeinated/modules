@@ -176,7 +176,7 @@ class Modules
 	}
 
 	/**
-	 * Simple alias for getByEnabled(true).
+	 * Gets all enabled modules.
 	 *
 	 * @return array
 	 */
@@ -186,7 +186,7 @@ class Modules
 	}
 
 	/**
-	 * Simple alias for getByEnabled(false).
+	 * Gets all disabled modules.
 	 *
 	 * @return array
 	 */

@@ -76,7 +76,7 @@ class ModuleMigrateResetCommand extends Command
 				$modules = $this->module->all();
 				$modules = $modules->reverse();
 			} else {
-				$modules = array_reverse($this->module->getByEnabled());
+				$modules = array_reverse($this->module->enabled());
 			}
 
 			foreach ($modules as $module) {
