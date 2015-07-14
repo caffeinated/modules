@@ -27,9 +27,14 @@ class RepositoryServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
-		$this->app->bind(
-			'Caffeinated\Modules\Repositories\Interfaces\ModuleRepositoryInterface',
-			'Caffeinated\Modules\Repositories\Local\ModuleRepository'
-		);
+		$driver = ucfirst(config('modules.driver'));
+
+		if ($driver == 'Custom') {
+			$namespace = config('modules.custom_driver');
+		} else {
+			$namespace = "Caffeinated\Modules\Repositories\\$driver\ModuleRepository";
+		}
+		
+		$this->app->bind('Caffeinated\Modules\Repositories\Interfaces\ModuleRepositoryInterface', $namespace);
 	}
 }
