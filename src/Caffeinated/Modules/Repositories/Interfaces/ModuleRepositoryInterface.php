@@ -18,12 +18,12 @@ interface ModuleRepositoryInterface
 	public function slugs();
 
 	/**
-	* Get modules based on where clause.
-	*
-	* @param  string  $key
-	* @param  mixed   $value
-	* @return Collection
-	*/
+	 * Get modules based on where clause.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * @return Collection
+	 */
 	public function where($key, $value);
 
 	/**
@@ -35,11 +35,11 @@ interface ModuleRepositoryInterface
 	public function sortBy($key);
 
 	/**
-	* Sort modules by given key in ascending order.
-	*
-	* @param  string  $key
-	* @return Collection
-	*/
+	 * Sort modules by given key in ascending order.
+	 *
+	 * @param  string  $key
+	 * @return Collection
+	 */
 	public function sortByDesc($key);
 
 	/**

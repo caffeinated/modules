@@ -4,7 +4,7 @@ namespace Caffeinated\Modules;
 use Caffeinated\Modules\Repositories\Interfaces\ModuleRepositoryInterface;
 use Illuminate\Foundation\Application;
 
-class Modules
+class Modules implements ModuleRepositoryInterface
 {
 	/**
 	 * @var \Illuminate\Foundation\Application
@@ -75,6 +75,40 @@ class Modules
 	public function slugs()
 	{
 		return $this->repository->slugs();
+	}
+
+	/**
+	 * Get modules based on where clause.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * @return Collection
+	 */
+	public function where($key, $value)
+	{
+		return $this->repository->where($key, $value);
+	}
+
+	/**
+	 * Sort modules by given key in ascending order.
+	 *
+	 * @param  string  $key
+	 * @return Collection
+	 */
+	public function sortBy($key)
+	{
+		return $this->repository->sortBy($key);
+	}
+
+	/**
+	 * Sort modules by given key in ascending order.
+	 *
+	 * @param  string  $key
+	 * @return Collection
+	 */
+	public function sortByDesc($key)
+	{
+		return $this->repository->sortByDesc($key);
 	}
 
 	/**
