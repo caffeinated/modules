@@ -59,13 +59,13 @@ class ModuleMakeRequestHandler
 		$this->moduleName    = Str::studly($slug);
 		$this->className     = studly_case($class);
 
-		if ($this->module->exists($this->moduleName)) {
+		if ($this->module->exists($slug)) {
 			$this->makeFile();
 
-			return $this->console->info("Created Module Form Request: [$this->moduleName] ".$this->getFilename());
+			return $this->console->info("Created Module Form Request: [$slug] ".$this->getFilename());
 		}
 
-		return $this->console->info("Module [$this->moduleName] does not exist.");
+		return $this->console->info("Module [$slug] does not exist.");
 	}
 
 	/**
