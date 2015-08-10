@@ -89,7 +89,7 @@ class ModuleMigrateCommand extends Command
 	{
 		$moduleName = Str::studly($slug);
 
-		if ($this->module->exists($moduleName)) {
+		if ($this->module->exists($slug)) {
 			$pretend = $this->option('pretend');
 			$path    = $this->getMigrationPath($slug);
 
