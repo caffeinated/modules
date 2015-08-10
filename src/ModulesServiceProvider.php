@@ -18,7 +18,7 @@ class ModulesServiceProvider extends ServiceProvider
 	public function boot()
 	{
 		$this->publishes([
-			__DIR__.'/../../config/modules.php' => config_path('modules.php'),
+			__DIR__.'/../config/modules.php' => config_path('modules.php'),
 		]);
 
 		$this->app['modules']->register();
@@ -32,7 +32,7 @@ class ModulesServiceProvider extends ServiceProvider
 	public function register()
 	{
 		$this->mergeConfigFrom(
-			__DIR__.'/../../config/modules.php', 'modules'
+			__DIR__.'/../config/modules.php', 'modules'
 		);
 
 		$this->app->register('Caffeinated\Modules\Providers\RepositoryServiceProvider');
