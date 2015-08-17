@@ -19,7 +19,7 @@ class ModulesServiceProvider extends ServiceProvider
 	{
 		$this->publishes([
 			__DIR__.'/../config/modules.php' => config_path('modules.php'),
-		]);
+		], 'config');
 
 		$this->app['modules']->register();
 	}
