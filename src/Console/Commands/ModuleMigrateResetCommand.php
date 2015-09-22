@@ -125,7 +125,7 @@ class ModuleMigrateResetCommand extends Command
 	{
 		$migrationPath = $this->getMigrationPath($slug);
 		$file          = (string) $migrationPath.'/'.$migration.'.php';
-		$classFile     = implode('_', array_slice(explode('_', str_replace('.php', '', $file)), 4));
+		$classFile     = implode('_', array_slice(explode('_', basename($file, '.php')), 4));
 		$class         = studly_case($classFile);
 		$table         = $this->laravel['config']['database.migrations'];
 
