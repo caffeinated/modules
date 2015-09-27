@@ -1,5 +1,5 @@
 <?php
-namespace Caffeinated\Modules\Handlers\Console\Commands;
+namespace Caffeinated\Modules\Console\Handlers;
 
 use Caffeinated\Modules\Modules;
 use Illuminate\Console\Command;
@@ -130,7 +130,7 @@ class ModuleMakeMigrationHandler
 	 */
 	protected function getStubContent()
 	{
-		return $this->formatContent($this->finder->get(__DIR__.'/../../../Console/Stubs/migration.stub'));
+		return $this->formatContent($this->finder->get(__DIR__.'/../Stubs/migration.stub'));
 	}
 
 	/**

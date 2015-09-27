@@ -1,7 +1,7 @@
 <?php
 namespace Caffeinated\Modules\Console\Commands;
 
-use Caffeinated\Modules\Handlers\Console\Commands\ModuleMakeHandler;
+use Caffeinated\Modules\Console\Handlers\ModuleMakeHandler;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 

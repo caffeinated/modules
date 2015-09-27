@@ -1,5 +1,5 @@
 <?php
-namespace Caffeinated\Modules\Handlers\Console\Commands;
+namespace Caffeinated\Modules\Console\Handlers;
 
 use Caffeinated\Modules\Modules;
 use Illuminate\Console\Command;
@@ -117,7 +117,7 @@ class ModuleMakeRequestHandler
 	 */
 	protected function getStubContent()
 	{
-		return $this->formatContent($this->finder->get(__DIR__.'/../../../Console/Stubs/request.stub'));
+		return $this->formatContent($this->finder->get(__DIR__.'/../Stubs/request.stub'));
 	}
 
 	/**

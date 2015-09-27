@@ -1,7 +1,7 @@
 <?php
 namespace Caffeinated\Modules\Console\Commands;
 
-use Caffeinated\Modules\Handlers\Console\Commands\ModuleMakeRequestHandler;
+use Caffeinated\Modules\Console\Handlers\ModuleMakeRequestHandler;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -18,14 +18,14 @@ class ModuleMakeRequestCommand extends Command
 	protected $description = 'Create a new module form request class';
 
 	/**
-	 * @var \Caffeinated\Modules\Handlers\Console\Commands\ModuleMakeRequestHandler
+	 * @var \Caffeinated\Modules\Console\Handlers\ModuleMakeRequestHandler
 	 */
 	protected $handler;
 
 	/**
 	 * Create a new command instance.
 	 *
-	 * @param \Caffeinated\Modules\Handlers\Console\Commands\ModuleMakeRequestHandler $handler
+	 * @param \Caffeinated\Modules\Console\Handlers\ModuleMakeRequestHandler $handler
 	 */
 	public function __construct(ModuleMakeRequestHandler $handler)
 	{
