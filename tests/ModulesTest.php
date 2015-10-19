@@ -16,8 +16,8 @@ class ModulesTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$this->config  = m::mock('Illuminate\Config\Repository');
-		$this->files   = m::mock('Illuminate\Filesystem\Filesystem');
+		$this->config  = m::mock('Illuminate\Foundation\Application');
+		$this->files   = m::mock('\Caffeinated\Modules\Repositories\Interfaces\ModuleRepositoryInterface');
 		$this->module  = new Modules($this->config, $this->files);
 	}
 
