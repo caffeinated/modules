@@ -32,7 +32,8 @@ class {{name}}ServiceProvider extends ServiceProvider
 	protected function registerNamespaces()
 	{
 		Lang::addNamespace('{{slug}}', realpath(__DIR__.'/../Resources/Lang'));
-
+		
+		View::addNamespace('{{slug}}', base_path('resources/views/vendor/{{slug}}'));
 		View::addNamespace('{{slug}}', realpath(__DIR__.'/../Resources/Views'));
 	}
 }
