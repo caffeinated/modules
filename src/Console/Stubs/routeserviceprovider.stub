@@ -1,5 +1,5 @@
 <?php
-namespace {{namespace}}{{name}}\Providers;
+namespace {{namespace}}\{{name}}\Providers;
 
 use Caffeinated\Modules\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
@@ -13,7 +13,7 @@ class RouteServiceProvider extends ServiceProvider
 	 *
 	 * @var string
 	 */
-	protected $namespace = '{{namespace}}{{name}}\Http\Controllers';
+	protected $namespace = '{{namespace}}\{{name}}\Http\Controllers';
 
 	/**
 	 * Define your module's route model bindings, pattern filters, etc.
