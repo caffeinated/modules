@@ -1,5 +1,5 @@
 <?php
-namespace {{namespace}}{{name}}\Providers;
+namespace {{namespace}}\{{name}}\Providers;
 
 use App;
 use Config;
