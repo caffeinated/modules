@@ -1,5 +1,5 @@
 <?php
-namespace {{namespace}}{{name}}\Database\Seeds;
+namespace {{namespace}}\{{name}}\Database\Seeds;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;

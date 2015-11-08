@@ -52,7 +52,7 @@ class Modules implements ModuleRepositoryInterface
 	{
 		$module    = studly_case($properties['slug']);
 		$file      = $this->repository->getPath()."/{$module}/Providers/{$module}ServiceProvider.php";
-		$namespace = $this->repository->getNamespace().$module."\\Providers\\{$module}ServiceProvider";
+		$namespace = $this->repository->getNamespace()."\\".$module."\\Providers\\{$module}ServiceProvider";
 
 		$this->app->register($namespace);
 	}

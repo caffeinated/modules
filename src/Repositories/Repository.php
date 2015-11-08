@@ -110,6 +110,6 @@ abstract class Repository implements ModuleRepositoryInterface
      */
     public function getNamespace()
     {
-        return $this->config->get('modules.namespace');
+        return rtrim($this->config->get('modules.namespace'), '/\\');
     }
 }
