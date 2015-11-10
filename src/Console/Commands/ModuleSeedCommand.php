@@ -82,7 +82,7 @@ class ModuleSeedCommand extends Command
 		$moduleName = studly_case($module);
 		$namespace  = $this->module->getNamespace();
 		$rootSeeder = $moduleName.'DatabaseSeeder';
-		$fullPath   = $namespace.$moduleName.'\Database\Seeds\\'.$rootSeeder;
+		$fullPath   = $namespace.'\\'.$moduleName.'\Database\Seeds\\'.$rootSeeder;
 
 		if (class_exists($fullPath)) {
 			if ($this->option('class')) {
