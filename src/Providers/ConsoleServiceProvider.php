@@ -38,6 +38,7 @@ class ConsoleServiceProvider extends ServiceProvider
 		$this->registerMigrateRollbackCommand();
 		$this->registerSeedCommand();
 		$this->registerListCommand();
+		$this->registerMakeControllerCommand();
 
 		$this->commands([
 			'modules.make',
@@ -50,7 +51,8 @@ class ConsoleServiceProvider extends ServiceProvider
 			'modules.migrateReset',
 			'modules.migrateRollback',
 			'modules.seed',
-			'modules.list'
+			'modules.list',
+			'modules.makeController',
 		]);
 	}
 
@@ -191,4 +193,19 @@ class ConsoleServiceProvider extends ServiceProvider
 			return new \Caffeinated\Modules\Console\Commands\ModuleListCommand($app['modules']);
 		});
 	}
+	
+	/**
+	 * Register the "module:make:controller" console command.
+	 *
+	 * @return Console\ModuleMakeControllerCommand
+	 */
+	protected function registerMakeControllerCommand()
+	{
+		$this->app->bindShared('modules.makeController', function($app) {
+			$handler = new \Caffeinated\Modules\Console\Handlers\ModuleMakeControllerHandler($app['modules'], $app['files']);
+
+			return new \Caffeinated\Modules\Console\Commands\ModuleMakeControllerCommand($handler);
+		});
+	}
+	
 }
