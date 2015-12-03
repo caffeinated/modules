@@ -1,0 +1,15 @@
+<?php
+namespace {{namespace}}\{{moduleName}}\Http\Controllers;
+
+use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Controllers\Controller;
+
+class {{className}} extends Controller
+{
+
+	public function index()
+	{
+		return "Controller Index";
+	}
+
+}
