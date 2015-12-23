@@ -38,6 +38,8 @@ class Modules implements ModuleRepositoryInterface
 
 		$modules->each(function($properties, $slug) {
 			$this->registerServiceProvider($properties);
+
+			$this->autoloadFiles($properties);
 		});
 	}
 
@@ -55,6 +57,24 @@ class Modules implements ModuleRepositoryInterface
 		$namespace = $this->repository->getNamespace()."\\".$module."\\Providers\\{$module}ServiceProvider";
 
 		$this->app->register($namespace);
+	}
+
+	/**
+	 * Autoload custom module files.
+	 *
+	 * @param array  $properties
+	 * @return void
+	 */
+	protected function autoloadFiles($properties)
+	{
+		if (isset($properties['autoload'])) {
+			$module = studly_case($properties['slug']);
+			$path   = $this->repository->getPath()."/{$module}/";
+
+			foreach ($properties['autoload'] as $file) {
+				include($path.$file);
+			}
+		}
 	}
 
 	/**
