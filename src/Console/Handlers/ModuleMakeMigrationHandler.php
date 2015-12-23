@@ -109,8 +109,15 @@ class ModuleMakeMigrationHandler
 	protected function getPath()
 	{
 		$path = $this->module->getModulePath($this->moduleName);
+		$path = $path.'Database/Migrations/';
 
-		return $path.'Database/Migrations/';
+		try {
+			$this->finder->makeDirectory($path, 0775, true);
+		} catch(\Exception $e) {
+			// Do nothing, directory already exists.
+		}
+
+		return $path;
 	}
 
 	/**
