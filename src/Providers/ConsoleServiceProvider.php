@@ -63,7 +63,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	 */
 	protected function registerEnableCommand()
 	{
-		$this->app->bindShared('modules.enable', function() {
+		$this->app->singleton('modules.enable', function() {
 			return new \Caffeinated\Modules\Console\Commands\ModuleEnableCommand;
 		});
 	}
@@ -75,7 +75,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	 */
 	protected function registerDisableCommand()
 	{
-		$this->app->bindShared('modules.disable', function() {
+		$this->app->singleton('modules.disable', function() {
 			return new \Caffeinated\Modules\Console\Commands\ModuleDisableCommand;
 		});
 	}
@@ -87,7 +87,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	 */
 	protected function registerMakeCommand()
 	{
-		$this->app->bindShared('modules.make', function($app) {
+		$this->app->singleton('modules.make', function($app) {
 			$handler = new \Caffeinated\Modules\Console\Handlers\ModuleMakeHandler($app['modules'], $app['files']);
 
 			return new \Caffeinated\Modules\Console\Commands\ModuleMakeCommand($handler);
@@ -101,7 +101,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	 */
 	protected function registerMakeMigrationCommand()
 	{
-		$this->app->bindShared('modules.makeMigration', function($app) {
+		$this->app->singleton('modules.makeMigration', function($app) {
 			$handler = new \Caffeinated\Modules\Console\Handlers\ModuleMakeMigrationHandler($app['modules'], $app['files']);
 
 			return new \Caffeinated\Modules\Console\Commands\ModuleMakeMigrationCommand($handler);
@@ -115,7 +115,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	 */
 	protected function registerMakeRequestCommand()
 	{
-		$this->app->bindShared('modules.makeRequest', function($app) {
+		$this->app->singleton('modules.makeRequest', function($app) {
 			$handler = new \Caffeinated\Modules\Console\Handlers\ModuleMakeRequestHandler($app['modules'], $app['files']);
 
 			return new \Caffeinated\Modules\Console\Commands\ModuleMakeRequestCommand($handler);
@@ -129,7 +129,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	 */
 	protected function registerMigrateCommand()
 	{
-		$this->app->bindShared('modules.migrate', function($app) {
+		$this->app->singleton('modules.migrate', function($app) {
 			return new \Caffeinated\Modules\Console\Commands\ModuleMigrateCommand($app['migrator'], $app['modules']);
 		});
 	}
@@ -141,7 +141,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	 */
 	protected function registerMigrateRefreshCommand()
 	{
-		$this->app->bindShared('modules.migrateRefresh', function() {
+		$this->app->singleton('modules.migrateRefresh', function() {
 			return new \Caffeinated\Modules\Console\Commands\ModuleMigrateRefreshCommand;
 		});
 	}
@@ -153,7 +153,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	 */
 	protected function registerMigrateResetCommand()
 	{
-		$this->app->bindShared('modules.migrateReset', function($app) {
+		$this->app->singleton('modules.migrateReset', function($app) {
 			return new \Caffeinated\Modules\Console\Commands\ModuleMigrateResetCommand($app['modules'], $app['files'], $app['migrator']);
 		});
 	}
@@ -165,7 +165,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	 */
 	protected function registerMigrateRollbackCommand()
 	{
-		$this->app->bindShared('modules.migrateRollback', function($app) {
+		$this->app->singleton('modules.migrateRollback', function($app) {
 			return new \Caffeinated\Modules\Console\Commands\ModuleMigrateRollbackCommand($app['modules']);
 		});
 	}
@@ -177,7 +177,7 @@ class ConsoleServiceProvider extends ServiceProvider
 	 */
 	protected function registerSeedCommand()
 	{
-		$this->app->bindShared('modules.seed', function($app) {
+		$this->app->singleton('modules.seed', function($app) {
 			return new \Caffeinated\Modules\Console\Commands\ModuleSeedCommand($app['modules']);
 		});
 	}
@@ -189,11 +189,11 @@ class ConsoleServiceProvider extends ServiceProvider
 	 */
 	protected function registerListCommand()
 	{
-		$this->app->bindShared('modules.list', function($app) {
+		$this->app->singleton('modules.list', function($app) {
 			return new \Caffeinated\Modules\Console\Commands\ModuleListCommand($app['modules']);
 		});
 	}
-	
+
 	/**
 	 * Register the "module:make:controller" console command.
 	 *
@@ -201,11 +201,11 @@ class ConsoleServiceProvider extends ServiceProvider
 	 */
 	protected function registerMakeControllerCommand()
 	{
-		$this->app->bindShared('modules.makeController', function($app) {
+		$this->app->singleton('modules.makeController', function($app) {
 			$handler = new \Caffeinated\Modules\Console\Handlers\ModuleMakeControllerHandler($app['modules'], $app['files']);
 
 			return new \Caffeinated\Modules\Console\Commands\ModuleMakeControllerCommand($handler);
 		});
 	}
-	
+
 }
