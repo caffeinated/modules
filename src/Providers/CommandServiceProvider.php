@@ -3,7 +3,7 @@ namespace Caffeinated\Modules\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class ConsoleServiceProvider extends ServiceProvider
+class CommandServiceProvider extends ServiceProvider
 {
 	/**
      * Bootstrap the application services.
@@ -22,7 +22,22 @@ class ConsoleServiceProvider extends ServiceProvider
      */
 	public function register()
 	{
+		$this->registerEnableCommand();
 		$this->registerDisableCommand();
+	}
+
+	/**
+	 * Register the module:enable command.
+	 *
+	 * @return void
+	 */
+	protected function registerEnableCommand()
+	{
+		$this->app->singleton('command.module.enable', function() {
+			return new \Caffeinated\Modules\Console\Commands\ModuleEnableCommand;
+		});
+
+		$this->commands('command.module.enable');
 	}
 
 	/**

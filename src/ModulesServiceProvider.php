@@ -39,7 +39,7 @@ class ModulesServiceProvider extends ServiceProvider
 
 		$this->app->register('Caffeinated\Modules\Providers\MigrationServiceProvider');
 
-		$this->app->register('Caffeinated\Modules\Providers\ConsoleServiceProvider');
+		$this->app->register('Caffeinated\Modules\Providers\CommandServiceProvider');
 
 		$this->app->register('Caffeinated\Modules\Providers\GeneratorServiceProvider');
 
