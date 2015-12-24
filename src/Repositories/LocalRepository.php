@@ -1,9 +1,9 @@
 <?php
-namespace Caffeinated\Modules\Repositories\Local;
+namespace Caffeinated\Modules\Repositories;
 
 use Caffeinated\Modules\Repositories\Repository;
 
-class ModuleRepository extends Repository
+class LocalRepository extends Repository
 {
 	/**
 	* Get all modules.

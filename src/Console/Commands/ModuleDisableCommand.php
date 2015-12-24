@@ -6,14 +6,18 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class ModuleDisableCommand extends Command
 {
-	/**
-	 * @var string $name The console command name.
-	 */
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
 	protected $name = 'module:disable';
 
-	/**
-	 * @var string $description The console command description.
-	 */
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
 	protected $description = 'Disable a module';
 
 	/**
@@ -23,14 +27,14 @@ class ModuleDisableCommand extends Command
 	 */
 	public function fire()
 	{
-		$module = $this->argument('module');
+		$slug = $this->argument('slug');
 
-		if ($this->laravel['modules']->isEnabled($this->argument('module'))) {
-			$this->laravel['modules']->disable($module);
+		if ($this->laravel['modules']->isEnabled($slug)) {
+			$this->laravel['modules']->disable($slug);
 
-			$this->info("Module [{$module}] was disabled successfully.");
+			$this->info("Module was disabled successfully.");
 		} else {
-			$this->comment("Module [{$module}] is already disabled.");
+			$this->comment("Module is already disabled.");
 		}
 	}
 
@@ -42,7 +46,7 @@ class ModuleDisableCommand extends Command
 	protected function getArguments()
 	{
 		return [
-			['module', InputArgument::REQUIRED, 'Module slug.']
+			['slug', InputArgument::REQUIRED, 'Module slug.']
 		];
 	}
 }

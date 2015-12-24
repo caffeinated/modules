@@ -1,18 +1,15 @@
 <?php
-namespace Caffeinated\Modules\Commands;
+namespace Caffeinated\Modules\Console\Generators;
 
 use Caffeinated\Modules\Modules;
-use Illuminate\Console\AppNamespaceDetectorTrait;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 
-class ModuleMakeCommand extends Command
+class MakeModuleCommand extends Command
 {
-    use AppNamespaceDetectorTrait;
-
     /**
      * The console command name.
      *
@@ -53,9 +50,9 @@ class ModuleMakeCommand extends Command
 	 * @var array
 	 */
 	protected $moduleFiles = [
-		'Database/Seeds/{{name}}DatabaseSeeder.php',
+		'Database/Seeds/{{namespace}}DatabaseSeeder.php',
 		'Http/routes.php',
-		'Providers/{{name}}ServiceProvider.php',
+		'Providers/{{namespace}}ServiceProvider.php',
 		'Providers/RouteServiceProvider.php',
 		'module.json'
 	];
@@ -70,7 +67,7 @@ class ModuleMakeCommand extends Command
 		'routes.stub',
 		'moduleserviceprovider.stub',
 		'routeserviceprovider.stub',
-		'module.stub'
+		'manifest.stub'
 	];
 
 	/**
@@ -115,8 +112,8 @@ class ModuleMakeCommand extends Command
      */
     public function fire()
     {
-        $this->container['name']      = $this->argument('name');
-        $this->container['slug']      = strtolower($this->container['name']);
+        $this->container['slug']      = strtolower($this->argument('slug'));
+        $this->container['name']      = Str::studly($this->container['slug']);
         $this->container['namespace'] = Str::studly($this->container['slug']);
 
         $this->displayHeader('make_module_introduction');
@@ -137,7 +134,7 @@ class ModuleMakeCommand extends Command
         $this->container['slug']        = $this->ask('Please enter the slug for the module:', $this->container['slug']);
         $this->container['namespace']   = $this->ask('Please enter the namespace for the module:', $this->container['namespace']);
         $this->container['version']     = $this->ask('Please enter the module version:', '1.0');
-        $this->container['description'] = $this->ask('Please enter the description of the module:', ' ');
+        $this->container['description'] = $this->ask('Please enter the description of the module:', 'This is the description for the '.$this->container['name'].' module.');
         $this->container['author']      = $this->ask('Please enter the author of the module:', ' ');
         $this->container['license']     = $this->ask('Please enter the module license:', 'MIT');
 
@@ -279,7 +276,7 @@ class ModuleMakeCommand extends Command
 	 */
 	protected function getStubContent($key)
 	{
-		return $this->formatContent($this->files->get(__DIR__.'/../../resources/stubs/'.$this->moduleStubs[$key]));
+		return $this->formatContent($this->files->get(__DIR__.'/../../../resources/stubs/'.$this->moduleStubs[$key]));
 	}
 
 	/**
@@ -290,8 +287,8 @@ class ModuleMakeCommand extends Command
 	protected function formatContent($content)
 	{
 		return str_replace(
-			['{{slug}}', '{{name}}', '{{namespace}}'],
-			[$this->container['slug'], $this->container['name'], $this->module->getNamespace()],
+			['{{slug}}', '{{name}}', '{{namespace}}', '{{version}}', '{{description}}', '{{author}}', '{{path}}'],
+			[$this->container['slug'], $this->container['name'], $this->container['namespace'], $this->container['version'], $this->container['description'], $this->container['author'], $this->module->getNamespace()],
 			$content
 		);
 	}
@@ -305,7 +302,7 @@ class ModuleMakeCommand extends Command
 	 */
 	protected function displayHeader($file = '', $level = 'info')
 	{
-		$stub = $this->files->get(__DIR__.'/../../resources/stubs/console/'.$file.'.stub');
+		$stub = $this->files->get(__DIR__.'/../../../resources/stubs/console/'.$file.'.stub');
 		return $this->$level($stub);
 	}
 
@@ -317,7 +314,7 @@ class ModuleMakeCommand extends Command
     protected function getArguments()
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the module']
+            ['slug', InputArgument::REQUIRED, 'The slug of the module']
         ];
     }
 }

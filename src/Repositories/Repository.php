@@ -1,11 +1,11 @@
 <?php
 namespace Caffeinated\Modules\Repositories;
 
-use Caffeinated\Modules\Repositories\Interfaces\ModuleRepositoryInterface;
+use Caffeinated\Modules\Contracts\RepositoryInterface;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Filesystem\Filesystem;
 
-abstract class Repository implements ModuleRepositoryInterface
+abstract class Repository implements RepositoryInterface
 {
     /**
      * @var \Illuminate\Config\Repository
@@ -93,14 +93,14 @@ abstract class Repository implements ModuleRepositoryInterface
 	}
 
     /**
-     * Get path of module JSON file.
+     * Get path of module manifest file.
      *
      * @param  string $module
      * @return string
      */
-    protected function getManifestPath($module)
+    protected function getManifestPath($slug)
     {
-        return $this->getModulePath($module).'module.json';
+        return $this->getModulePath($slug).'module.json';
     }
 
     /**

@@ -1,10 +1,10 @@
 <?php
-namespace {{namespace}}\{{name}}\Database\Seeds;
+namespace {{path}}\{{namespace}}\Database\Seeds;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class {{name}}DatabaseSeeder extends Seeder
+class {{namespace}}DatabaseSeeder extends Seeder
 {
 	/**
 	 * Run the database seeds.
@@ -15,7 +15,7 @@ class {{name}}DatabaseSeeder extends Seeder
 	{
 		Model::unguard();
 
-		// $this->call('{{namespace}}{{name}}\Database\Seeds\FoobarTableSeeder');
+		// $this->call('{{path}}\{{namespace}}\Database\Seeds\FoobarTableSeeder');
 	}
 
 }

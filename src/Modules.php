@@ -1,27 +1,28 @@
 <?php
 namespace Caffeinated\Modules;
 
-use Caffeinated\Modules\Repositories\Interfaces\ModuleRepositoryInterface;
+use Caffeinated\Modules\Contracts\RepositoryInterface;
 use Illuminate\Foundation\Application;
 
-class Modules implements ModuleRepositoryInterface
+class Modules implements RepositoryInterface
 {
 	/**
-	 * @var \Illuminate\Foundation\Application
+	 * @var Application
 	 */
 	protected $app;
 
 	/**
-	 * @var \Caffeinated\Modules\Repositories\Interfaces\ModuleRepositoryInterface
+	 * @var RepositoryInterface
 	 */
 	protected $repository;
 
 	/**
-	 * Constructor method.
+	 * Create a new Modules instance.
 	 *
-	 * @param \Caffeinated\Modules\Repositories\Interfaces\ModuleRepositoryInterface  $repository
+	 * @param Application  $app
+	 * @param RepositoryInterface  $repository
 	 */
-	public function __construct(Application $app, ModuleRepositoryInterface $repository)
+	public function __construct(Application $app, RepositoryInterface $repository)
 	{
 		$this->app        = $app;
 		$this->repository = $repository;
@@ -52,11 +53,11 @@ class Modules implements ModuleRepositoryInterface
 	 */
 	protected function registerServiceProvider($properties)
 	{
-		$module    = studly_case($properties['slug']);
-		$file      = $this->repository->getPath()."/{$module}/Providers/{$module}ServiceProvider.php";
-		$namespace = $this->repository->getNamespace()."\\".$module."\\Providers\\{$module}ServiceProvider";
+		$namespace       = $this->resolveNamespace($properties);
+		$file            = $this->repository->getPath()."/{$namespace}/Providers/{$namespace}ServiceProvider.php";
+		$serviceProvider = $this->repository->getNamespace()."\\".$namespace."\\Providers\\{$namespace}ServiceProvider";
 
-		$this->app->register($namespace);
+		$this->app->register($serviceProvider);
 	}
 
 	/**
@@ -68,8 +69,8 @@ class Modules implements ModuleRepositoryInterface
 	protected function autoloadFiles($properties)
 	{
 		if (isset($properties['autoload'])) {
-			$module = studly_case($properties['slug']);
-			$path   = $this->repository->getPath()."/{$module}/";
+			$namespace = $this->resolveNamespace($properties);
+			$path      = $this->repository->getPath()."/{$namespace}/";
 
 			foreach ($properties['autoload'] as $file) {
 				include($path.$file);
@@ -291,5 +292,18 @@ class Modules implements ModuleRepositoryInterface
 	public function disable($slug)
 	{
 		return $this->repository->disable($slug);
+	}
+
+	/**
+	 * Resolve the correct module namespace.
+	 *
+	 * @param array  $properties
+	 */
+	private function resolveNamespace($properties)
+	{
+		return (isset($properties['namespace'])
+			? $properties['namespace']
+			: studly_case($properties['slug'])
+		);
 	}
 }

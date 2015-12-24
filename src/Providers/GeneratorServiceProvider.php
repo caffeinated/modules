@@ -32,10 +32,10 @@ class GeneratorServiceProvider extends ServiceProvider
      */
     private function registerMakeModuleCommand()
     {
-        $this->app->singleton('command.module.make', function($app) {
-            return $app['Caffeinated\Modules\Commands\ModuleMakeCommand'];
+        $this->app->singleton('command.make.module', function($app) {
+            return $app['Caffeinated\Modules\Console\Generators\MakeModuleCommand'];
         });
 
-        $this->commands('command.module.make');
+        $this->commands('command.make.module');
     }
 }

@@ -1,7 +1,7 @@
 <?php
-namespace Caffeinated\Modules\Repositories\Interfaces;
+namespace Caffeinated\Modules\Contracts;
 
-interface ModuleRepositoryInterface
+interface RepositoryInterface
 {
 	/**
 	 * Get all modules.

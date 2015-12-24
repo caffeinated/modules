@@ -2,7 +2,7 @@
 	"name": "{{name}}",
 	"slug": "{{slug}}",
 	"namespace": "{{namespace}}",
-	"version": "1.0",
-	"description": "This is the description for the {{name}} module.",
+	"version": "{{version}}",
+	"description": "{{description}}",
 	"enabled": true
 }

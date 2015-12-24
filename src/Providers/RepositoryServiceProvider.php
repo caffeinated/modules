@@ -6,25 +6,20 @@ use Illuminate\Support\ServiceProvider;
 class RepositoryServiceProvider extends ServiceProvider
 {
 	/**
-	* @var bool $defer Indicates if loading of the provider is deferred.
-	*/
-	protected $defer = false;
-
-	/**
-	 * Boot the service provider.
-	 *
-	 * @return void
-	 */
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
 	public function boot()
 	{
 		//
 	}
 
 	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
+     * Register the application services.
+     *
+     * @return void
+     */
 	public function register()
 	{
 		$driver = ucfirst(config('modules.driver'));
@@ -32,9 +27,9 @@ class RepositoryServiceProvider extends ServiceProvider
 		if ($driver == 'Custom') {
 			$namespace = config('modules.custom_driver');
 		} else {
-			$namespace = "Caffeinated\Modules\Repositories\\$driver\ModuleRepository";
+			$namespace = 'Caffeinated\Modules\Repositories\\'.$driver.'Repository';
 		}
-		
-		$this->app->bind('Caffeinated\Modules\Repositories\Interfaces\ModuleRepositoryInterface', $namespace);
+
+		$this->app->bind('Caffeinated\Modules\Contracts\RepositoryInterface', $namespace);
 	}
 }

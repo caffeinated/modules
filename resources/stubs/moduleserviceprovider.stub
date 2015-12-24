@@ -1,5 +1,5 @@
 <?php
-namespace {{namespace}}\{{name}}\Providers;
+namespace {{path}}\{{namespace}}\Providers;
 
 use App;
 use Config;
@@ -7,7 +7,7 @@ use Lang;
 use View;
 use Illuminate\Support\ServiceProvider;
 
-class {{name}}ServiceProvider extends ServiceProvider
+class {{namespace}}ServiceProvider extends ServiceProvider
 {
 	/**
 	 * Register the {{name}} module service provider.
@@ -19,7 +19,7 @@ class {{name}}ServiceProvider extends ServiceProvider
 		// This service provider is a convenient place to register your modules
 		// services in the IoC container. If you wish, you may make additional
 		// methods or service providers to keep the code more focused and granular.
-		App::register('{{namespace}}\{{name}}\Providers\RouteServiceProvider');
+		App::register('{{path}}\{{namespace}}\Providers\RouteServiceProvider');
 
 		$this->registerNamespaces();
 	}
@@ -32,7 +32,7 @@ class {{name}}ServiceProvider extends ServiceProvider
 	protected function registerNamespaces()
 	{
 		Lang::addNamespace('{{slug}}', realpath(__DIR__.'/../Resources/Lang'));
-		
+
 		View::addNamespace('{{slug}}', base_path('resources/views/vendor/{{slug}}'));
 		View::addNamespace('{{slug}}', realpath(__DIR__.'/../Resources/Views'));
 	}
