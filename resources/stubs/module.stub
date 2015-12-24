@@ -1,6 +1,7 @@
 {
 	"name": "{{name}}",
 	"slug": "{{slug}}",
+	"namespace": "{{namespace}}",
 	"version": "1.0",
 	"description": "This is the description for the {{name}} module.",
 	"enabled": true

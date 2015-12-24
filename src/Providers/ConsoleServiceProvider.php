@@ -27,7 +27,6 @@ class ConsoleServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
-		$this->registerMakeCommand();
 		$this->registerEnableCommand();
 		$this->registerDisableCommand();
 		$this->registerMakeMigrationCommand();
@@ -41,7 +40,6 @@ class ConsoleServiceProvider extends ServiceProvider
 		$this->registerMakeControllerCommand();
 
 		$this->commands([
-			'modules.make',
 			'modules.enable',
 			'modules.disable',
 			'modules.makeMigration',
@@ -77,20 +75,6 @@ class ConsoleServiceProvider extends ServiceProvider
 	{
 		$this->app->singleton('modules.disable', function() {
 			return new \Caffeinated\Modules\Console\Commands\ModuleDisableCommand;
-		});
-	}
-
-	/**
-	 * Register the "module:make" console command.
-	 *
-	 * @return Console\ModuleMakeCommand
-	 */
-	protected function registerMakeCommand()
-	{
-		$this->app->singleton('modules.make', function($app) {
-			$handler = new \Caffeinated\Modules\Console\Handlers\ModuleMakeHandler($app['modules'], $app['files']);
-
-			return new \Caffeinated\Modules\Console\Commands\ModuleMakeCommand($handler);
 		});
 	}
 
