@@ -26,6 +26,7 @@ class CommandServiceProvider extends ServiceProvider
 		$this->registerEnableCommand();
 		$this->registerListCommand();
 		$this->registerMigrateCommand();
+		$this->registerMigrateRefreshCommand();
 	}
 
 	/**
@@ -82,5 +83,19 @@ class CommandServiceProvider extends ServiceProvider
 		});
 
 		$this->commands('command.module.migrate');
+	}
+
+	/**
+	 * Register the module:migrate:refresh command.
+	 *
+	 * @return void
+	 */
+	protected function registerMigrateRefreshCommand()
+	{
+		$this->app->singleton('command.module.migrate.refresh', function() {
+			return new \Caffeinated\Modules\Console\Commands\ModuleMigrateRefreshCommand;
+		});
+
+		$this->commands('command.module.migrate.refresh');
 	}
 }
