@@ -11,14 +11,11 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "illuminate/database": "5.2*",
+        "illuminate/database": "5.2.*",
         "illuminate/support": "5.2.*",
         "illuminate/filesystem": "5.2.*",
         "illuminate/config": "5.2.*",
         "illuminate/routing": "5.2.*"
-    },
-    "require-dev": {
-        "mockery/mockery": "~0.9"
     },
     "autoload": {
         "psr-4": {
@@ -27,7 +24,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0-dev"
+            "dev-master": "3.0-dev"
         }
     },
     "minimum-stability": "dev",
