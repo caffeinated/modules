@@ -3,7 +3,7 @@ namespace Caffeinated\Modules\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class CommandServiceProvider extends ServiceProvider
+class ConsoleServiceProvider extends ServiceProvider
 {
 	/**
      * Bootstrap the application services.
