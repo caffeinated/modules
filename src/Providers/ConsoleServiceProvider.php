@@ -29,6 +29,7 @@ class ConsoleServiceProvider extends ServiceProvider
 		$this->registerMigrateRefreshCommand();
 		$this->registerMigrateResetCommand();
 		$this->registerMigrateRollbackCommand();
+		$this->registerSeedCommand();
 	}
 
 	/**
@@ -127,5 +128,19 @@ class ConsoleServiceProvider extends ServiceProvider
 		});
 
 		$this->commands('command.module.migrate.rollback');
+	}
+
+	/**
+	 * Register the module:seed command.
+	 *
+	 * @return void
+	 */
+	protected function registerSeedCommand()
+	{
+		$this->app->singleton('command.module.seed', function($app) {
+			return new \Caffeinated\Modules\Console\Commands\ModuleSeedCommand($app['modules']);
+		});
+
+		$this->commands('command.module.seed');
 	}
 }
