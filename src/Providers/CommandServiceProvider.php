@@ -27,6 +27,8 @@ class CommandServiceProvider extends ServiceProvider
 		$this->registerListCommand();
 		$this->registerMigrateCommand();
 		$this->registerMigrateRefreshCommand();
+		$this->registerMigrateResetCommand();
+		$this->registerMigrateRollbackCommand();
 	}
 
 	/**
@@ -97,5 +99,33 @@ class CommandServiceProvider extends ServiceProvider
 		});
 
 		$this->commands('command.module.migrate.refresh');
+	}
+
+	/**
+	 * Register the module:migrate:reset command.
+	 *
+	 * @return void
+	 */
+	protected function registerMigrateResetCommand()
+	{
+		$this->app->singleton('command.module.migrate.reset', function($app) {
+			return new \Caffeinated\Modules\Console\Commands\ModuleMigrateResetCommand($app['modules'], $app['files'], $app['migrator']);
+		});
+
+		$this->commands('command.module.migrate.reset');
+	}
+
+	/**
+	 * Register the module:migrate:rollback command.
+	 *
+	 * @return void
+	 */
+	protected function registerMigrateRollbackCommand()
+	{
+		$this->app->singleton('command.module.migrate.rollback', function($app) {
+			return new \Caffeinated\Modules\Console\Commands\ModuleMigrateRollbackCommand($app['modules']);
+		});
+
+		$this->commands('command.module.migrate.rollback');
 	}
 }
