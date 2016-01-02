@@ -1,7 +1,14 @@
 <?php
 
 return [
-	
+
+    'paths' => [
+        'core' => [
+            'namespace' => 'App\Modules\\',
+            'path'      => app_path('Modules')
+        ]
+    ],
+
 	/*
 	|--------------------------------------------------------------------------
 	| Path to Modules
@@ -40,7 +47,7 @@ return [
 	| Supported: "local", "custom"
 	|
 	*/
-	
+
 	'driver' => 'local',
 
 	/*

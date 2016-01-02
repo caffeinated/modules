@@ -294,6 +294,11 @@ class Modules implements RepositoryInterface
 		return $this->repository->disable($slug);
 	}
 
+    public function cache()
+    {
+        return $this->repository->cache();
+    }
+
 	/**
 	 * Resolve the correct module namespace.
 	 *

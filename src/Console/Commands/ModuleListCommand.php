@@ -90,7 +90,7 @@ class ModuleListCommand extends Command
 			'name'        => $module['name'],
 			'slug'        => $module['slug'],
 			'description' => $module['description'],
-			'status'      => ($module['enabled']) ? 'Enabled' : 'Disabled'
+			'status'      => ($this->module->isEnabled($module['slug'])) ? 'Enabled' : 'Disabled'
 		];
 	}
 

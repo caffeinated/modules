@@ -165,10 +165,11 @@ class MakeModuleCommand extends Command
     protected function generate()
     {
         $steps = [
-            'Generating folders...'  => 'generateFolders',
-            'Generating .gitkeep...' => 'generateGitkeep',
-            'Generating Files...'    => 'generateFiles',
-            'Optimizing Laravel...'  => 'optimizeLaravel'
+            'Generating folders...'     => 'generateFolders',
+            'Generating .gitkeep...'    => 'generateGitkeep',
+            'Generating files...'       => 'generateFiles',
+            'Resetting module cache...' => 'resetCache',
+            'Optimizing Laravel...'     => 'optimizeLaravel'
         ];
 
         $progress = new ProgressBar($this->output, count($steps));
@@ -230,6 +231,16 @@ class MakeModuleCommand extends Command
             $gitkeep = $modulePath.$folder.'/.gitkeep';
             $this->files->put($gitkeep, '');
         }
+    }
+
+    /**
+     * Reset module cache of enabled and disabled modules.
+     *
+     * @return void
+     */
+    protected function resetCache()
+    {
+        return $this->callSilent('module:cache');
     }
 
     /**

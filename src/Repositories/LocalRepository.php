@@ -168,7 +168,15 @@ class LocalRepository extends Repository
 	 */
 	public function enabled()
 	{
-		return $this->where('enabled', true);
+        $moduleCache = $this->getCacheFile();
+
+        $modules = $this->all()->map(function($item, $key) use ($moduleCache) {
+            $item['enabled'] = $moduleCache->get($item['slug']);
+
+            return $item;
+        });
+
+		return $modules->where('enabled', true);
 	}
 
 	/**
@@ -178,7 +186,15 @@ class LocalRepository extends Repository
 	 */
 	public function disabled()
 	{
-		return $this->where('enabled', false);
+        $moduleCache = $this->getCacheFile();
+
+        $modules = $this->all()->map(function($item, $key) use ($moduleCache) {
+            $item['enabled'] = $moduleCache->get($item['slug']);
+
+            return $item;
+        });
+
+		return $modules->where('enabled', false);
 	}
 
 	/**
@@ -189,7 +205,9 @@ class LocalRepository extends Repository
 	 */
 	public function isEnabled($slug)
 	{
-		return $this->getProperty("{$slug}::enabled") === true;
+        $moduleCache = $this->getCacheFile();
+
+        return $moduleCache->get($slug) === true;
 	}
 
 	/**
@@ -200,7 +218,9 @@ class LocalRepository extends Repository
 	 */
 	public function isDisabled($slug)
 	{
-		return $this->getProperty("{$slug}::enabled") === false;
+        $moduleCache = $this->getCacheFile();
+
+        return $moduleCache->get($slug) === false;
 	}
 
 	/**
@@ -211,7 +231,7 @@ class LocalRepository extends Repository
 	 */
 	public function enable($slug)
 	{
-		return $this->setProperty("{$slug}::enabled", true);
+        return $this->setCacheFile($slug, true);
 	}
 
 	/**
@@ -222,6 +242,80 @@ class LocalRepository extends Repository
 	 */
 	public function disable($slug)
 	{
-		return $this->setProperty("{$slug}::enabled", false);
+        return $this->setCacheFile($slug, false);
 	}
+
+    /**
+     * Refresh the cache with any newly found modules.
+     *
+     * @return bool
+     */
+    public function cache()
+    {
+        $cacheFile = storage_path('app/modules.json');
+        $cache     = $this->getCacheFile();
+        $modules   = $this->all();
+
+        $collection = collect([]);
+
+        foreach ($modules as $module) {
+            $collection->put($module['slug'], true);
+        }
+
+        $keys    = $collection->keys()->toArray();
+        $merged  = $collection->merge($cache)->only($keys);
+        $content = json_encode($merged->all(), JSON_PRETTY_PRINT);
+
+        return $this->files->put($cacheFile, $content);
+    }
+
+    /**
+     * Get the contents of the cache file.
+     *
+     * The cache file lists all module slugs and their
+     * enabled or disabled status. This can be used to
+     * filter out modules depending on their status.
+     *
+     * @return Collection
+     */
+    protected function getCacheFile()
+    {
+        $cacheFile = storage_path('app/modules.json');
+
+        if (! $this->files->exists($cacheFile)) {
+            $modules = $this->all();
+            $content = [];
+
+            foreach ($modules as $module) {
+                $content[$module['slug']] = true;
+            }
+
+            $content = json_encode($content, JSON_PRETTY_PRINT);
+
+            $this->files->put($cacheFile, $content);
+
+            return collect(json_decode($content, true));
+        }
+
+        return collect(json_decode($this->files->get($cacheFile), true));
+    }
+
+    /**
+    * Set the given cache key value.
+    *
+    * @param  string  $key
+    * @param  mixed  $value
+    * @return int
+    */
+    protected function setCacheFile($key, $value)
+    {
+        $cacheFile = storage_path('app/modules.json');
+        $content   = $this->getCacheFile();
+
+        $content->put($key, $value);
+
+        $content = json_encode($content, JSON_PRETTY_PRINT);
+
+        return $this->files->put($cacheFile, $content);
+    }
 }
