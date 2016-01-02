@@ -1,6 +1,7 @@
 Caffeinated Modules
 ===================
 [![Laravel 5.1](https://img.shields.io/badge/Laravel-5.1-orange.svg?style=flat-square)](http://laravel.com)
+[![Laravel 5.2](https://img.shields.io/badge/Laravel-5.2-orange.svg?style=flat-square)](http://laravel.com)
 [![Source](http://img.shields.io/badge/source-caffeinated/modules-blue.svg?style=flat-square)](https://github.com/caffeinated/modules)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
 
@@ -17,7 +18,7 @@ Quick Installation
 Begin by installing the package through Composer.
 
 ```
-composer require caffeinated/modules=~2.0
+composer require caffeinated/modules
 ```
 
 Once this operation is complete, simply add both the service provider and facade classes to your project's `config/app.php` file:
