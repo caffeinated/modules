@@ -128,4 +128,31 @@ interface RepositoryInterface
 	* @return bool
 	*/
 	public function disable($slug);
+
+    /**
+     * Refresh the cache with any newly found modules.
+     *
+     * @return bool
+     */
+    public function cache();
+
+    /**
+     * Get the contents of the cache file.
+     *
+     * The cache file lists all module slugs and their
+     * enabled or disabled status. This can be used to
+     * filter out modules depending on their status.
+     *
+     * @return Collection
+     */
+    public function getCache();
+
+    /**
+    * Set the given cache key value.
+    *
+    * @param  string  $key
+    * @param  mixed  $value
+    * @return int
+    */
+    public function setCache($key, $value);
 }

@@ -168,7 +168,7 @@ class LocalRepository extends Repository
 	 */
 	public function enabled()
 	{
-        $moduleCache = $this->getCacheFile();
+        $moduleCache = $this->getCache();
 
         $modules = $this->all()->map(function($item, $key) use ($moduleCache) {
             $item['enabled'] = $moduleCache->get($item['slug']);
@@ -186,7 +186,7 @@ class LocalRepository extends Repository
 	 */
 	public function disabled()
 	{
-        $moduleCache = $this->getCacheFile();
+        $moduleCache = $this->getCache();
 
         $modules = $this->all()->map(function($item, $key) use ($moduleCache) {
             $item['enabled'] = $moduleCache->get($item['slug']);
@@ -205,7 +205,7 @@ class LocalRepository extends Repository
 	 */
 	public function isEnabled($slug)
 	{
-        $moduleCache = $this->getCacheFile();
+        $moduleCache = $this->getCache();
 
         return $moduleCache->get($slug) === true;
 	}
@@ -218,7 +218,7 @@ class LocalRepository extends Repository
 	 */
 	public function isDisabled($slug)
 	{
-        $moduleCache = $this->getCacheFile();
+        $moduleCache = $this->getCache();
 
         return $moduleCache->get($slug) === false;
 	}
@@ -231,7 +231,7 @@ class LocalRepository extends Repository
 	 */
 	public function enable($slug)
 	{
-        return $this->setCacheFile($slug, true);
+        return $this->setCache($slug, true);
 	}
 
 	/**
@@ -242,7 +242,7 @@ class LocalRepository extends Repository
 	 */
 	public function disable($slug)
 	{
-        return $this->setCacheFile($slug, false);
+        return $this->setCache($slug, false);
 	}
 
     /**
@@ -253,7 +253,7 @@ class LocalRepository extends Repository
     public function cache()
     {
         $cacheFile = storage_path('app/modules.json');
-        $cache     = $this->getCacheFile();
+        $cache     = $this->getCache();
         $modules   = $this->all();
 
         $collection = collect([]);
@@ -278,7 +278,7 @@ class LocalRepository extends Repository
      *
      * @return Collection
      */
-    protected function getCacheFile()
+    public function getCache()
     {
         $cacheFile = storage_path('app/modules.json');
 
@@ -307,10 +307,10 @@ class LocalRepository extends Repository
     * @param  mixed  $value
     * @return int
     */
-    protected function setCacheFile($key, $value)
+    public function setCache($key, $value)
     {
         $cacheFile = storage_path('app/modules.json');
-        $content   = $this->getCacheFile();
+        $content   = $this->getCache();
 
         $content->put($key, $value);
 
