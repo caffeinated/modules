@@ -301,12 +301,12 @@ class LocalRepository extends Repository
     }
 
     /**
-    * Set the given cache key value.
-    *
-    * @param  string  $key
-    * @param  mixed  $value
-    * @return int
-    */
+     * Set the given cache key value.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return int
+     */
     public function setCache($key, $value)
     {
         $cacheFile = storage_path('app/modules.json');

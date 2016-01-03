@@ -294,10 +294,41 @@ class Modules implements RepositoryInterface
 		return $this->repository->disable($slug);
 	}
 
+	/**
+     * Refresh the cache with any newly found modules.
+     *
+     * @return bool
+     */
     public function cache()
     {
         return $this->repository->cache();
     }
+
+	/**
+     * Get the contents of the cache file.
+     *
+     * The cache file lists all module slugs and their
+     * enabled or disabled status. This can be used to
+     * filter out modules depending on their status.
+     *
+     * @return Collection
+     */
+    public function getCache()
+	{
+		return $this->repository->getCache();
+	}
+
+	/**
+     * Set the given cache key value.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return int
+     */
+    public function setCache($key, $value)
+	{
+		return $this->repository->setCache($key, $value);
+	}
 
 	/**
 	 * Resolve the correct module namespace.
