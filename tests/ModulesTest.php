@@ -6,19 +6,33 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ModulesTest extends PHPUnit_Framework_TestCase
 {
-	protected $config;
+	/**
+	 * @var Application
+	 */
+	protected $app;
 
-	protected $files;
+	/**
+	 * @var ModuleRepositoryInterface
+	 */
+	protected $repository;
 
+	/**
+	 * @var Modules
+	 */
 	protected $module;
 
+	/**
+	 * Set up test.
+	 *
+	 * @return void
+	 */
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->config  = m::mock('Illuminate\Foundation\Application');
-		$this->files   = m::mock('\Caffeinated\Modules\Repositories\Interfaces\ModuleRepositoryInterface');
-		$this->module  = new Modules($this->config, $this->files);
+		$this->app        = m::mock('Illuminate\Foundation\Application');
+		$this->repository = m::mock('Caffeinated\Modules\Contracts\RepositoryInterface');
+		$this->module     = new Modules($this->app, $this->repository);
 	}
 
 	public function tearDown()
