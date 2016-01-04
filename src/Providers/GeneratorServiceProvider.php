@@ -22,11 +22,26 @@ class GeneratorServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerMakeMigrationCommand();
         $this->registerMakeModuleCommand();
     }
 
     /**
-     * Register the module:make command.
+     * Register the make:module command.
+     *
+     * @return void
+     */
+    private function registerMakeMigrationCommand()
+    {
+        $this->app->singleton('command.make.module.migration', function($app) {
+            return $app['Caffeinated\Modules\Console\Generators\MakeMigrationCommand'];
+        });
+
+        $this->commands('command.make.module.migration');
+    }
+
+    /**
+     * Register the make:module command.
      *
      * @return void
      */

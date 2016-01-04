@@ -12,7 +12,9 @@ class {{migrationName}} extends Migration
 	 */
 	public function up()
 	{
-		// 
+		Schema::create('table_name', function (Blueprint $table) {
+			$table->increments('id');
+		});
 	}
 
 	/**
@@ -22,6 +24,6 @@ class {{migrationName}} extends Migration
 	 */
 	public function down()
 	{
-		// 
+		Schema::dropIfExists('table_name');
 	}
 }
