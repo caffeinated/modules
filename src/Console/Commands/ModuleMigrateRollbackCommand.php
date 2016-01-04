@@ -71,13 +71,21 @@ class ModuleMigrateRollbackCommand extends Command
 	 */
 	protected function rollback($slug)
 	{
-		$this->requireMigrations($slug);
+		$moduleName = Str::studly($slug);
 
-		$this->call('migrate:rollback', [
-			'--database' => $this->option('database'),
-			'--force'    => $this->option('force'),
-			'--pretend'  => $this->option('pretend'),
-		]);
+		$path = $this->getMigrationPath($moduleName);
+		$migrations = $this->laravel['files']->glob($path.'*_*.php');
+
+		foreach ($migrations as $file)
+		{
+			$classFile     = implode('_', array_slice(explode('_', basename($file, '.php')), 4));
+			$class         = studly_case($classFile);
+
+			include ($file);
+
+			$instance = new $class;
+			$instance->down();
+		}
 	}
 
 	/**
