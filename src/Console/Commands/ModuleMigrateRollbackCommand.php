@@ -50,12 +50,12 @@ class ModuleMigrateRollbackCommand extends Command
 	 */
 	public function fire()
 	{
-        if (! $this->confirmToProceed()) return null;
+        	if (! $this->confirmToProceed()) return null;
 
 		$slug = $this->argument('slug');
 
 		if ($slug) {
-			return $this->rollback($Slug);
+			return $this->rollback($slug);
 		} else {
 			foreach ($this->module->all() as $module) {
 				$this->rollback($module['slug']);
