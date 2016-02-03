@@ -129,8 +129,8 @@ class MakeMigrationCommand extends Command
 	protected function formatContent($content)
     {
         return str_replace(
-			['{{migrationName}}', '{{table}}'],
-			[$this->container['migrationName'], $this->container['table']],
+			['{{className}}', '{{table}}'],
+			[$this->container['className'], $this->container['table']],
 			$content
 		);
     }
