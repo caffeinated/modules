@@ -59,12 +59,14 @@ class MakeMigrationCommand extends Command
         if ($this->module->exists($this->container['slug'])) {
             $this->makeFile();
 
-            $this->info('Create Module Migration: '.$this->getFilename());
+            $file = pathinfo($this->getDestinationFile(), PATHINFO_FILENAME);
 
-            return exec('composer dump-autoload');
+            exec('composer dump-autoload 2>/dev/null');
+
+            return $this->line("<info>Created Module Migration:</info> $file");
         }
 
-        return $this->info('Module does not exist.');
+        return $this->error('Module does not exist.');
     }
 
     /**

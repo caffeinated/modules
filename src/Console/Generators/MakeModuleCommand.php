@@ -184,6 +184,7 @@ class MakeModuleCommand extends Command
         }
 
         $progress->finish();
+
         $this->info("\nModule generated successfully.");
     }
 
