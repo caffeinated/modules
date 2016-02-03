@@ -25,6 +25,7 @@ class GeneratorServiceProvider extends ServiceProvider
         $this->registerMakeControllerCommand();
         $this->registerMakeMigrationCommand();
         $this->registerMakeModuleCommand();
+        $this->registerMakeRequestCommand();
     }
 
     /**
@@ -67,5 +68,19 @@ class GeneratorServiceProvider extends ServiceProvider
         });
 
         $this->commands('command.make.module');
+    }
+
+    /**
+     * Register the make:module:request command.
+     *
+     * @return void
+     */
+    private function registerMakeRequestCommand()
+    {
+        $this->app->singleton('command.make.module.request', function($app) {
+            return $app['Caffeinated\Modules\Console\Generators\MakeRequestCommand'];
+        });
+
+        $this->commands('command.make.module.request');
     }
 }
