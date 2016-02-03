@@ -5,6 +5,7 @@ use Caffeinated\Modules\Modules;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Migrations\Migrator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -58,18 +59,18 @@ class ModuleMigrateCommand extends Command
 	 */
 	public function fire()
 	{
-        if (! $this->confirmToProceed()) return null;
-
 		$this->prepareDatabase();
 
-		$module = $this->module->getProperties($this->argument('slug'));
+		if (! empty($this->argument('slug'))) {
+            $module = $this->module->getProperties($this->argument('slug'));
 
-		if (! is_null($module)) {
 			if ($this->module->isEnabled($module['slug'])) {
 				return $this->migrate($module['slug']);
 			} elseif ($this->option('force')) {
 				return $this->migrate($module['slug']);
-			}
+			} else {
+                return $this->error('Nothing to migrate.');
+            }
 		} else {
 			if ($this->option('force')) {
 				$modules = $this->module->all();
@@ -92,7 +93,7 @@ class ModuleMigrateCommand extends Command
 	protected function migrate($slug)
 	{
 		if ($this->module->exists($slug)) {
-			$pretend = $this->option('pretend');
+			$pretend = array(Arr::get($this->option(), 'pretend', false));
 			$path    = $this->getMigrationPath($slug);
 
 			$this->migrator->run($path, $pretend);
@@ -102,7 +103,7 @@ class ModuleMigrateCommand extends Command
 			// any instances of the OutputInterface contract passed into the class.
 			foreach ($this->migrator->getNotes() as $note) {
                 if (! $this->option('quiet')) {
-                    $this->output->writeln($note);
+                    $this->line($note);
                 }
 			}
 
