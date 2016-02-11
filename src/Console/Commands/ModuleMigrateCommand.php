@@ -93,10 +93,11 @@ class ModuleMigrateCommand extends Command
 	protected function migrate($slug)
 	{
 		if ($this->module->exists($slug)) {
-			$pretend = array(Arr::get($this->option(), 'pretend', false));
+			$pretend = Arr::get($this->option(), 'pretend', false);
+            $options = ['pretend' => $pretend];
 			$path    = $this->getMigrationPath($slug);
 
-			$this->migrator->run($path, $pretend);
+			$this->migrator->run($path, $options);
 
 			// Once the migrator has run we will grab the note output and send it out to
 			// the console screen, since the migrator itself functions without having
