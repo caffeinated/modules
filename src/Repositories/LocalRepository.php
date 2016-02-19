@@ -117,6 +117,14 @@ class LocalRepository extends Repository
 				$collection->put('order', 9001);
 			}
 
+			if (! $collection->has('order')) {
+				$collection->put('order', 9001);
+			}
+
+			if (! $collection->has('enabled')) {
+				$collection->put('enabled', $this->isEnabled($collection->get('slug')));
+			}
+
 			return $collection;
 		}
 
