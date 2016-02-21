@@ -96,7 +96,12 @@ class ModuleMigrateCommand extends Command
 			$pretend = Arr::get($this->option(), 'pretend', false);
 			$path    = $this->getMigrationPath($slug);
 
-			$this->migrator->run($path, $pretend);
+			//$this->migrator->run($path, $pretend);
+            
+            	         // В консоли была ошибка, что приходит Boolean , а нужно Array. маленький фикс помого испраивть проблему. Laravel 5.2
+		         $this->migrator->run($path, [
+		              'pretend' => $pretend,
+		          ]);
 
 			// Once the migrator has run we will grab the note output and send it out to
 			// the console screen, since the migrator itself functions without having
