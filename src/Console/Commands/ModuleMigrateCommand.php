@@ -1,6 +1,7 @@
 <?php
 namespace Caffeinated\Modules\Console\Commands;
 
+use App;
 use Caffeinated\Modules\Modules;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
@@ -95,6 +96,10 @@ class ModuleMigrateCommand extends Command
 		if ($this->module->exists($slug)) {
 			$pretend = Arr::get($this->option(), 'pretend', false);
 			$path    = $this->getMigrationPath($slug);
+
+            if (floatval(App::version()) > 5.1) {
+                $pretend = ['pretend' => $pretend];
+            }
 
 			$this->migrator->run($path, $pretend);
 
