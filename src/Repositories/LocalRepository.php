@@ -13,6 +13,7 @@ class LocalRepository extends Repository
 	public function all()
 	{
 		$basenames = $this->getAllBasenames();
+
 		$modules   = collect();
 
 		$basenames->each(function($module, $key) use ($modules) {
@@ -112,10 +113,6 @@ class LocalRepository extends Repository
 			$path       = $this->getManifestPath($module);
 			$contents   = $this->files->get($path);
 			$collection = collect(json_decode($contents, true));
-
-			if (! $collection->has('order')) {
-				$collection->put('order', 9001);
-			}
 
 			if (! $collection->has('order')) {
 				$collection->put('order', 9001);

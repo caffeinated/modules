@@ -26,6 +26,8 @@ class Modules implements RepositoryInterface
 	{
 		$this->app        = $app;
 		$this->repository = $repository;
+
+		$this->cache();
 	}
 
 	/**
