@@ -6,16 +6,17 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Input\InputArgument;
 
 class MakeModuleCommand extends Command
 {
     /**
-     * The console command name.
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'make:module';
+    protected $signature = 'make:module
+        {slug : The slug of the module}
+        {--Q|quick : Skip the make:module wizard and use default values}';
 
     /**
      * The console command description.
@@ -112,9 +113,17 @@ class MakeModuleCommand extends Command
      */
     public function fire()
     {
-        $this->container['slug']      = strtolower($this->argument('slug'));
-        $this->container['name']      = Str::studly($this->container['slug']);
-        $this->container['namespace'] = Str::studly($this->container['slug']);
+        $this->container['slug']        = strtolower($this->argument('slug'));
+        $this->container['name']        = Str::studly($this->container['slug']);
+        $this->container['namespace']   = Str::studly($this->container['slug']);
+        $this->container['version']     = '1.0';
+        $this->container['description'] = 'This is the description for the '.$this->container['name'].' module.';
+        $this->container['license']     = 'MIT';
+        $this->container['author']      = ' ';
+
+        if ($this->option('quick')) {
+            return $this->generate();
+        }
 
         $this->displayHeader('make_module_introduction');
 
@@ -133,10 +142,10 @@ class MakeModuleCommand extends Command
         $this->container['name']        = $this->ask('Please enter the name of the module:', $this->container['name']);
         $this->container['slug']        = $this->ask('Please enter the slug for the module:', $this->container['slug']);
         $this->container['namespace']   = $this->ask('Please enter the namespace for the module:', $this->container['namespace']);
-        $this->container['version']     = $this->ask('Please enter the module version:', '1.0');
-        $this->container['description'] = $this->ask('Please enter the description of the module:', 'This is the description for the '.$this->container['name'].' module.');
-        $this->container['author']      = $this->ask('Please enter the author of the module:', ' ');
-        $this->container['license']     = $this->ask('Please enter the module license:', 'MIT');
+        $this->container['version']     = $this->ask('Please enter the module version:', $this->container['version']);
+        $this->container['description'] = $this->ask('Please enter the description of the module:', $this->container['description']);
+        $this->container['author']      = $this->ask('Please enter the author of the module:', $this->container['author']);
+        $this->container['license']     = $this->ask('Please enter the module license:', $this->container['license']);
 
         $this->comment('You have provided the following manifest information:');
         $this->comment('Name:        '.$this->container['name']);
@@ -306,16 +315,4 @@ class MakeModuleCommand extends Command
 		$stub = $this->files->get(__DIR__.'/../../../resources/stubs/console/'.$file.'.stub');
 		return $this->$level($stub);
 	}
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [
-            ['slug', InputArgument::REQUIRED, 'The slug of the module']
-        ];
-    }
 }
