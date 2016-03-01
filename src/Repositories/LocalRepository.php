@@ -261,6 +261,8 @@ class LocalRepository extends Repository
 
             $this->files->put($cachePath, $content);
 
+			$this->optimize();
+
             return collect(json_decode($content, true));
         }
 

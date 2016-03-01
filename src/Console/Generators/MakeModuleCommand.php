@@ -165,11 +165,10 @@ class MakeModuleCommand extends Command
     protected function generate()
     {
         $steps = [
-            'Generating folders...'     => 'generateFolders',
-            'Generating .gitkeep...'    => 'generateGitkeep',
-            'Generating files...'       => 'generateFiles',
-            'Resetting module cache...' => 'resetCache',
-            'Optimizing Laravel...'     => 'optimizeLaravel'
+            'Generating folders...'      => 'generateFolders',
+            'Generating .gitkeep...'     => 'generateGitkeep',
+            'Generating files...'        => 'generateFiles',
+            'Optimizing module cache...' => 'optimizeModules'
         ];
 
         $progress = new ProgressBar($this->output, count($steps));
@@ -239,19 +238,9 @@ class MakeModuleCommand extends Command
      *
      * @return void
      */
-    protected function resetCache()
+    protected function optimizeModules()
     {
-        return $this->callSilent('module:cache');
-    }
-
-    /**
-     * Optimize Laravel for better performance.
-     *
-     * @return void
-     */
-    protected function optimizeLaravel()
-    {
-        return $this->callSilent('optimize');
+        return $this->callSilent('module:optimize');
     }
 
     /**
