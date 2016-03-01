@@ -55,7 +55,7 @@ class MakeRequestCommand extends Command
         $this->container['className'] = $this->argument('name');
 
         if ($this->module->exists($this->container['slug'])) {
-            $this->container['module'] = $this->module->getProperties($this->container['slug']);
+            $this->container['module'] = $this->module->where('slug', $this->container['slug'])->first();
 
             $this->makeFile();
 
