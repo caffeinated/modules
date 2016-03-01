@@ -3,6 +3,5 @@
 	"slug": "{{slug}}",
 	"namespace": "{{namespace}}",
 	"version": "{{version}}",
-	"description": "{{description}}",
-	"enabled": true
+	"description": "{{description}}"
 }
