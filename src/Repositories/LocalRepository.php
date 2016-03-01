@@ -6,21 +6,49 @@ use Caffeinated\Modules\Repositories\Repository;
 class LocalRepository extends Repository
 {
 	/**
+	 * Update cached repository of module information.
+	 *
+	 * @return bool
+	 */
+	public function optimize()
+	{
+		$cachePath = $this->getCachePath();
+        $cache     = $this->getCache();
+        $basenames = $this->getAllBasenames();
+		$modules   = collect();
+
+		$basenames->each(function($module, $key) use ($modules, $cache) {
+			$temp     = collect($cache->get($module));
+			$manifest = collect($this->getManifest($module));
+
+			$modules->put($module, $temp->merge($manifest));
+		});
+
+		$modules->each(function($module) {
+			if (! $module->has('enabled')) {
+				$module->put('enabled', true);
+			}
+
+			if (! $module->has('order')) {
+				$module->put('order', 9001);
+			}
+
+			return $module;
+		});
+
+        $content = json_encode($modules->all(), JSON_PRETTY_PRINT);
+
+        return $this->files->put($cachePath, $content);
+	}
+
+	/**
 	* Get all modules.
 	*
 	* @return Collection
 	*/
 	public function all()
 	{
-		$basenames = $this->getAllBasenames();
-
-		$modules   = collect();
-
-		$basenames->each(function($module, $key) use ($modules) {
-			$modules->put($module, $this->getProperties($module));
-		});
-
-		return $modules->sortBy('order');
+		return $this->getCache()->sortBy('order');
 	}
 
 	/**
@@ -48,9 +76,7 @@ class LocalRepository extends Repository
 	 */
 	public function where($key, $value)
 	{
-		$collection = $this->all();
-
-		return $collection->where($key, $value);
+		return $this->all()->where($key, $value);
 	}
 
 	/**
@@ -101,45 +127,19 @@ class LocalRepository extends Repository
 	}
 
 	/**
-	 * Get a module's properties.
-	 *
-	 * @param  string $slug
-	 * @return Collection|null
-	 */
-	public function getProperties($slug)
-	{
-		if (! is_null($slug)) {
-			$module     = studly_case($slug);
-			$path       = $this->getManifestPath($module);
-			$contents   = $this->files->get($path);
-			$collection = collect(json_decode($contents, true));
-
-			if (! $collection->has('order')) {
-				$collection->put('order', 9001);
-			}
-
-			if (! $collection->has('enabled')) {
-				$collection->put('enabled', $this->isEnabled($collection->get('slug')));
-			}
-
-			return $collection;
-		}
-
-		return null;
-	}
-
-	/**
 	 * Get a module property value.
 	 *
 	 * @param  string $property
 	 * @param  mixed  $default
 	 * @return mixed
 	 */
-	public function getProperty($property, $default = null)
+	public function get($property, $default = null)
 	{
-		list($module, $key) = explode('::', $property);
+		list($slug, $key) = explode('::', $property);
 
-		return $this->getProperties($module)->get($key, $default);
+		$module = $this->where('slug', $slug);
+
+		return $module->get($key, $default);
 	}
 
 	/**
@@ -149,21 +149,28 @@ class LocalRepository extends Repository
 	* @param  mixed   $value
 	* @return bool
 	*/
-	public function setProperty($property, $value)
+	public function set($property, $value)
 	{
-		list($module, $key) = explode('::', $property);
+		list($slug, $key) = explode('::', $property);
 
-		$module  = strtolower($module);
-		$content = $this->getProperties($module);
+		$cachePath = $this->getCachePath();
+		$cache     = $this->getCache();
+		$module    = $this->where('slug', $slug);
+		$moduleKey = $module->keys()->first();
+		$values    = $module->first();
 
-		if (isset($content[$key])) {
-			unset($content[$key]);
+		if (isset($values[$key])) {
+			unset($values[$key]);
 		}
 
-		$content[$key] = $value;
-		$content       = json_encode($content, JSON_PRETTY_PRINT);
+		$values[$key] = $value;
 
-		return $this->files->put($this->getManifestPath($module), $content);
+		$module = collect([$moduleKey => $values]);
+
+        $merged  = $cache->merge($module);
+        $content = json_encode($merged->all(), JSON_PRETTY_PRINT);
+
+        return $this->files->put($cachePath, $content);
 	}
 
 	/**
@@ -173,15 +180,7 @@ class LocalRepository extends Repository
 	 */
 	public function enabled()
 	{
-        $moduleCache = $this->getCache();
-
-        $modules = $this->all()->map(function($item, $key) use ($moduleCache) {
-            $item['enabled'] = $moduleCache->get($item['slug']);
-
-            return $item;
-        });
-
-		return $modules->where('enabled', true);
+		return $this->all()->where('enabled', true);
 	}
 
 	/**
@@ -191,15 +190,7 @@ class LocalRepository extends Repository
 	 */
 	public function disabled()
 	{
-        $moduleCache = $this->getCache();
-
-        $modules = $this->all()->map(function($item, $key) use ($moduleCache) {
-            $item['enabled'] = $moduleCache->get($item['slug']);
-
-            return $item;
-        });
-
-		return $modules->where('enabled', false);
+        return $this->all()->where('enabled', false);
 	}
 
 	/**
@@ -210,9 +201,10 @@ class LocalRepository extends Repository
 	 */
 	public function isEnabled($slug)
 	{
-        $moduleCache = $this->getCache();
+		$module = $this->where('slug', $slug)
+			->first();
 
-        return $moduleCache->get($slug) === true;
+		return ($module['enabled'] === true);
 	}
 
 	/**
@@ -223,9 +215,10 @@ class LocalRepository extends Repository
 	 */
 	public function isDisabled($slug)
 	{
-        $moduleCache = $this->getCache();
+		$module = $this->where('slug', $slug)
+			->first();
 
-        return $moduleCache->get($slug) === false;
+		return ($module['enabled'] === false);
 	}
 
 	/**
@@ -236,7 +229,7 @@ class LocalRepository extends Repository
 	 */
 	public function enable($slug)
 	{
-        return $this->setCache($slug, true);
+        return $this->set($slug.'::enabled', true);
 	}
 
 	/**
@@ -247,32 +240,8 @@ class LocalRepository extends Repository
 	 */
 	public function disable($slug)
 	{
-        return $this->setCache($slug, false);
+        return $this->set($slug.'::enabled', false);
 	}
-
-    /**
-     * Refresh the cache with any newly found modules.
-     *
-     * @return bool
-     */
-    public function cache()
-    {
-        $cacheFile = storage_path('app/modules.json');
-        $cache     = $this->getCache();
-        $modules   = $this->all();
-
-        $collection = collect([]);
-
-        foreach ($modules as $module) {
-            $collection->put($module['slug'], true);
-        }
-
-        $keys    = $collection->keys()->toArray();
-        $merged  = $collection->merge($cache)->only($keys);
-        $content = json_encode($merged->all(), JSON_PRETTY_PRINT);
-
-        return $this->files->put($cacheFile, $content);
-    }
 
     /**
      * Get the contents of the cache file.
@@ -285,42 +254,26 @@ class LocalRepository extends Repository
      */
     public function getCache()
     {
-        $cacheFile = storage_path('app/modules.json');
+		$cachePath = $this->getCachePath();
 
-        if (! $this->files->exists($cacheFile)) {
-            $modules = $this->all();
-            $content = [];
+        if (! $this->files->exists($cachePath)) {
+            $content = json_encode(array(), JSON_PRETTY_PRINT);
 
-            foreach ($modules as $module) {
-                $content[$module['slug']] = true;
-            }
-
-            $content = json_encode($content, JSON_PRETTY_PRINT);
-
-            $this->files->put($cacheFile, $content);
+            $this->files->put($cachePath, $content);
 
             return collect(json_decode($content, true));
         }
 
-        return collect(json_decode($this->files->get($cacheFile), true));
+        return collect(json_decode($this->files->get($cachePath), true));
     }
 
-    /**
-     * Set the given cache key value.
-     *
-     * @param  string  $key
-     * @param  mixed  $value
-     * @return int
-     */
-    public function setCache($key, $value)
-    {
-        $cacheFile = storage_path('app/modules.json');
-        $content   = $this->getCache();
-
-        $content->put($key, $value);
-
-        $content = json_encode($content, JSON_PRETTY_PRINT);
-
-        return $this->files->put($cacheFile, $content);
-    }
+	/**
+	 * Get the path to the cache file.
+	 *
+	 * @return string
+	 */
+	protected function getCachePath()
+	{
+		return storage_path('app/modules.json');
+	}
 }

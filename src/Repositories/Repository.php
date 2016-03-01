@@ -57,6 +57,26 @@ abstract class Repository implements RepositoryInterface
 	}
 
     /**
+	 * Get a module's manifest contents.
+	 *
+	 * @param  string $slug
+	 * @return Collection|null
+	 */
+	public function getManifest($slug)
+	{
+		if (! is_null($slug)) {
+			$module     = studly_case($slug);
+			$path       = $this->getManifestPath($module);
+			$contents   = $this->files->get($path);
+			$collection = collect(json_decode($contents, true));
+
+			return $collection;
+		}
+
+		return null;
+	}
+
+    /**
 	 * Get modules path.
 	 *
 	 * @return string

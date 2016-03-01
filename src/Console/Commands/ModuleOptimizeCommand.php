@@ -3,21 +3,21 @@ namespace Caffeinated\Modules\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class ModuleCacheCommand extends Command
+class ModuleOptimizeCommand extends Command
 {
     /**
      * The console command name.
      *
      * @var string
      */
-	protected $name = 'module:cache';
+	protected $name = 'module:optimize';
 
     /**
      * The console command description.
      *
      * @var string
      */
-	protected $description = 'Reset cached instance of enabled and disabled modules';
+	protected $description = 'Optimize the module cache for better performance';
 
 	/**
 	 * Execute the console command.
@@ -26,8 +26,8 @@ class ModuleCacheCommand extends Command
 	 */
 	public function fire()
 	{
-		$this->laravel['modules']->cache();
+        $this->info("Generating optimized module cache");
 
-		$this->info("Modules were successfully cached.");
+		$this->laravel['modules']->optimize();
 	}
 }

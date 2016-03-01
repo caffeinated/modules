@@ -4,6 +4,14 @@ namespace Caffeinated\Modules\Contracts;
 interface RepositoryInterface
 {
 	/**
+	 * Get all module manifest properties and store
+	 * in the respective container.
+	 *
+	 * @return bool
+	 */
+	public function optimize();
+
+	/**
 	 * Get all modules.
 	 *
 	 * @return Collection
@@ -58,12 +66,12 @@ interface RepositoryInterface
 	public function count();
 
 	/**
-	 * Returns the modules defined properties.
+	 * Returns the modules defined manifest properties.
 	 *
-	 * @param  string  $slug
+	 * @param string $slug
 	 * @return Collection
 	 */
-	public function getProperties($slug);
+	public function getManifest($slug);
 
 	/**
 	 * Returns the given module property.
@@ -72,7 +80,7 @@ interface RepositoryInterface
 	 * @param  mixed|null   $default
 	 * @return mixed|null
 	 */
-	public function getProperty($property, $default = null);
+	public function get($property, $default = null);
 
 	/**
 	 * Set the given module property value.
@@ -81,7 +89,7 @@ interface RepositoryInterface
 	 * @param  mixed   $value
 	 * @return bool
 	 */
-	public function setProperty($property, $value);
+	public function set($property, $value);
 
 	/**
 	 * Get all enabled modules.
@@ -128,31 +136,4 @@ interface RepositoryInterface
 	* @return bool
 	*/
 	public function disable($slug);
-
-    /**
-     * Refresh the cache with any newly found modules.
-     *
-     * @return bool
-     */
-    public function cache();
-
-    /**
-     * Get the contents of the cache file.
-     *
-     * The cache file lists all module slugs and their
-     * enabled or disabled status. This can be used to
-     * filter out modules depending on their status.
-     *
-     * @return Collection
-     */
-    public function getCache();
-
-    /**
-    * Set the given cache key value.
-    *
-    * @param  string  $key
-    * @param  mixed  $value
-    * @return int
-    */
-    public function setCache($key, $value);
 }

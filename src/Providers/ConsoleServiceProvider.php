@@ -22,7 +22,6 @@ class ConsoleServiceProvider extends ServiceProvider
      */
 	public function register()
 	{
-        $this->registerCacheCommand();
 		$this->registerDisableCommand();
 		$this->registerEnableCommand();
 		$this->registerListCommand();
@@ -30,21 +29,8 @@ class ConsoleServiceProvider extends ServiceProvider
 		$this->registerMigrateRefreshCommand();
 		$this->registerMigrateResetCommand();
 		$this->registerMigrateRollbackCommand();
+		$this->registerOptimizeCommand();
 		$this->registerSeedCommand();
-	}
-
-    /**
-	 * Register the module:disable command.
-	 *
-	 * @return void
-	 */
-	protected function registerCacheCommand()
-	{
-		$this->app->singleton('command.module.cache', function() {
-			return new \Caffeinated\Modules\Console\Commands\ModuleCacheCommand;
-		});
-
-		$this->commands('command.module.cache');
 	}
 
 	/**
@@ -143,6 +129,20 @@ class ConsoleServiceProvider extends ServiceProvider
 		});
 
 		$this->commands('command.module.migrate.rollback');
+	}
+
+	/**
+	 * Register the module:optimize command.
+	 *
+	 * @return void
+	 */
+	protected function registerOptimizeCommand()
+	{
+		$this->app->singleton('command.module.optimize', function() {
+			return new \Caffeinated\Modules\Console\Commands\ModuleOptimizeCommand;
+		});
+
+		$this->commands('command.module.optimize');
 	}
 
 	/**

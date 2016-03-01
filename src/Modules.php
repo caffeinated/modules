@@ -26,8 +26,6 @@ class Modules implements RepositoryInterface
 	{
 		$this->app        = $app;
 		$this->repository = $repository;
-
-		$this->cache();
 	}
 
 	/**
@@ -78,6 +76,11 @@ class Modules implements RepositoryInterface
 				include($path.$file);
 			}
 		}
+	}
+
+	public function optimize()
+	{
+		return $this->repository->optimize();
 	}
 
 	/**
@@ -203,9 +206,9 @@ class Modules implements RepositoryInterface
 	 * @param  string $slug
 	 * @return mixed
 	 */
-	public function getProperties($slug)
+	public function getManifest($slug)
 	{
-		return $this->repository->getProperties($slug);
+		return $this->repository->getManifest($slug);
 	}
 
 	/**
@@ -215,9 +218,9 @@ class Modules implements RepositoryInterface
 	 * @param  mixed  $default
 	 * @return mixed
 	 */
-	public function getProperty($property, $default = null)
+	public function get($property, $default = null)
 	{
-		return $this->repository->getProperty($property, $default);
+		return $this->repository->get($property, $default);
 	}
 
 	/**
@@ -227,9 +230,9 @@ class Modules implements RepositoryInterface
 	 * @param  mixed  $value
 	 * @return bool
 	 */
-	public function setProperty($property, $value)
+	public function set($property, $value)
 	{
-		return $this->repository->setProperty($property, $value);
+		return $this->repository->set($property, $value);
 	}
 
 	/**
@@ -294,42 +297,6 @@ class Modules implements RepositoryInterface
 	public function disable($slug)
 	{
 		return $this->repository->disable($slug);
-	}
-
-	/**
-     * Refresh the cache with any newly found modules.
-     *
-     * @return bool
-     */
-    public function cache()
-    {
-        return $this->repository->cache();
-    }
-
-	/**
-     * Get the contents of the cache file.
-     *
-     * The cache file lists all module slugs and their
-     * enabled or disabled status. This can be used to
-     * filter out modules depending on their status.
-     *
-     * @return Collection
-     */
-    public function getCache()
-	{
-		return $this->repository->getCache();
-	}
-
-	/**
-     * Set the given cache key value.
-     *
-     * @param  string  $key
-     * @param  mixed  $value
-     * @return int
-     */
-    public function setCache($key, $value)
-	{
-		return $this->repository->setCache($key, $value);
 	}
 
 	/**
