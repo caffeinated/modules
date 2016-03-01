@@ -297,8 +297,8 @@ class MakeModuleCommand extends Command
 	protected function formatContent($content)
 	{
 		return str_replace(
-			['{{slug}}', '{{name}}', '{{namespace}}', '{{version}}', '{{description}}', '{{author}}', '{{path}}'],
-			[$this->container['slug'], $this->container['name'], $this->container['namespace'], $this->container['version'], $this->container['description'], $this->container['author'], $this->module->getNamespace()],
+			['{{slug}}', '{{name}}', '{{namespace}}', '{{version}}', '{{description}}', '{{author}}', '{{license}}'],
+			[$this->container['slug'], $this->container['name'], $this->container['namespace'], $this->container['version'], $this->container['description'], $this->container['author'], $this->container['license']],
 			$content
 		);
 	}
