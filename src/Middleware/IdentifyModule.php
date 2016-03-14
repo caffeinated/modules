@@ -31,7 +31,7 @@ class IdentifyModule
      */
     public function handle($request, Closure $next, $slug)
     {
-        $request->session()->put('module', $this->module->where('slug', $slug)->toArray());
+        $request->session()->put('module', $this->module->where('slug', $slug)->first());
 
         return $next($request);
     }
