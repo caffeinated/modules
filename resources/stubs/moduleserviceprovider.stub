@@ -10,6 +10,16 @@ use Illuminate\Support\ServiceProvider;
 class {{namespace}}ServiceProvider extends ServiceProvider
 {
 	/**
+     * Bootstrap the application events.
+     *
+     * @return void
+     */
+	public function boot()
+	{
+		// $this->addMiddleware('');
+	}
+
+	/**
 	 * Register the {{name}} module service provider.
 	 *
 	 * @return void
@@ -35,5 +45,16 @@ class {{namespace}}ServiceProvider extends ServiceProvider
 
 		View::addNamespace('{{slug}}', base_path('resources/views/vendor/{{slug}}'));
 		View::addNamespace('{{slug}}', realpath(__DIR__.'/../Resources/Views'));
+	}
+
+	/**
+     * Register the Middleware
+     *
+     * @param  string $middleware
+     */
+	protected function addMiddleware($middleware)
+	{
+		$kernel = $this->app['Illuminate\Contracts\Http\Kernel'];
+        $kernel->pushMiddleware($middleware);
 	}
 }
