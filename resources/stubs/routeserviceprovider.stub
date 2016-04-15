@@ -73,8 +73,10 @@ class RouteServiceProvider extends ServiceProvider
 	{
 		if( is_array($middlewareGroups) && count($middlewareGroups) > 0)
 		{
-			foreach ($middlewareGroups as $key => $middleware) {
-	            $router->middlewareGroup($key, $middleware);
+			foreach ($middlewareGroups as $key => $groupMiddleware) {
+				foreach ($groupMiddleware as $middleware) {
+					$router->pushMiddlewareToGroup($key, $middleware);
+				}
 	        }
 		}
 	}
