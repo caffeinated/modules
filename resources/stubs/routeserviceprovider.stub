@@ -23,6 +23,15 @@ class RouteServiceProvider extends ServiceProvider
 	 */
 	public function boot(Router $router)
 	{
+		$this->addRouteMiddleware([
+        	//
+        ], $router);
+
+        $this->addMiddlewareGroups([
+        	'web' => [],
+        	'api' => []
+        ], $router);
+
 		parent::boot($router);
 
 		//
@@ -40,5 +49,35 @@ class RouteServiceProvider extends ServiceProvider
 		{
 			require (config('modules.path').'/{{namespace}}/Http/routes.php');
 		});
+	}
+
+	/**
+	 * @param Array
+	 * @param \Illuminate\Routing\Router $router
+	 */
+	protected function addRouteMiddleware($routeMiddleware, Router $router)
+	{
+		if( is_array($routeMiddleware) && count($routeMiddleware) > 0)
+		{
+			foreach ($routeMiddleware as $key => $middleware) {
+				$router->middleware($key, $middleware);
+	        }
+		}
+	}
+
+	/**
+	 * @param Array
+	 * @param \Illuminate\Routing\Router $router
+	 */
+	protected function addMiddlewareGroups($middlewareGroups, Router $router)
+	{
+		if( is_array($middlewareGroups) && count($middlewareGroups) > 0)
+		{
+			foreach ($middlewareGroups as $key => $groupMiddleware) {
+				foreach ($groupMiddleware as $middleware) {
+					$router->pushMiddlewareToGroup($key, $middleware);
+				}
+	        }
+		}
 	}
 }
