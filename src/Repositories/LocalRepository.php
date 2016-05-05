@@ -153,6 +153,7 @@ class LocalRepository extends Repository
 	{
 		list($slug, $key) = explode('::', $property);
 
+        $manifestPath = $this->getManifestPath($slug);
 		$cachePath = $this->getCachePath();
 		$cache     = $this->getCache();
 		$module    = $this->where('slug', $slug);
@@ -166,6 +167,9 @@ class LocalRepository extends Repository
 		$values[$key] = $value;
 
 		$module = collect([$moduleKey => $values]);
+
+        $moduleJson = json_encode($module->all(), JSON_PRETTY_PRINT);
+        $this->files->put($manifestPath, $moduleJson);
 
         $merged  = $cache->merge($module);
         $content = json_encode($merged->all(), JSON_PRETTY_PRINT);
