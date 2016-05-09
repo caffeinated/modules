@@ -1,20 +1,19 @@
 <?php
+
 namespace Caffeinated\Modules\Console\Generators;
 
-use Caffeinated\Modules\Modules;
-use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
-use Symfony\Component\Console\Input\InputArgument;
-
-class MakeMigrationCommand extends Command
+class MakeMigrationCommand extends MakeCommand
 {
-    /**
-     * The console command name.
+	/**
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'make:module:migration';
+    protected $signature = 'make:module:migration
+    	{slug : The slug of the module.}
+    	{name : The name of the migration.}
+    	{--create= : The table to be created.}
+        {--table= : The table to migrate.}';
 
     /**
      * The console command description.
@@ -24,101 +23,92 @@ class MakeMigrationCommand extends Command
     protected $description = 'Create a new module migration file';
 
     /**
-     * Array to store the configuration details.
+     * String to store the command type.
      *
-     * @var array
+     * @var string
      */
-    protected $container;
+    protected $type = 'Migration';
 
     /**
-     * Create a new command instance.
+     * Module folders to be created.
      *
-     * @param Filesystem  $files
-     * @param Modules  $module
-     */
-    public function __construct(Filesystem $files, Modules $module)
-    {
-        parent::__construct();
+	 * @var array
+	 */
+	protected $listFolders = [
+		'Database/Migrations/'
+	];
 
-        $this->files  = $files;
-        $this->module = $module;
+	/**
+     * Module files to be created.
+     *
+	 * @var array
+	 */
+	protected $listFiles = [
+		'{{filename}}.php'
+	];
+
+	/**
+     * Module signature option.
+     *
+	 * @var array
+	 */
+	protected $signOption = [
+		'create',
+		'table'
+	];
+
+	/**
+     * Module stubs used to populate defined files.
+     *
+	 * @var array
+	 */
+	protected $listStubs = [
+		'default' => [
+			'migration.stub'
+		],
+		
+		'create' => [
+			'migration_create.stub'
+		],
+
+		'table' => [
+			'migration_table.stub'
+		]
+	];
+
+	/**
+     * Resolve Container after getting file path
+     * 
+     * @param  string $FilePath
+     * @return Array
+     */
+    protected function resolveByPath($filePath)
+    {
+    	$this->container['filename'] 	= $this->makeFileName($filePath);
+		$this->container['classname'] 	= basename($filePath);
+        $this->container['tablename']   = 'dummy';
     }
 
     /**
-     * Execute the console command.
-     *
-     * @return mixed
+     * Resolve Container after getting input option
+     * 
+     * @param  string $option
+     * @return Array
      */
-    public function fire()
+    protected function resolveByOption($option)
     {
-        $this->container['slug']          = strtolower($this->argument('slug'));
-        $this->container['table']         = strtolower($this->argument('table'));
-        $this->container['migrationName'] = snake_case($this->container['table']);
-        $this->container['className']     = studly_case($this->container['migrationName']);
-
-        if ($this->module->exists($this->container['slug'])) {
-            $this->makeFile();
-
-            $file = pathinfo($this->getDestinationFile(), PATHINFO_FILENAME);
-
-            exec('composer dump-autoload 2>/dev/null');
-
-            return $this->line("<info>Created Module Migration:</info> $file");
-        }
-
-        return $this->error('Module does not exist.');
+    	$this->container['tablename'] = $option;
     }
 
-    /**
-     * Create a new migration file.
-     *
-     * @return int
+	/**
+     * Make FileName 
+     * 
+     * @param  string $filePath
+     * @return string          
      */
-    protected function makeFile()
+    protected function makeFileName($filePath)
     {
-        return $this->files->put($this->getDestinationFile(), $this->getStubContent());
-    }
-
-    /**
-     * Get file destination.
-     *
-     * @return string
-     */
-    protected function getDestinationFile()
-    {
-        return $this->getPath().$this->formatContent($this->getFilename());
-    }
-
-    /**
-     * Get module migration path.
-     *
-     * @return string
-     */
-    protected function getPath()
-    {
-        $path = $this->module->getModulePath($this->container['slug']);
-
-        return $path.'Database/Migrations/';
-    }
-
-    /**
-     * Get the migration filename.
-     *
-     * @return string
-     */
-    protected function getFilename()
-    {
-        return date('Y_m_d_His').'_'.$this->container['migrationName'].'.php';
-    }
-
-    /**
-     * Get the stub content.
-     *
-     * @return string
-     */
-    protected function getStubContent()
-    {
-        return $this->formatContent($this->files->get(__DIR__.'/../../../resources/stubs/migration.stub'));
+    	return date('Y_m_d_His').'_'.strtolower(snake_case(basename($filePath)));
     }
 
     /**
@@ -129,22 +119,17 @@ class MakeMigrationCommand extends Command
 	protected function formatContent($content)
     {
         return str_replace(
-			['{{className}}', '{{table}}'],
-			[$this->container['className'], $this->container['table']],
+			[
+				'{{filename}}',
+				'{{classname}}',
+				'{{tablename}}'
+			],
+			[
+				$this->container['filename'], 
+				$this->container['classname'],
+				$this->container['tablename']
+			],
 			$content
 		);
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [
-            ['slug', InputArgument::REQUIRED, 'The slug of the module'],
-            ['table', InputArgument::REQUIRED, 'The name of the database table']
-        ];
     }
 }

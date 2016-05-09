@@ -2,30 +2,30 @@
 
 namespace Caffeinated\Modules\Console\Generators;
 
-class MakeRequestCommand extends MakeCommand
+class MakeSeederCommand extends MakeCommand
 {
 	/**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'make:module:request
+    protected $signature = 'make:module:seeder
     	{slug : The slug of the module.}
-    	{name : The name of the request class.}';
+    	{name : The name of the seeder class.}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new module request class';
+    protected $description = 'Create a new module seeder class';
 
     /**
      * String to store the command type.
      *
      * @var string
      */
-    protected $type = 'Request';
+    protected $type = 'Seeder';
 
     /**
      * Module folders to be created.
@@ -33,7 +33,7 @@ class MakeRequestCommand extends MakeCommand
 	 * @var array
 	 */
 	protected $listFolders = [
-		'Http/Requests/'
+		'Database/Seeds/'
 	];
 
 	/**
@@ -52,7 +52,7 @@ class MakeRequestCommand extends MakeCommand
 	 */
 	protected $listStubs = [
 		'default' => [
-			'request.stub'
+			'seeder_plus.stub'
 		]
 	];
 
