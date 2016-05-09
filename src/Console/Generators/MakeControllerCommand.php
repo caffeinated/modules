@@ -1,120 +1,86 @@
 <?php
+
 namespace Caffeinated\Modules\Console\Generators;
 
-use Caffeinated\Modules\Modules;
-use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
-use Symfony\Component\Console\Input\InputArgument;
-
-class MakeControllerCommand extends Command
+class MakeControllerCommand extends MakeCommand
 {
-    /**
-     * The console command name.
+	/**
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'make:module:controller';
+    protected $signature = 'make:module:controller
+    	{slug : The slug of the module}
+    	{name : The name of the controller class}
+    	{--resource : Generate a module resource controller class}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new module controller file';
+    protected $description = 'Create a new module controller class';
 
     /**
-     * Array to store the configuration details.
+     * String to store the command type.
      *
-     * @var array
+     * @var string
      */
-    protected $container;
+    protected $type = 'Controller';
 
     /**
-     * Create a new command instance.
+     * Module folders to be created.
      *
-     * @param Filesystem  $files
-     * @param Modules  $module
+	 * @var array
+	 */
+	protected $listFolders = [
+		'Http/Controllers/'
+	];
+
+	/**
+     * Module files to be created.
+     *
+	 * @var array
+	 */
+	protected $listFiles = [
+		'{{filename}}.php'
+	];
+
+	/**
+     * Module signature option.
+     *
+	 * @var array
+	 */
+	protected $signOption = [
+		'resource'
+	];
+
+	/**
+     * Module stubs used to populate defined files.
+     *
+	 * @var array
+	 */
+	protected $listStubs = [
+		'default' => [
+			'controller.stub'
+		],
+		
+		'resource' => [
+			'controller_resource.stub'
+		]
+	];
+
+	/**
+     * Resolve Container after getting file path
+     * 
+     * @param  string $FilePath
+     * @return Array
      */
-    public function __construct(Filesystem $files, Modules $module)
+    protected function resolveByPath($filePath)
     {
-        parent::__construct();
-
-        $this->files  = $files;
-        $this->module = $module;
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function fire()
-    {
-        $this->container['slug']      = strtolower($this->argument('slug'));
-        $this->container['className'] = $this->argument('name');
-
-        if ($this->module->exists($this->container['slug'])) {
-            $this->container['module'] = $this->module->where('slug', $this->container['slug'])->first();
-
-            $this->makeFile();
-
-            return $this->info('Module controller created successfully.');
-        }
-
-        return $this->error('Module does not exist.');
-    }
-
-    /**
-     * Create a new migration file.
-     *
-     * @return int
-     */
-    protected function makeFile()
-    {
-        return $this->files->put($this->getDestinationFile(), $this->getStubContent());
-    }
-
-    /**
-     * Get file destination.
-     *
-     * @return string
-     */
-    protected function getDestinationFile()
-    {
-        return $this->getPath().$this->formatContent($this->getFilename());
-    }
-
-    /**
-     * Get module migration path.
-     *
-     * @return string
-     */
-    protected function getPath()
-    {
-        $path = $this->module->getModulePath($this->container['slug']);
-
-        return $path.'Http/Controllers/';
-    }
-
-    /**
-     * Get the migration filename.
-     *
-     * @return string
-     */
-    protected function getFilename()
-    {
-        return $this->container['className'].'.php';
-    }
-
-    /**
-     * Get the stub content.
-     *
-     * @return string
-     */
-    protected function getStubContent()
-    {
-        return $this->formatContent($this->files->get(__DIR__.'/../../../resources/stubs/controller.stub'));
+    	$this->container['filename'] 	= $this->makeFileName($filePath);
+		$this->container['namespace']	= $this->getNamespace($filePath);
+		$this->container['classname'] 	= basename($filePath);
     }
 
     /**
@@ -125,22 +91,17 @@ class MakeControllerCommand extends Command
 	protected function formatContent($content)
     {
         return str_replace(
-			['{{className}}', '{{namespace}}', '{{path}}'],
-			[$this->container['className'], $this->container['module']['namespace'], $this->module->getNamespace()],
+			[
+				'{{filename}}',
+				'{{namespace}}', 
+				'{{classname}}'
+			],
+			[
+				$this->container['filename'], 
+				$this->container['namespace'], 
+				$this->container['classname']
+			],
 			$content
 		);
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [
-            ['slug', InputArgument::REQUIRED, 'The slug of the module'],
-            ['name', InputArgument::REQUIRED, 'The name of the controller']
-        ];
     }
 }

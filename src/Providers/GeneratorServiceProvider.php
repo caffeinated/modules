@@ -23,9 +23,12 @@ class GeneratorServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerMakeControllerCommand();
+        $this->registerMakeMiddlewareCommand();
         $this->registerMakeMigrationCommand();
+        $this->registerMakeModelCommand();
         $this->registerMakeModuleCommand();
         $this->registerMakeRequestCommand();
+        $this->registerMakeSeederCommand();
     }
 
     /**
@@ -43,6 +46,20 @@ class GeneratorServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register the make:module:middleware command.
+     *
+     * @return void
+     */
+    private function registerMakeMiddlewareCommand()
+    {
+        $this->app->singleton('command.make.module.middleware', function($app) {
+            return $app['Caffeinated\Modules\Console\Generators\MakeMiddlewareCommand'];
+        });
+
+        $this->commands('command.make.module.middleware');
+    }
+
+    /**
      * Register the make:module command.
      *
      * @return void
@@ -54,6 +71,20 @@ class GeneratorServiceProvider extends ServiceProvider
         });
 
         $this->commands('command.make.module.migration');
+    }
+
+    /**
+     * Register the make:module:model command.
+     *
+     * @return void
+     */
+    private function registerMakeModelCommand()
+    {
+        $this->app->singleton('command.make.module.model', function($app) {
+            return $app['Caffeinated\Modules\Console\Generators\MakeModelCommand'];
+        });
+
+        $this->commands('command.make.module.model');
     }
 
     /**
@@ -82,5 +113,19 @@ class GeneratorServiceProvider extends ServiceProvider
         });
 
         $this->commands('command.make.module.request');
+    }
+
+    /**
+     * Register the make:module:seeder command.
+     *
+     * @return void
+     */
+    private function registerMakeSeederCommand()
+    {
+        $this->app->singleton('command.make.module.seeder', function($app) {
+            return $app['Caffeinated\Modules\Console\Generators\MakeSeederCommand'];
+        });
+
+        $this->commands('command.make.module.seeder');
     }
 }
