@@ -12,97 +12,97 @@ class ModuleListCommand extends Command
      *
      * @var string
      */
-	protected $name = 'module:list';
+    protected $name = 'module:list';
 
     /**
      * The console command description.
      *
      * @var string
      */
-	protected $description = 'List all application modules';
+    protected $description = 'List all application modules';
 
-	/**
-	 * @var Modules
-	 */
-	protected $module;
+    /**
+     * @var Modules
+     */
+    protected $module;
 
-	/**
+    /**
      * The table headers for the command.
      *
-	 * @var array
-	 */
-	protected $headers = ['#', 'Name', 'Slug', 'Description', 'Status'];
+     * @var array
+     */
+    protected $headers = ['#', 'Name', 'Slug', 'Description', 'Status'];
 
-	/**
-	 * Create a new command instance.
-	 *
-	 * @param Modules  $module
-	 */
-	public function __construct(Modules $module)
-	{
-		parent::__construct();
+    /**
+     * Create a new command instance.
+     *
+     * @param Modules $module
+     */
+    public function __construct(Modules $module)
+    {
+        parent::__construct();
 
-		$this->module = $module;
-	}
+        $this->module = $module;
+    }
 
-	/**
-	 * Execute the console command.
-	 *
-	 * @return mixed
-	 */
-	public function fire()
-	{
-		$modules = $this->module->all();
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function fire()
+    {
+        $modules = $this->module->all();
 
-		if (count($modules) == 0) {
-			return $this->error("Your application doesn't have any modules.");
-		}
+        if (count($modules) == 0) {
+            return $this->error("Your application doesn't have any modules.");
+        }
 
-		$this->displayModules($this->getModules());
-	}
+        $this->displayModules($this->getModules());
+    }
 
-	/**
-	 * Get all modules.
-	 *
-	 * @return array
-	 */
-	protected function getModules()
-	{
-		$modules = $this->module->all();
-		$results = [];
+    /**
+     * Get all modules.
+     *
+     * @return array
+     */
+    protected function getModules()
+    {
+        $modules = $this->module->all();
+        $results = [];
 
-		foreach ($modules as $module) {
-			$results[] = $this->getModuleInformation($module);
-		}
+        foreach ($modules as $module) {
+            $results[] = $this->getModuleInformation($module);
+        }
 
-		return array_filter($results);
-	}
+        return array_filter($results);
+    }
 
-	/**
-	 * Returns module manifest information.
-	 *
-	 * @param string  $module
-	 * @return array
-	 */
-	protected function getModuleInformation($module)
-	{
-		return [
-			'#'           => $module['order'],
-			'name'        => $module['name'],
-			'slug'        => $module['slug'],
-			'description' => $module['description'],
-			'status'      => ($this->module->isEnabled($module['slug'])) ? 'Enabled' : 'Disabled'
-		];
-	}
+    /**
+     * Returns module manifest information.
+     *
+     * @param string $module
+     *
+     * @return array
+     */
+    protected function getModuleInformation($module)
+    {
+        return [
+            '#' => $module['order'],
+            'name' => $module['name'],
+            'slug' => $module['slug'],
+            'description' => $module['description'],
+            'status' => ($this->module->isEnabled($module['slug'])) ? 'Enabled' : 'Disabled',
+        ];
+    }
 
-	/**
-	 * Display the module information on the console.
-	 *
-	 * @param array  $modules
-	 * @return void
-	 */
-	protected function displayModules(array $modules)
-	{
-		$this->table($this->headers, $modules);
-	}
+    /**
+     * Display the module information on the console.
+     *
+     * @param array $modules
+     */
+    protected function displayModules(array $modules)
+    {
+        $this->table($this->headers, $modules);
+    }
 }

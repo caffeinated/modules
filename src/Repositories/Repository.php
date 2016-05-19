@@ -19,104 +19,108 @@ abstract class Repository implements RepositoryInterface
     protected $files;
 
     /**
-     * @var string $path Path to the defined modules directory
+     * @var string Path to the defined modules directory
      */
     protected $path;
 
     /**
      * Constructor method.
      *
-     * @param \Illuminate\Config\Repository      $config
-     * @param \Illuminate\Filesystem\Filesystem  $files
+     * @param \Illuminate\Config\Repository     $config
+     * @param \Illuminate\Filesystem\Filesystem $files
      */
     public function __construct(Config $config, Filesystem $files)
     {
         $this->config = $config;
-        $this->files  = $files;
+        $this->files = $files;
     }
 
     /**
-	 * Get all module basenames
-	 *
-	 * @return array
-	 */
-	protected function getAllBasenames()
-	{
-		$path = $this->getPath();
+     * Get all module basenames.
+     *
+     * @return array
+     */
+    protected function getAllBasenames()
+    {
+        $path = $this->getPath();
 
         try {
             $collection = collect($this->files->directories($path));
 
-            $basenames  = $collection->map(function($item, $key) {
+            $basenames = $collection->map(function ($item, $key) {
                 return basename($item);
             });
 
-    		return $basenames;
+            return $basenames;
         } catch (\InvalidArgumentException $e) {
             return collect(array());
         }
-	}
+    }
 
     /**
-	 * Get a module's manifest contents.
-	 *
-	 * @param  string $slug
-	 * @return Collection|null
-	 */
-	public function getManifest($slug)
-	{
-		if (! is_null($slug)) {
-			$module     = studly_case($slug);
-			$path       = $this->getManifestPath($module);
-			$contents   = $this->files->get($path);
-			$collection = collect(json_decode($contents, true));
+     * Get a module's manifest contents.
+     *
+     * @param string $slug
+     *
+     * @return Collection|null
+     */
+    public function getManifest($slug)
+    {
+        if (!is_null($slug)) {
+            $module = studly_case($slug);
+            $path = $this->getManifestPath($module);
+            $contents = $this->files->get($path);
+            $collection = collect(json_decode($contents, true));
 
-			return $collection;
-		}
+            return $collection;
+        }
 
-		return null;
-	}
-
-    /**
-	 * Get modules path.
-	 *
-	 * @return string
-	 */
-	public function getPath()
-	{
-		return $this->path ?: $this->config->get('modules.path');
-	}
+        return;
+    }
 
     /**
-	 * Set modules path in "RunTime" mode.
-	 *
-	 * @param  string $path
-	 * @return object $this
-	 */
-	public function setPath($path)
-	{
-		$this->path = $path;
-
-		return $this;
-	}
+     * Get modules path.
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path ?: $this->config->get('modules.path');
+    }
 
     /**
-	 * Get path for the specified module.
-	 *
-	 * @param  string $slug
-	 * @return string
-	 */
-	public function getModulePath($slug)
-	{
-		$module = studly_case($slug);
+     * Set modules path in "RunTime" mode.
+     *
+     * @param string $path
+     *
+     * @return object $this
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
 
-		return $this->getPath()."/{$module}/";
-	}
+        return $this;
+    }
+
+    /**
+     * Get path for the specified module.
+     *
+     * @param string $slug
+     *
+     * @return string
+     */
+    public function getModulePath($slug)
+    {
+        $module = studly_case($slug);
+
+        return $this->getPath()."/{$module}/";
+    }
 
     /**
      * Get path of module manifest file.
      *
-     * @param  string $module
+     * @param string $module
+     *
      * @return string
      */
     protected function getManifestPath($slug)

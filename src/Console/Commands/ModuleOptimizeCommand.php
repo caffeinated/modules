@@ -11,24 +11,24 @@ class ModuleOptimizeCommand extends Command
      *
      * @var string
      */
-	protected $name = 'module:optimize';
+    protected $name = 'module:optimize';
 
     /**
      * The console command description.
      *
      * @var string
      */
-	protected $description = 'Optimize the module cache for better performance';
+    protected $description = 'Optimize the module cache for better performance';
 
-	/**
-	 * Execute the console command.
-	 *
-	 * @return mixed
-	 */
-	public function fire()
-	{
-        $this->info("Generating optimized module cache");
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function fire()
+    {
+        $this->info('Generating optimized module cache');
 
-		$this->laravel['modules']->optimize();
-	}
+        $this->laravel['modules']->optimize();
+    }
 }
