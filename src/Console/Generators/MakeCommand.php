@@ -105,7 +105,7 @@ class MakeCommand extends CommandGenerator
         if ($this->module->exists($slug)) {
         	$this->modulePath = $this->module->getPath();
         	$this->moduleInfo = collect($this->module->where('slug', $slug)->first());
-        	
+
         	$this->container['slug'] = $slug;
         	$this->container['name'] = $name;
 
@@ -131,29 +131,28 @@ class MakeCommand extends CommandGenerator
     		$filePath = str_replace(basename($filePath), '', $filePath);
     		$filePath = $filePath.$file;
 
-    		if ($this->files->exists($filePath))
-    		{
+    		if ($this->files->exists($filePath)) {
     			return $this->error($this->type.' already exists!');
     		}
 
     		$this->makeDirectory($filePath);
 
     		foreach ($this->signOption as $option) {
-    			if ( $this->option($option) )
-    			{
+    			if ($this->option($option)) {
     				$stubFile = $this->listStubs[$option][$key];
-    				$this->resolveByOption( $this->option($option) );
+
+					$this->resolveByOption( $this->option($option) );
+
     				break;
     			}
 	    	}
 
-    		if (! isset($stubFile))
-    		{
+    		if (! isset($stubFile)) {
     			$stubFile = $this->listStubs['default'][$key];
     		}
-    		
+
     		$this->files->put(
-    			$filePath, 
+    			$filePath,
     			$this->getStubContent($stubFile)
     		);
 		}
@@ -163,37 +162,41 @@ class MakeCommand extends CommandGenerator
 
     /**
      * Resolve Container after getting file path
-     * 
+     *
      * @param  string $FilePath
      * @return Array
      */
-    protected function resolveByPath($filePath){}
+    protected function resolveByPath($filePath)
+	{
+		//
+	}
 
     /**
      * Resolve Container after getting input option
-     * 
+     *
      * @param  string $option
      * @return Array
      */
-    protected function resolveByOption($option){}
+    protected function resolveByOption($option)
+	{
+		//
+	}
 
     /**
-     * Parse Slug Name Of The Module
-     * 
+     * Parse slug name of the module.
+     *
      * @param  string $slug
-     * @return string      
+     * @return string
      */
     protected function parseSlug($slug)
     {
     	$slug = studly_case($slug);
 
-    	if (str_contains($slug, '/'))
-    	{
+    	if (str_contains($slug, '/')) {
     		$slug = str_replace('/', '', $slug);
     	}
 
-    	if (str_contains($slug, '\\'))
-    	{
+    	if (str_contains($slug, '\\')) {
     		$slug = str_replace('\\', '', $slug);
     	}
 
@@ -201,28 +204,24 @@ class MakeCommand extends CommandGenerator
     }
 
     /**
-     * Parse Class Name Of The Module
-     * 
-     * @param  string $slug
-     * @return string      
+     * Parse class name of the module.
+     *
+     * @param  string  $slug
+     * @return string
      */
     protected function parseName($name)
     {
-    	if (str_contains($name, '\\'))
-    	{
+    	if (str_contains($name, '\\')) {
     		$name = str_replace('\\', '/', $name);
     	}
 
-    	if (str_contains($name, '/'))
-    	{
+    	if (str_contains($name, '/')) {
     		$formats = collect( explode('/', $name) )->map(function($name){
     			return studly_case($name);
     		});
 
     		$name = $formats->implode('/');
-    	}
-    	else
-    	{
+    	} else {
     		$name = studly_case($name);
     	}
 
@@ -231,10 +230,10 @@ class MakeCommand extends CommandGenerator
 
     /**
      * Make FilePath
-     * 
+     *
      * @param  string $folder
-     * @param  string $name  
-     * @return string        
+     * @param  string $name
+     * @return string
      */
     protected function makeFilePath($folder, $name)
     {
@@ -251,10 +250,10 @@ class MakeCommand extends CommandGenerator
     }
 
     /**
-     * Make FileName 
-     * 
+     * Make FileName
+     *
      * @param  string $filePath
-     * @return string          
+     * @return string
      */
     protected function makeFileName($filePath)
     {
@@ -276,9 +275,9 @@ class MakeCommand extends CommandGenerator
 
     /**
      * Get Namespace of the current file
-     * 
+     *
      * @param  string $file
-     * @return string      
+     * @return string
      */
     protected function getNamespace($file)
     {
@@ -286,7 +285,7 @@ class MakeCommand extends CommandGenerator
     	$namespace = str_replace(basename($namespace), '', $namespace);
     	$namespace = ltrim($namespace, '\/');
     	$namespace = rtrim($namespace, '\/');
-    	
+
     	return str_replace('/', '\\', $namespace);
     }
 
@@ -308,5 +307,8 @@ class MakeCommand extends CommandGenerator
 	 *
 	 * @return string
 	 */
-	protected function formatContent($content){}
+	protected function formatContent($content)
+	{
+		//
+	}
 }

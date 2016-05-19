@@ -1,4 +1,5 @@
 <?php
+
 namespace {{path}}\{{namespace}}\Database\Seeds;
 
 use Illuminate\Database\Seeder;
@@ -17,5 +18,4 @@ class {{namespace}}DatabaseSeeder extends Seeder
 
 		// $this->call('{{path}}\{{namespace}}\Database\Seeds\FoobarTableSeeder');
 	}
-
 }

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class {{classname}} extends Seeder
 {
-	
 	/**
 	 * Run the database seeds.
 	 *
@@ -17,5 +16,4 @@ class {{classname}} extends Seeder
 	{
 		//
 	}
-
 }

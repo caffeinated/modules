@@ -64,7 +64,7 @@ class MakeControllerCommand extends MakeCommand
 		'default' => [
 			'controller.stub'
 		],
-		
+
 		'resource' => [
 			'controller_resource.stub'
 		]
@@ -72,15 +72,15 @@ class MakeControllerCommand extends MakeCommand
 
 	/**
      * Resolve Container after getting file path
-     * 
+     *
      * @param  string $FilePath
      * @return Array
      */
     protected function resolveByPath($filePath)
     {
-    	$this->container['filename'] 	= $this->makeFileName($filePath);
-		$this->container['namespace']	= $this->getNamespace($filePath);
-		$this->container['classname'] 	= basename($filePath);
+    	$this->container['filename']  = $this->makeFileName($filePath);
+		$this->container['namespace'] = $this->getNamespace($filePath);
+		$this->container['classname'] = basename($filePath);
     }
 
     /**
@@ -93,12 +93,12 @@ class MakeControllerCommand extends MakeCommand
         return str_replace(
 			[
 				'{{filename}}',
-				'{{namespace}}', 
+				'{{namespace}}',
 				'{{classname}}'
 			],
 			[
-				$this->container['filename'], 
-				$this->container['namespace'], 
+				$this->container['filename'],
+				$this->container['namespace'],
 				$this->container['classname']
 			],
 			$content

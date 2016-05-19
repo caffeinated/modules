@@ -1,4 +1,5 @@
 <?php
+
 namespace Caffeinated\Modules\Repositories;
 
 use Caffeinated\Modules\Repositories\Repository;

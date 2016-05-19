@@ -66,7 +66,7 @@ class MakeMigrationCommand extends MakeCommand
 		'default' => [
 			'migration.stub'
 		],
-		
+
 		'create' => [
 			'migration_create.stub'
 		],
@@ -78,20 +78,20 @@ class MakeMigrationCommand extends MakeCommand
 
 	/**
      * Resolve Container after getting file path
-     * 
+     *
      * @param  string $FilePath
      * @return Array
      */
     protected function resolveByPath($filePath)
     {
-    	$this->container['filename'] 	= $this->makeFileName($filePath);
-		$this->container['classname'] 	= basename($filePath);
-        $this->container['tablename']   = 'dummy';
+    	$this->container['filename']  = $this->makeFileName($filePath);
+		$this->container['classname'] = basename($filePath);
+        $this->container['tablename'] = 'dummy';
     }
 
     /**
      * Resolve Container after getting input option
-     * 
+     *
      * @param  string $option
      * @return Array
      */
@@ -101,10 +101,10 @@ class MakeMigrationCommand extends MakeCommand
     }
 
 	/**
-     * Make FileName 
-     * 
+     * Make FileName
+     *
      * @param  string $filePath
-     * @return string          
+     * @return string
      */
     protected function makeFileName($filePath)
     {
@@ -125,7 +125,7 @@ class MakeMigrationCommand extends MakeCommand
 				'{{tablename}}'
 			],
 			[
-				$this->container['filename'], 
+				$this->container['filename'],
 				$this->container['classname'],
 				$this->container['tablename']
 			],

@@ -1,4 +1,5 @@
 <?php
+
 namespace Caffeinated\Modules\Providers;
 
 use Illuminate\Support\ServiceProvider;
@@ -60,7 +61,7 @@ class GeneratorServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the make:module command.
+     * Register the make:module:migration command.
      *
      * @return void
      */

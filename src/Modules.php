@@ -1,4 +1,5 @@
 <?php
+
 namespace Caffeinated\Modules;
 
 use Caffeinated\Modules\Contracts\RepositoryInterface;

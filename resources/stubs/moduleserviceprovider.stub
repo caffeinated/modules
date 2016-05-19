@@ -1,4 +1,5 @@
 <?php
+
 namespace {{path}}\{{namespace}}\Providers;
 
 use App;
@@ -16,6 +17,9 @@ class {{namespace}}ServiceProvider extends ServiceProvider
      */
 	public function boot()
 	{
+		// You may register any additional middleware provided with your
+		// module with the following addMiddleware() method. You may
+		// pass in either an array or a string.
 		// $this->addMiddleware('');
 	}
 
@@ -48,13 +52,21 @@ class {{namespace}}ServiceProvider extends ServiceProvider
 	}
 
 	/**
-     * Register the Middleware
+     * Register any additional module middleware.
      *
-     * @param  string $middleware
+     * @param  array|string  $middleware
+	 * @return void
      */
 	protected function addMiddleware($middleware)
 	{
 		$kernel = $this->app['Illuminate\Contracts\Http\Kernel'];
-        $kernel->pushMiddleware($middleware);
+
+		if (is_array($middleware)) {
+			foreach ($middleware as $ware) {
+				$kernel->pushMiddleware($ware);
+			}
+		} else {
+			$kernel->pushMiddleware($middleware);
+		}
 	}
 }

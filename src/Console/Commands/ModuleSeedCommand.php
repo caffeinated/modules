@@ -1,4 +1,5 @@
 <?php
+
 namespace Caffeinated\Modules\Console\Commands;
 
 use Caffeinated\Modules\Modules;
@@ -81,11 +82,11 @@ class ModuleSeedCommand extends Command
 	 */
 	protected function seed($slug)
 	{
-        $module         = $this->module->where('slug', $slug)->first();
-		$params         = [];
-		$namespacePath  = $this->module->getNamespace();
-		$rootSeeder     = $module['namespace'].'DatabaseSeeder';
-		$fullPath       = $namespacePath.'\\'.$module['namespace'].'\Database\Seeds\\'.$rootSeeder;
+        $module        = $this->module->where('slug', $slug)->first();
+		$params        = [];
+		$namespacePath = $this->module->getNamespace();
+		$rootSeeder    = $module['namespace'].'DatabaseSeeder';
+		$fullPath      = $namespacePath.'\\'.$module['namespace'].'\Database\Seeds\\'.$rootSeeder;
 
 		if (class_exists($fullPath)) {
 			if ($this->option('class')) {

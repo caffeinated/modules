@@ -1,4 +1,5 @@
 <?php
+
 namespace Caffeinated\Modules\Console\Generators;
 
 use Caffeinated\Modules\Modules;

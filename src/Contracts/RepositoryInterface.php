@@ -1,4 +1,5 @@
 <?php
+
 namespace Caffeinated\Modules\Contracts;
 
 interface RepositoryInterface
