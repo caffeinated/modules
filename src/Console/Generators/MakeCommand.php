@@ -157,7 +157,7 @@ class MakeCommand extends CommandGenerator
     		);
 		}
 
-		return $this->info($this->type.' generated successfully.');
+		return $this->info($this->type.' created successfully.');
     }
 
     /**
@@ -288,6 +288,16 @@ class MakeCommand extends CommandGenerator
 
     	return str_replace('/', '\\', $namespace);
     }
+
+	/**
+	 * Get the configured module base namespace.
+	 *
+	 * @return string
+	 */
+	protected function getBaseNamespace()
+	{
+		return $this->module->getNamespace();
+	}
 
     /**
 	 * Get stub content by key.

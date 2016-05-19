@@ -80,6 +80,7 @@ class MakeControllerCommand extends MakeCommand
     {
     	$this->container['filename']  = $this->makeFileName($filePath);
 		$this->container['namespace'] = $this->getNamespace($filePath);
+		$this->container['path']      = $this->getBaseNamespace();
 		$this->container['classname'] = basename($filePath);
     }
 
@@ -93,11 +94,13 @@ class MakeControllerCommand extends MakeCommand
         return str_replace(
 			[
 				'{{filename}}',
+				'{{path}}',
 				'{{namespace}}',
 				'{{classname}}'
 			],
 			[
 				$this->container['filename'],
+				$this->container['path'],
 				$this->container['namespace'],
 				$this->container['classname']
 			],
