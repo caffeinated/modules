@@ -33,7 +33,7 @@ class MakeModelCommand extends MakeCommand
      * @var array
      */
     protected $listFolders = [
-        'Entities/',
+        'Models/',
     ];
 
     /**
@@ -65,9 +65,9 @@ class MakeModelCommand extends MakeCommand
      */
     protected function resolveByPath($filePath)
     {
-        $this->container['filename'] = $this->makeFileName($filePath);
+        $this->container['filename']  = $this->makeFileName($filePath);
         $this->container['namespace'] = $this->getNamespace($filePath);
-        $this->container['path'] = $this->getBaseNamespace();
+        $this->container['path']      = $this->getBaseNamespace();
         $this->container['classname'] = basename($filePath);
     }
 
