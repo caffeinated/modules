@@ -301,6 +301,11 @@ class Modules implements RepositoryInterface
      */
     public function enable($slug)
     {
+        // Resolve and invoke the modules own initialize method.
+        // Thanks to sroutier/l51esk-modules
+        $maintenanceInstance = $this->getMaintenance($slug);
+        $maintenanceInstance::enable();
+
         return $this->repository->enable($slug);
     }
 
@@ -313,6 +318,11 @@ class Modules implements RepositoryInterface
      */
     public function disable($slug)
     {
+        // Resolve and invoke the modules own initialize method.
+        // Thanks to sroutier/l51esk-modules
+        $maintenanceInstance = $this->getMaintenance($slug);
+        $maintenanceInstance::disable();
+
         return $this->repository->disable($slug);
     }
 
@@ -327,5 +337,23 @@ class Modules implements RepositoryInterface
             ? $properties['namespace']
             : studly_case($properties['slug'])
         ;
+    }
+
+    /**
+     * Resolve and instantiate the module's maintenance class.
+     * Thanks to sroutier/l51esk-modules
+     *
+     * @param $slug
+     * @return object
+     */
+    public function getMaintenance($slug)
+    {
+        $maintenanceInstance = null;
+        $nameSpace = \Module::where('slug', $slug)->first()['namespace'];
+        $maintenanceFile  =        config('modules.path')      . '/' . $nameSpace . '/Utils/'   . $nameSpace . 'Maintenance.php';
+        $maintenanceClass = '\\' . config('modules.namespace') .       $nameSpace . '\\Utils\\' . $nameSpace . 'Maintenance';
+        require($maintenanceFile);
+        $maintenanceInstance = new $maintenanceClass();
+        return $maintenanceInstance;
     }
 }
