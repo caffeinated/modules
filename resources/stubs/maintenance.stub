@@ -1,0 +1,18 @@
+<?php
+
+namespace {{path}}\{{namespace}}\Utils;
+
+class {{namespace}}Maintenance
+{
+
+    static public function enable()
+    {
+        //
+    }
+
+    static public function disable()
+    {
+        //
+    }
+
+}
