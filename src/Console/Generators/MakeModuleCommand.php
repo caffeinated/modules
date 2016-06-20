@@ -45,6 +45,7 @@ class MakeModuleCommand extends Command
 		'Resources/',
 		'Resources/Lang/',
 		'Resources/Views/',
+		'Tests/',
 	];
 
 	/**
