@@ -32,7 +32,9 @@ class MakeModuleCommand extends Command
 	 */
 	protected $moduleFolders = [
 		'Console/',
+		'Console/Commands/'
 		'Database/',
+		'Database/Factories/',
 		'Database/Migrations/',
 		'Database/Seeds/',
 		'Http/',
