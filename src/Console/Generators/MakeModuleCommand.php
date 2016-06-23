@@ -142,7 +142,6 @@ class MakeModuleCommand extends Command
 
         $this->container['name']        = $this->ask('Please enter the name of the module:', $this->container['name']);
         $this->container['slug']        = $this->ask('Please enter the slug for the module:', $this->container['slug']);
-        $this->container['namespace']   = $this->ask('Please enter the namespace for the module:', $this->container['namespace']);
         $this->container['version']     = $this->ask('Please enter the module version:', $this->container['version']);
         $this->container['description'] = $this->ask('Please enter the description of the module:', $this->container['description']);
         $this->container['author']      = $this->ask('Please enter the author of the module:', $this->container['author']);
@@ -151,7 +150,6 @@ class MakeModuleCommand extends Command
         $this->comment('You have provided the following manifest information:');
         $this->comment('Name:        '.$this->container['name']);
         $this->comment('Slug:        '.$this->container['slug']);
-        $this->comment('Namespace:   '.$this->container['namespace']);
         $this->comment('Version:     '.$this->container['version']);
         $this->comment('Description: '.$this->container['description']);
         $this->comment('Author:      '.$this->container['author']);
