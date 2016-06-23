@@ -32,7 +32,7 @@ abstract class Repository implements RepositoryInterface
     public function __construct(Config $config, Filesystem $files)
     {
         $this->config = $config;
-        $this->files = $files;
+        $this->files  = $files;
     }
 
     /**
@@ -66,10 +66,10 @@ abstract class Repository implements RepositoryInterface
      */
     public function getManifest($slug)
     {
-        if (!is_null($slug)) {
-            $module = studly_case($slug);
-            $path = $this->getManifestPath($module);
-            $contents = $this->files->get($path);
+        if (! is_null($slug)) {
+            $module     = str_slug($slug);
+            $path       = $this->getManifestPath($module);
+            $contents   = $this->files->get($path);
             $collection = collect(json_decode($contents, true));
 
             return $collection;

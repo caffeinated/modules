@@ -12,9 +12,9 @@ class LocalRepository extends Repository
     public function optimize()
     {
         $cachePath = $this->getCachePath();
-        $cache = $this->getCache();
+        $cache     = $this->getCache();
         $basenames = $this->getAllBasenames();
-        $modules = collect();
+        $modules   = collect();
 
         $basenames->each(function ($module, $key) use ($modules, $cache) {
             $temp = collect($cache->get($module));
@@ -116,7 +116,7 @@ class LocalRepository extends Repository
      */
     public function exists($slug)
     {
-        return $this->slugs()->contains(strtolower($slug));
+        return $this->slugs()->contains(str_slug($slug));
     }
 
     /**
@@ -159,10 +159,10 @@ class LocalRepository extends Repository
         list($slug, $key) = explode('::', $property);
 
         $cachePath = $this->getCachePath();
-        $cache = $this->getCache();
-        $module = $this->where('slug', $slug);
+        $cache     = $this->getCache();
+        $module    = $this->where('slug', $slug);
         $moduleKey = $module->keys()->first();
-        $values = $module->first();
+        $values    = $module->first();
 
         if (isset($values[$key])) {
             unset($values[$key]);
@@ -172,7 +172,7 @@ class LocalRepository extends Repository
 
         $module = collect([$moduleKey => $values]);
 
-        $merged = $cache->merge($module);
+        $merged  = $cache->merge($module);
         $content = json_encode($merged->all(), JSON_PRETTY_PRINT);
 
         return $this->files->put($cachePath, $content);

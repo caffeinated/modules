@@ -103,7 +103,7 @@ class MakeModuleCommand extends Command
     {
         parent::__construct();
 
-        $this->files = $files;
+        $this->files  = $files;
         $this->module = $module;
     }
 
@@ -114,13 +114,13 @@ class MakeModuleCommand extends Command
      */
     public function fire()
     {
-        $this->container['slug'] = strtolower($this->argument('slug'));
-        $this->container['name'] = Str::studly($this->container['slug']);
-        $this->container['namespace'] = Str::studly($this->container['slug']);
-        $this->container['version'] = '1.0';
+        $this->container['slug']        = Str::slug($this->argument('slug'));
+        $this->container['name']        = Str::studly($this->container['slug']);
+        $this->container['namespace']   = Str::studly($this->container['slug']);
+        $this->container['version']     = '1.0';
         $this->container['description'] = 'This is the description for the '.$this->container['name'].' module.';
-        $this->container['license'] = 'MIT';
-        $this->container['author'] = ' ';
+        $this->container['license']     = 'MIT';
+        $this->container['author']      = ' ';
 
         if ($this->option('quick')) {
             return $this->generate();
@@ -140,13 +140,13 @@ class MakeModuleCommand extends Command
     {
         $this->displayHeader('make_module_step_1');
 
-        $this->container['name'] = $this->ask('Please enter the name of the module:', $this->container['name']);
-        $this->container['slug'] = $this->ask('Please enter the slug for the module:', $this->container['slug']);
-        $this->container['namespace'] = $this->ask('Please enter the namespace for the module:', $this->container['namespace']);
-        $this->container['version'] = $this->ask('Please enter the module version:', $this->container['version']);
+        $this->container['name']        = $this->ask('Please enter the name of the module:', $this->container['name']);
+        $this->container['slug']        = $this->ask('Please enter the slug for the module:', $this->container['slug']);
+        $this->container['namespace']   = $this->ask('Please enter the namespace for the module:', $this->container['namespace']);
+        $this->container['version']     = $this->ask('Please enter the module version:', $this->container['version']);
         $this->container['description'] = $this->ask('Please enter the description of the module:', $this->container['description']);
-        $this->container['author'] = $this->ask('Please enter the author of the module:', $this->container['author']);
-        $this->container['license'] = $this->ask('Please enter the module license:', $this->container['license']);
+        $this->container['author']      = $this->ask('Please enter the author of the module:', $this->container['author']);
+        $this->container['license']     = $this->ask('Please enter the module license:', $this->container['license']);
 
         $this->comment('You have provided the following manifest information:');
         $this->comment('Name:        '.$this->container['name']);
@@ -175,9 +175,9 @@ class MakeModuleCommand extends Command
     protected function generate()
     {
         $steps = [
-            'Generating folders...' => 'generateFolders',
-            'Generating .gitkeep...' => 'generateGitkeep',
-            'Generating files...' => 'generateFiles',
+            'Generating folders...'      => 'generateFolders',
+            'Generating .gitkeep...'     => 'generateGitkeep',
+            'Generating files...'        => 'generateFiles',
             'Optimizing module cache...' => 'optimizeModules',
         ];
 

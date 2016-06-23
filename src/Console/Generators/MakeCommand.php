@@ -194,17 +194,7 @@ class MakeCommand extends CommandGenerator
      */
     protected function parseSlug($slug)
     {
-        $slug = studly_case($slug);
-
-        if (str_contains($slug, '/')) {
-            $slug = str_replace('/', '', $slug);
-        }
-
-        if (str_contains($slug, '\\')) {
-            $slug = str_replace('\\', '', $slug);
-        }
-
-        return strtolower($slug);
+        return str_slug($slug);
     }
 
     /**
