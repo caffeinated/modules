@@ -58,4 +58,23 @@ class ModulesServiceProvider extends ServiceProvider
     {
         return ['modules'];
     }
+
+    public static function compiles()
+    {
+        $repository = app()->make('modules');
+        $modules    = $repository->all();
+        $files      = [];
+
+        foreach ($modules as $slug => $properties) {
+            $namespace       = $repository->resolveNamespace($properties);
+            $file            = $repository->getPath()."/{$namespace}/Providers/{$namespace}ServiceProvider.php";
+            $serviceProvider = $repository->getNamespace().'\\'.$namespace."\\Providers\\{$namespace}ServiceProvider";
+
+            if (class_exists($serviceProvider)) {
+                $files = array_merge($files, forward_static_call([$serviceProvider, 'compiles']));
+            }
+        }
+
+        return array_map('realpath', $files);
+    }
 }

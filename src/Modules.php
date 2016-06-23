@@ -25,7 +25,7 @@ class Modules implements RepositoryInterface
      */
     public function __construct(Application $app, RepositoryInterface $repository)
     {
-        $this->app = $app;
+        $this->app        = $app;
         $this->repository = $repository;
     }
 
@@ -56,8 +56,8 @@ class Modules implements RepositoryInterface
      */
     protected function registerServiceProvider($properties)
     {
-        $namespace = $this->resolveNamespace($properties);
-        $file = $this->repository->getPath()."/{$namespace}/Providers/{$namespace}ServiceProvider.php";
+        $namespace       = $this->resolveNamespace($properties);
+        $file            = $this->repository->getPath()."/{$namespace}/Providers/{$namespace}ServiceProvider.php";
         $serviceProvider = $this->repository->getNamespace().'\\'.$namespace."\\Providers\\{$namespace}ServiceProvider";
 
         if (class_exists($serviceProvider)) {
@@ -74,7 +74,7 @@ class Modules implements RepositoryInterface
     {
         if (isset($properties['autoload'])) {
             $namespace = $this->resolveNamespace($properties);
-            $path = $this->repository->getPath()."/{$namespace}/";
+            $path      = $this->repository->getPath()."/{$namespace}/";
 
             foreach ($properties['autoload'] as $file) {
                 include $path.$file;
@@ -321,7 +321,7 @@ class Modules implements RepositoryInterface
      *
      * @param array $properties
      */
-    private function resolveNamespace($properties)
+    public function resolveNamespace($properties)
     {
         return isset($properties['namespace'])
             ? $properties['namespace']
