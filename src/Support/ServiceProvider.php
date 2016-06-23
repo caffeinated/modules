@@ -7,6 +7,16 @@ use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 class ServiceProvider extends IlluminateServiceProvider
 {
     /**
+     * Register bindings in the container.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        // Intentionally left blank.
+    }
+
+    /**
      * Register any additional module middleware.
      *
      * @param  array|string  $middleware
