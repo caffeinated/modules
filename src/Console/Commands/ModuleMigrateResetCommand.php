@@ -54,8 +54,8 @@ class ModuleMigrateResetCommand extends Command
     {
         parent::__construct();
 
-        $this->module = $module;
-        $this->files = $files;
+        $this->module   = $module;
+        $this->files    = $files;
         $this->migrator = $migrator;
     }
 
@@ -106,9 +106,9 @@ class ModuleMigrateResetCommand extends Command
     {
         $this->migrator->setconnection($this->input->getOption('database'));
 
-        $pretend = $this->input->getOption('pretend');
+        $pretend       = $this->input->getOption('pretend');
         $migrationPath = $this->getMigrationPath($slug);
-        $migrations = array_reverse($this->migrator->getMigrationFiles($migrationPath));
+        $migrations    = array_reverse($this->migrator->getMigrationFiles($migrationPath));
 
         if (count($migrations) == 0) {
             return $this->error('Nothing to rollback.');
@@ -130,10 +130,10 @@ class ModuleMigrateResetCommand extends Command
     protected function runDown($slug, $migration, $pretend)
     {
         $migrationPath = $this->getMigrationPath($slug);
-        $file = (string) $migrationPath.'/'.$migration.'.php';
-        $classFile = implode('_', array_slice(explode('_', basename($file, '.php')), 4));
-        $class = studly_case($classFile);
-        $table = $this->laravel['config']['database.migrations'];
+        $file          = (string) $migrationPath.'/'.$migration.'.php';
+        $classFile     = implode('_', array_slice(explode('_', basename($file, '.php')), 4));
+        $class         = studly_case($classFile);
+        $table         = $this->laravel['config']['database.migrations'];
 
         include $file;
 

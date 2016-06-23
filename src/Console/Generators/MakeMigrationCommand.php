@@ -85,7 +85,7 @@ class MakeMigrationCommand extends MakeCommand
      */
     protected function resolveByPath($filePath)
     {
-        $this->container['filename'] = $this->makeFileName($filePath);
+        $this->container['filename']  = $this->makeFileName($filePath);
         $this->container['classname'] = basename($filePath);
         $this->container['tablename'] = 'dummy';
     }

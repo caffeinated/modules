@@ -50,7 +50,7 @@ class ModuleMigrateCommand extends Command
         parent::__construct();
 
         $this->migrator = $migrator;
-        $this->module = $module;
+        $this->module   = $module;
     }
 
     /**
@@ -96,7 +96,7 @@ class ModuleMigrateCommand extends Command
     {
         if ($this->module->exists($slug)) {
             $pretend = Arr::get($this->option(), 'pretend', false);
-            $path = $this->getMigrationPath($slug);
+            $path    = $this->getMigrationPath($slug);
 
             if (floatval(App::version()) > 5.1) {
                 $pretend = ['pretend' => $pretend];

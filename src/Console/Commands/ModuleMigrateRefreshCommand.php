@@ -39,14 +39,14 @@ class ModuleMigrateRefreshCommand extends Command
         $slug = $this->argument('slug');
 
         $this->call('module:migrate:reset', [
-            'slug' => $slug,
+            'slug'       => $slug,
             '--database' => $this->option('database'),
-            '--force' => $this->option('force'),
-            '--pretend' => $this->option('pretend'),
+            '--force'    => $this->option('force'),
+            '--pretend'  => $this->option('pretend'),
         ]);
 
         $this->call('module:migrate', [
-            'slug' => $slug,
+            'slug'       => $slug,
             '--database' => $this->option('database'),
         ]);
 
@@ -79,7 +79,7 @@ class ModuleMigrateRefreshCommand extends Command
     protected function runSeeder($slug = null, $database = null)
     {
         $this->call('module:seed', [
-            'slug' => $slug,
+            'slug'       => $slug,
             '--database' => $database,
         ]);
     }

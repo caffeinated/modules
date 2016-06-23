@@ -79,9 +79,9 @@ class MakeControllerCommand extends MakeCommand
      */
     protected function resolveByPath($filePath)
     {
-        $this->container['filename'] = $this->makeFileName($filePath);
+        $this->container['filename']  = $this->makeFileName($filePath);
         $this->container['namespace'] = $this->getNamespace($filePath);
-        $this->container['path'] = $this->getBaseNamespace();
+        $this->container['path']      = $this->getBaseNamespace();
         $this->container['classname'] = basename($filePath);
     }
 

@@ -79,8 +79,8 @@ class ModuleMigrateRollbackCommand extends Command
 
         $this->call('migrate:rollback', [
             '--database' => $this->option('database'),
-            '--force' => $this->option('force'),
-            '--pretend' => $this->option('pretend'),
+            '--force'    => $this->option('force'),
+            '--pretend'  => $this->option('pretend'),
         ]);
     }
 

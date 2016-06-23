@@ -88,11 +88,11 @@ class ModuleListCommand extends Command
     protected function getModuleInformation($module)
     {
         return [
-            '#' => $module['order'],
-            'name' => $module['name'],
-            'slug' => $module['slug'],
+            '#'           => $module['order'],
+            'name'        => $module['name'],
+            'slug'        => $module['slug'],
             'description' => $module['description'],
-            'status' => ($this->module->isEnabled($module['slug'])) ? 'Enabled' : 'Disabled',
+            'status'      => ($this->module->isEnabled($module['slug'])) ? 'Enabled' : 'Disabled',
         ];
     }
 
