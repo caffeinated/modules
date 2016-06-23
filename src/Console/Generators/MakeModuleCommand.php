@@ -65,11 +65,11 @@ class MakeModuleCommand extends Command
      * @var array
      */
     protected $moduleStubs = [
-        'seeder.stub',
-        'routes.stub',
-        'moduleserviceprovider.stub',
-        'routeserviceprovider.stub',
-        'manifest.stub',
+        'seeder',
+        'routes',
+        'moduleserviceprovider',
+        'routeserviceprovider',
+        'manifest',
     ];
 
     /**
@@ -280,7 +280,16 @@ class MakeModuleCommand extends Command
      */
     protected function getStubContent($key)
     {
-        return $this->formatContent($this->files->get(__DIR__.'/../../../resources/stubs/'.$this->moduleStubs[$key]));
+        $stub    = $this->moduleStubs[$key];
+        $laravel = app();
+
+        if (
+            version_compare($laravel::VERSION, '5.2.0', '<') and
+            version_compare($laravel::VERSION, '5.1.0'. '>=')) {
+            $stub = $stub.'_v5.1';
+        }
+
+        return $this->formatContent($this->files->get(__DIR__.'/../../../resources/stubs/'.$stub.'.stub'));
     }
 
     /**
