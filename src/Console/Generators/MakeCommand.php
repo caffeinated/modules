@@ -88,7 +88,7 @@ class MakeCommand extends CommandGenerator
     {
         parent::__construct();
 
-        $this->files = $files;
+        $this->files  = $files;
         $this->module = $module;
     }
 
@@ -127,8 +127,9 @@ class MakeCommand extends CommandGenerator
 
             $this->resolveByPath($filePath);
 
-            $file = $this->formatContent($file);
-            $filePath = str_replace(basename($filePath), '', $filePath);
+            $file     = $this->formatContent($file);
+            $find     = basename($filePath);
+            $filePath = strrev(preg_replace(strrev("/$find/"), '', strrev($filePath), 1));
             $filePath = $filePath.$file;
 
             if ($this->files->exists($filePath)) {
@@ -290,7 +291,8 @@ class MakeCommand extends CommandGenerator
     protected function getNamespace($file)
     {
         $namespace = str_replace($this->modulePath, '', $file);
-        $namespace = str_replace(basename($namespace), '', $namespace);
+        $find      = basename($namespace);
+        $namespace = strrev(preg_replace(strrev("/$find/"), '', strrev($namespace), 1));
         $namespace = ltrim($namespace, '\/');
         $namespace = rtrim($namespace, '\/');
 
