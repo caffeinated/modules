@@ -20,6 +20,10 @@ class ModulesServiceProvider extends ServiceProvider
             __DIR__.'/../config/modules.php' => config_path('modules.php'),
         ], 'config');
 
+        $this->publishes([
+            __DIR__.'/../resources/stubs/' => config('modules.custom_stubs'),
+        ], 'stubs');
+
         $modules = $this->app['modules'];
 
         $modules->register();
