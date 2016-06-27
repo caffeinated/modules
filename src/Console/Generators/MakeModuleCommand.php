@@ -316,8 +316,12 @@ class MakeModuleCommand extends Command
      */
     protected function displayHeader($file = '', $level = 'info')
     {
-        $stub = $this->files->get(__DIR__.'/../../../resources/stubs/console/'.$file.'.stub');
-
+        if(!empty(config('modules.custom_stubs'))){
+            $stub = $this->files->get(config('modules.custom_stubs').'/console/'.$file.'.stub');
+        }else{
+            $stub = $this->files->get(__DIR__.'/../../../resources/stubs/console/'.$file.'.stub');
+        }
+        
         return $this->$level($stub);
     }
 }
