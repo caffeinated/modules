@@ -76,7 +76,7 @@ class LocalRepository extends Repository
      */
     public function where($key, $value)
     {
-        return $this->all()->where($key, $value);
+        return collect($this->all()->where($key, $value)->first());
     }
 
     /**
