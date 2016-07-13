@@ -83,7 +83,7 @@ class ModuleSeedCommand extends Command
      */
     protected function seed($slug)
     {
-        $module        = $this->module->where('slug', $slug)->first();
+        $module        = $this->module->where('slug', $slug);
         $params        = [];
         $namespacePath = $this->module->getNamespace();
         $rootSeeder    = $module['namespace'].'DatabaseSeeder';
