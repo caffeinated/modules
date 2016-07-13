@@ -76,7 +76,7 @@ class LocalRepository extends Repository
      */
     public function where($key, $value)
     {
-        return $this->all()->where($key, $value);
+        return collect($this->all()->where($key, $value)->first());
     }
 
     /**
@@ -207,8 +207,7 @@ class LocalRepository extends Repository
      */
     public function isEnabled($slug)
     {
-        $module = $this->where('slug', $slug)
-            ->first();
+        $module = $this->where('slug', $slug);
 
         return $module['enabled'] === true;
     }
@@ -222,8 +221,7 @@ class LocalRepository extends Repository
      */
     public function isDisabled($slug)
     {
-        $module = $this->where('slug', $slug)
-            ->first();
+        $module = $this->where('slug', $slug);
 
         return $module['enabled'] === false;
     }

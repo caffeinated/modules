@@ -104,7 +104,7 @@ class MakeCommand extends CommandGenerator
 
         if ($this->module->exists($slug)) {
             $this->modulePath = $this->module->getPath();
-            $this->moduleInfo = collect($this->module->where('slug', $slug)->first());
+            $this->moduleInfo = collect($this->module->where('slug', $slug));
 
             $this->container['slug'] = $slug;
             $this->container['name'] = $name;
