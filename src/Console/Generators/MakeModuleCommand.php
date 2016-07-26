@@ -286,10 +286,14 @@ class MakeModuleCommand extends Command
         if (
             version_compare($laravel::VERSION, '5.2.0', '<') and
             version_compare($laravel::VERSION, '5.1.0'. '>=')) {
-            $stub = $stub.'_v5.1';
+            $stub = 'v5.1\\'.$stub;
         }
-
-        return $this->formatContent($this->files->get(__DIR__.'/../../../resources/stubs/'.$stub.'.stub'));
+        
+        if(!empty(config('modules.custom_stubs'))){
+           return $this->formatContent($this->files->get(config('modules.custom_stubs').$stub.'.stub'));
+        }else{
+           return $this->formatContent($this->files->get(__DIR__.'/../../../resources/stubs/'.$stub.'.stub'));
+        }
     }
 
     /**
