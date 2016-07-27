@@ -168,7 +168,7 @@ class LocalRepository extends Repository
 
         $module[$key] = $value;
 
-        $module = collect([$slug => $module]);
+        $module = collect([$module['name'] => $module]);
 
         $merged  = $cache->merge($module);
         $content = json_encode($merged->all(), JSON_PRETTY_PRINT);
