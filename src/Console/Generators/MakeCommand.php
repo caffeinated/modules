@@ -326,6 +326,6 @@ class MakeCommand extends CommandGenerator
      */
     protected function formatContent($content)
     {
-        //
+        // Implemented by child class.
     }
 }
