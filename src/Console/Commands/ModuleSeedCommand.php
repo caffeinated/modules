@@ -105,6 +105,8 @@ class ModuleSeedCommand extends Command
             }
 
             $this->call('db:seed', $params);
+
+            event($slug.'.module.seeded', [$module, $this->option()]);
         }
     }
 

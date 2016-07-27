@@ -30,5 +30,7 @@ class ModuleOptimizeCommand extends Command
         $this->info('Generating optimized module cache');
 
         $this->laravel['modules']->optimize();
+
+        event('modules.optimized');
     }
 }

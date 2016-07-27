@@ -62,7 +62,7 @@ class ModuleMigrateCommand extends Command
     {
         $this->prepareDatabase();
 
-        if (!empty($this->argument('slug'))) {
+        if (! empty($this->argument('slug'))) {
             $module = $this->module->where('slug', $this->argument('slug'));
 
             if ($this->module->isEnabled($module['slug'])) {
@@ -95,6 +95,7 @@ class ModuleMigrateCommand extends Command
     protected function migrate($slug)
     {
         if ($this->module->exists($slug)) {
+            $module  = $this->module->where('slug', $slug);
             $pretend = Arr::get($this->option(), 'pretend', false);
             $path    = $this->getMigrationPath($slug);
 
@@ -103,6 +104,8 @@ class ModuleMigrateCommand extends Command
             }
 
             $this->migrator->run($path, $pretend);
+
+            event($slug.'.module.migrated', [$module, $this->option()]);
 
             // Once the migrator has run we will grab the note output and send it out to
             // the console screen, since the migrator itself functions without having

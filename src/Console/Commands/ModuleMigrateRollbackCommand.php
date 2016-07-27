@@ -75,6 +75,8 @@ class ModuleMigrateRollbackCommand extends Command
      */
     protected function rollback($slug)
     {
+        $module = $this->module->where('slug', $slug);
+
         $this->requireMigrations($slug);
 
         $this->call('migrate:rollback', [
@@ -82,6 +84,8 @@ class ModuleMigrateRollbackCommand extends Command
             '--force'    => $this->option('force'),
             '--pretend'  => $this->option('pretend'),
         ]);
+
+        event($slug.'.module.rolledback', [$module, $this->option()]);
     }
 
     /**

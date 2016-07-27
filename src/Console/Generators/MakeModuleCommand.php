@@ -192,6 +192,11 @@ class MakeModuleCommand extends Command
 
         $progress->finish();
 
+        $slug   = $this->container['slug'];
+        $module = $this->module->where('slug', $slug);
+
+        event($slug.'.module.made');
+
         $this->info("\nModule generated successfully.");
     }
 
@@ -321,7 +326,7 @@ class MakeModuleCommand extends Command
         }else{
             $stub = $this->files->get(__DIR__.'/../../../resources/stubs/console/'.$file.'.stub');
         }
-        
+
         return $this->$level($stub);
     }
 }

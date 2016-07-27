@@ -55,6 +55,8 @@ class ModuleMigrateRefreshCommand extends Command
         }
 
         if (isset($slug)) {
+            event($slug.'.module.refreshed', [$module, $this->option()]);
+
             $this->info('Module has been refreshed.');
         } else {
             $this->info('All modules have been refreshed.');

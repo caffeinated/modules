@@ -103,13 +103,16 @@ class MakeCommand extends CommandGenerator
         $name = $this->parseName($this->argument('name'));
 
         if ($this->module->exists($slug)) {
+            $module           = $this->module->where('slug', $slug);
             $this->modulePath = $this->module->getPath();
-            $this->moduleInfo = collect($this->module->where('slug', $slug));
+            $this->moduleInfo = collect($module);
 
             $this->container['slug'] = $slug;
             $this->container['name'] = $name;
 
             return $this->generate();
+
+            event($slug.'.module.made.'.strtolower($this->type), [$module, $this->option()]);
         }
 
         return $this->error('Module '.$this->container['slug'].' does not exist.');

@@ -115,8 +115,12 @@ class ModuleMigrateResetCommand extends Command
         }
 
         foreach ($migrations as $migration) {
+            $module = $this->module->where('slug', $slug);
+
             $this->info('Migration: '.$migration);
             $this->runDown($slug, $migration, $pretend);
+
+            event($slug.'.module.reset', [$module, $this->option()]);
         }
     }
 
