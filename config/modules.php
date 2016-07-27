@@ -78,5 +78,5 @@ return [
     | php artisan vendor:publish --tag=stubs
     |
     */
-    //'custom_stubs' => base_path('resources/stubs/'),
+    //'custom_stubs' => base_path('resources\stubs\\'),
 ];
