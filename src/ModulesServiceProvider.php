@@ -2,6 +2,12 @@
 
 namespace Caffeinated\Modules;
 
+use Caffeinated\Modules\Modules;
+use Caffeinated\Modules\Contracts\Repository;
+use Caffeinated\Modules\Providers\ConsoleServiceProvider;
+use Caffeinated\Modules\Providers\GeneratorServiceProvider;
+use Caffeinated\Modules\Providers\MigrationServiceProvider;
+use Caffeinated\Modules\Providers\RepositoryServiceProvider;
 use Illuminate\Support\ServiceProvider;
 
 class ModulesServiceProvider extends ServiceProvider
@@ -20,15 +26,11 @@ class ModulesServiceProvider extends ServiceProvider
             __DIR__.'/../config/modules.php' => config_path('modules.php'),
         ], 'config');
 
-        if(config('modules.custom_stubs')){
-            $this->publishes([
-                __DIR__.'/../resources/stubs/' => config('modules.custom_stubs'),
-            ], 'stubs');
-        }
+        $this->publishes([
+            __DIR__.'/../resources/stubs/' => config('modules.custom_stubs'),
+        ], 'stubs');
 
-        $modules = $this->app['modules'];
-
-        $modules->register();
+        $this->app['modules']->register();
     }
 
     /**
@@ -40,18 +42,15 @@ class ModulesServiceProvider extends ServiceProvider
             __DIR__.'/../config/modules.php', 'modules'
         );
 
-        $this->app->register('Caffeinated\Modules\Providers\RepositoryServiceProvider');
-
-        $this->app->register('Caffeinated\Modules\Providers\MigrationServiceProvider');
-
-        $this->app->register('Caffeinated\Modules\Providers\ConsoleServiceProvider');
-
-        $this->app->register('Caffeinated\Modules\Providers\GeneratorServiceProvider');
+        $this->app->register(ConsoleServiceProvider::class);
+        $this->app->register(GeneratorServiceProvider::class);
+        $this->app->register(MigrationServiceProvider::class);
+        $this->app->register(RepositoryServiceProvider::class);
 
         $this->app->singleton('modules', function ($app) {
-            $repository = $app->make('Caffeinated\Modules\Contracts\Repository');
+            $repository = $app->make(Repository::class);
 
-            return new \Caffeinated\Modules\Modules($app, $repository);
+            return new Modules($app, $repository);
         });
     }
 

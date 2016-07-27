@@ -285,16 +285,14 @@ class MakeModuleCommand extends Command
      */
     protected function getStubContent($key)
     {
-        $stub    = $this->moduleStubs[$key];
-        $laravel = app();
+        $stub = $this->moduleStubs[$key].'.stub';
 
-        if (
-            version_compare($laravel::VERSION, '5.2.0', '<') and
-            version_compare($laravel::VERSION, '5.1.0'. '>=')) {
-            $stub = $stub.'_v5.1';
+        if(!empty(config('modules.custom_stubs'))){
+            $stubPath = config('modules.custom_stubs');
+        }else{
+            $stubPath = __DIR__.'/../../../resources/stubs/';
         }
-
-        return $this->formatContent($this->files->get(__DIR__.'/../../../resources/stubs/'.$stub.'.stub'));
+        return $this->formatContent($this->files->get($stubPath.$stubName));
     }
 
     /**

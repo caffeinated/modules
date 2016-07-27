@@ -161,16 +161,14 @@ class LocalRepository extends Repository
         $cachePath = $this->getCachePath();
         $cache     = $this->getCache();
         $module    = $this->where('slug', $slug);
-        $moduleKey = $module->keys()->first();
-        $values    = $module->first();
 
-        if (isset($values[$key])) {
-            unset($values[$key]);
+        if (isset($module[$key])) {
+            unset($module[$key]);
         }
 
-        $values[$key] = $value;
+        $module[$key] = $value;
 
-        $module = collect([$moduleKey => $values]);
+        $module = collect([$slug => $module]);
 
         $merged  = $cache->merge($module);
         $content = json_encode($merged->all(), JSON_PRETTY_PRINT);
