@@ -11,7 +11,7 @@ class ModulesTest extends PHPUnit_Framework_TestCase
     protected $app;
 
     /**
-     * @var ModuleRepositoryInterface
+     * @var ModuleRepository
      */
     protected $repository;
 
@@ -28,7 +28,7 @@ class ModulesTest extends PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->app = m::mock('Illuminate\Foundation\Application');
-        $this->repository = m::mock('Caffeinated\Modules\Contracts\RepositoryInterface');
+        $this->repository = m::mock('Caffeinated\Modules\Contracts\Repository');
         $this->module = new Modules($this->app, $this->repository);
     }
 

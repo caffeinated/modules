@@ -27,6 +27,6 @@ class RepositoryServiceProvider extends ServiceProvider
             $namespace = 'Caffeinated\Modules\Repositories\\'.$driver.'Repository';
         }
 
-        $this->app->bind('Caffeinated\Modules\Contracts\RepositoryInterface', $namespace);
+        $this->app->bind('Caffeinated\Modules\Contracts\Repository', $namespace);
     }
 }

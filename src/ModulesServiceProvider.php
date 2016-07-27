@@ -49,7 +49,7 @@ class ModulesServiceProvider extends ServiceProvider
         $this->app->register('Caffeinated\Modules\Providers\GeneratorServiceProvider');
 
         $this->app->singleton('modules', function ($app) {
-            $repository = $app->make('Caffeinated\Modules\Contracts\RepositoryInterface');
+            $repository = $app->make('Caffeinated\Modules\Contracts\Repository');
 
             return new \Caffeinated\Modules\Modules($app, $repository);
         });

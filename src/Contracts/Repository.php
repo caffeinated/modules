@@ -2,7 +2,7 @@
 
 namespace Caffeinated\Modules\Contracts;
 
-interface RepositoryInterface
+interface Repository
 {
     /**
      * Get all module manifest properties and store

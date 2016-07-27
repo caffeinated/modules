@@ -2,10 +2,10 @@
 
 namespace Caffeinated\Modules;
 
-use Caffeinated\Modules\Contracts\RepositoryInterface;
+use Caffeinated\Modules\Contracts\Repository;
 use Illuminate\Foundation\Application;
 
-class Modules implements RepositoryInterface
+class Modules implements Repository
 {
     /**
      * @var Application
@@ -13,7 +13,7 @@ class Modules implements RepositoryInterface
     protected $app;
 
     /**
-     * @var RepositoryInterface
+     * @var Repository
      */
     protected $repository;
 
@@ -21,9 +21,9 @@ class Modules implements RepositoryInterface
      * Create a new Modules instance.
      *
      * @param Application         $app
-     * @param RepositoryInterface $repository
+     * @param Repository $repository
      */
-    public function __construct(Application $app, RepositoryInterface $repository)
+    public function __construct(Application $app, Repository $repository)
     {
         $this->app        = $app;
         $this->repository = $repository;
