@@ -35,7 +35,7 @@ class ModuleEnableCommand extends Command
 
             $module = $this->laravel['modules']->where('slug', $slug);
 
-            event($slug.'.module.enabled', [$module, $this->options()]);
+            event($slug.'.module.enabled', [$module, null]);
 
             $this->info('Module was enabled successfully.');
         } else {
