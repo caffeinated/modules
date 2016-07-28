@@ -2,11 +2,11 @@
 
 namespace Caffeinated\Modules\Repositories;
 
-use Caffeinated\Modules\Contracts\Repository;
+use Caffeinated\Modules\Contracts\Repository as RepositoryContract;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Filesystem\Filesystem;
 
-abstract class Repository implements Repository
+abstract class Repository implements RepositoryContract
 {
     /**
      * @var \Illuminate\Config\Repository
