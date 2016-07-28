@@ -11,11 +11,11 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "illuminate/database": "5.1.*|5.2.*|5.3.*",
-        "illuminate/support": "5.1.*|5.2.*|5.3.*",
-        "illuminate/filesystem": "5.1.*|5.2.*|5.3.*",
-        "illuminate/config": "5.1.*|5.2.*|5.3.*",
-        "illuminate/routing": "5.1.*|5.2.*|5.3.*"
+        "illuminate/database": "5.1.*|5.2.*",
+        "illuminate/support": "5.1.*|5.2.*",
+        "illuminate/filesystem": "5.1.*|5.2.*",
+        "illuminate/config": "5.1.*|5.2.*",
+        "illuminate/routing": "5.1.*|5.2.*"
     },
     "autoload": {
         "psr-4": {
@@ -27,7 +27,6 @@
             "dev-master": "3.2-dev"
         }
     },
-    "minimum-stability": "dev",
     "suggest": {
         "wikimedia/composer-merge-plugin": "Allows the ability to create and merge composer.json files for your individual modules for module-specific dependency management."
     }
