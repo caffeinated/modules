@@ -51,25 +51,12 @@ class MakeModuleCommand extends Command
      *
      * @var array
      */
-    protected $moduleFiles = [
-        'Database/Seeds/{{namespace}}DatabaseSeeder.php',
-        'Http/routes.php',
-        'Providers/{{namespace}}ServiceProvider.php',
-        'Providers/RouteServiceProvider.php',
-        'module.json',
-    ];
-
-    /**
-     * Module stubs used to populate defined files.
-     *
-     * @var array
-     */
     protected $moduleStubs = [
-        'seeder',
-        'routes',
-        'moduleserviceprovider',
-        'routeserviceprovider',
-        'manifest',
+        'seeder'                => 'Database/Seeds/{{namespace}}DatabaseSeeder.php',
+        'routes'                => 'Http/routes.php',
+        'moduleserviceprovider' => 'Providers/{{namespace}}ServiceProvider.php',
+        'routeserviceprovider'  => 'Providers/RouteServiceProvider.php',
+        'manifest'              => 'module.json',
     ];
 
     /**
@@ -285,13 +272,9 @@ class MakeModuleCommand extends Command
      */
     protected function getStubContent($key)
     {
-        $stub = $this->moduleStubs[$key].'.stub';
+        $stub     = $this->moduleStubs[$key].'.stub';
+        $stubPath = __DIR__.'/../../../resources/stubs/';
 
-        if(!empty(config('modules.custom_stubs'))){
-            $stubPath = config('modules.custom_stubs');
-        }else{
-            $stubPath = __DIR__.'/../../../resources/stubs/';
-        }
         return $this->formatContent($this->files->get($stubPath.$stubName));
     }
 

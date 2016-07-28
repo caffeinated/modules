@@ -311,11 +311,8 @@ class MakeCommand extends CommandGenerator
      */
     protected function getStubContent($stubName)
     {
-        if(!empty(config('modules.custom_stubs'))){
-            $stubPath = config('modules.custom_stubs');
-        }else{
-            $stubPath = __DIR__.'/../../../resources/stubs/';
-        }
+        $stubPath = __DIR__.'/../../../resources/stubs/';
+
         return $this->formatContent($this->files->get($stubPath.$stubName));
     }
 
