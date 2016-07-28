@@ -51,12 +51,25 @@ class MakeModuleCommand extends Command
      *
      * @var array
      */
+    protected $moduleFiles = [
+        'Database/Seeds/{{namespace}}DatabaseSeeder.php',
+        'Http/routes.php',
+        'Providers/{{namespace}}ServiceProvider.php',
+        'Providers/RouteServiceProvider.php',
+        'module.json',
+    ];
+
+    /**
+     * Module stubs used to populate defined files.
+     *
+     * @var array
+     */
     protected $moduleStubs = [
-        'seeder'                => 'Database/Seeds/{{namespace}}DatabaseSeeder.php',
-        'routes'                => 'Http/routes.php',
-        'moduleserviceprovider' => 'Providers/{{namespace}}ServiceProvider.php',
-        'routeserviceprovider'  => 'Providers/RouteServiceProvider.php',
-        'manifest'              => 'module.json',
+        'seeder',
+        'routes',
+        'module_service_provider',
+        'route_service_provider',
+        'manifest',
     ];
 
     /**
@@ -272,8 +285,13 @@ class MakeModuleCommand extends Command
      */
     protected function getStubContent($key)
     {
-        $stub     = $this->moduleStubs[$key].'.stub';
-        $stubPath = __DIR__.'/../../../resources/stubs/';
+        $laravel  = app();
+
+        list($major, $minor, $patch) = explode('.', $laravel::VERSION);
+        $version                     = implode('.', [$major, $minor]);
+
+        $stubPath = __DIR__.'/../../../resources/stubs/'.$version.'/';
+        $stubName = $this->moduleStubs[$key].'.stub';
 
         return $this->formatContent($this->files->get($stubPath.$stubName));
     }

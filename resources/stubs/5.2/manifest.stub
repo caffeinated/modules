@@ -1,0 +1,9 @@
+{
+	"name": "{{name}}",
+	"slug": "{{slug}}",
+	"namespace": "{{namespace}}",
+	"version": "{{version}}",
+	"author": "{{author}}",
+	"license": "{{license}}",
+	"description": "{{description}}"
+}

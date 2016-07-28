@@ -311,7 +311,12 @@ class MakeCommand extends CommandGenerator
      */
     protected function getStubContent($stubName)
     {
-        $stubPath = __DIR__.'/../../../resources/stubs/';
+        $laravel = app();
+
+        list($major, $minor, $patch) = explode('.', $laravel::VERSION);
+        $version                     = implode('.', [$major, $minor]);
+
+        $stubPath = __DIR__.'/../../../resources/stubs/'.$version.'/';
 
         return $this->formatContent($this->files->get($stubPath.$stubName));
     }
