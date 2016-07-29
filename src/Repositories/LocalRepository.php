@@ -17,18 +17,19 @@ class LocalRepository extends Repository
         $modules   = collect();
 
         $basenames->each(function ($module, $key) use ($modules, $cache) {
-            $temp = collect($cache->get($module));
-            $manifest = collect($this->getManifest($module));
+            $basename = collect(['basename' => $module]);
+            $temp     = $basename->merge(collect($cache->get($module)));
+            $manifest = $temp->merge(collect($this->getManifest($module)));
 
-            $modules->put($module, $temp->merge($manifest));
+            $modules->put($module, $manifest);
         });
 
         $modules->each(function ($module) {
-            if (!$module->has('enabled')) {
+            if (! $module->has('enabled')) {
                 $module->put('enabled', config('modules.enabled', true));
             }
 
-            if (!$module->has('order')) {
+            if (! $module->has('order')) {
                 $module->put('order', 9001);
             }
 
@@ -168,7 +169,7 @@ class LocalRepository extends Repository
 
         $module[$key] = $value;
 
-        $module = collect([$module['name'] => $module]);
+        $module = collect([$module['basename'] => $module]);
 
         $merged  = $cache->merge($module);
         $content = json_encode($merged->all(), JSON_PRETTY_PRINT);
