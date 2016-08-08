@@ -67,8 +67,7 @@ abstract class Repository implements RepositoryContract
     public function getManifest($slug)
     {
         if (! is_null($slug)) {
-            $module     = str_slug($slug);
-            $path       = $this->getManifestPath($module);
+            $path       = $this->getManifestPath($slug);
             $contents   = $this->files->get($path);
             $collection = collect(json_decode($contents, true));
 
@@ -111,15 +110,19 @@ abstract class Repository implements RepositoryContract
      */
     public function getModulePath($slug)
     {
-        $module = studly_case($slug);
+        $module = studly_case(str_slug($slug));
 
-        return $this->getPath()."/{$module}/";
+        if(\File::exists($this->getPath()."/{$module}/")) {
+            return $this->getPath()."/{$module}/";
+        }
+
+        return $this->getPath()."/{$slug}/";
     }
 
     /**
      * Get path of module manifest file.
      *
-     * @param string $module
+     * @param $slug
      *
      * @return string
      */
