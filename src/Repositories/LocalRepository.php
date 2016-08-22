@@ -5,43 +5,6 @@ namespace Caffeinated\Modules\Repositories;
 class LocalRepository extends Repository
 {
     /**
-     * Update cached repository of module information.
-     *
-     * @return bool
-     */
-    public function optimize()
-    {
-        $cachePath = $this->getCachePath();
-        $cache     = $this->getCache();
-        $basenames = $this->getAllBasenames();
-        $modules   = collect();
-
-        $basenames->each(function ($module, $key) use ($modules, $cache) {
-            $basename = collect(['basename' => $module]);
-            $temp     = $basename->merge(collect($cache->get($module)));
-            $manifest = $temp->merge(collect($this->getManifest($module)));
-
-            $modules->put($module, $manifest);
-        });
-
-        $modules->each(function ($module) {
-            if (! $module->has('enabled')) {
-                $module->put('enabled', config('modules.enabled', true));
-            }
-
-            if (! $module->has('order')) {
-                $module->put('order', 9001);
-            }
-
-            return $module;
-        });
-
-        $content = json_encode($modules->all(), JSON_PRETTY_PRINT);
-
-        return $this->files->put($cachePath, $content);
-    }
-
-    /**
      * Get all modules.
      *
      * @return Collection
@@ -249,30 +212,84 @@ class LocalRepository extends Repository
         return $this->set($slug.'::enabled', false);
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Optimization Methods
+    |--------------------------------------------------------------------------
+    |
+    */
+
     /**
-     * Get the contents of the cache file.
+     * Update cached repository of module information.
      *
-     * The cache file lists all module slugs and their
-     * enabled or disabled status. This can be used to
-     * filter out modules depending on their status.
-     *
-     * @return Collection
+     * @return bool
      */
-    public function getCache()
+    public function optimize()
     {
         $cachePath = $this->getCachePath();
 
-        if (!$this->files->exists($cachePath)) {
-            $content = json_encode(array(), JSON_PRETTY_PRINT);
+        $this->files->delete($cachePath);
 
-            $this->files->put($cachePath, $content);
+        $cache     = $this->createCache();
+        $basenames = $this->getAllBasenames();
+        $modules   = collect();
+
+        $basenames->each(function ($module, $key) use ($modules, $cache) {
+            $basename = collect(['basename' => $module]);
+            $temp     = $basename->merge(collect($cache->get($module)));
+            $manifest = $temp->merge(collect($this->getManifest($module)));
+
+            $modules->put($module, $manifest);
+        });
+
+        $modules->each(function ($module) {
+            if (! $module->has('enabled')) {
+                $module->put('enabled', config('modules.enabled', true));
+            }
+
+            if (! $module->has('order')) {
+                $module->put('order', 9001);
+            }
+
+            return $module;
+        });
+
+        $content = json_encode($modules->all(), JSON_PRETTY_PRINT);
+
+        return $this->files->put($cachePath, $content);
+    }
+
+    /**
+     * Get the contents of the cache file.
+     *
+     * @return Collection
+     */
+    private function getCache()
+    {
+        $cachePath = $this->getCachePath();
+
+        if (! $this->files->exists($cachePath)) {
+            $this->createCache();
 
             $this->optimize();
-
-            return collect(json_decode($content, true));
         }
 
         return collect(json_decode($this->files->get($cachePath), true));
+    }
+
+    /**
+     * Create an empty instance of the cache file.
+     *
+     * @return Collection
+     */
+    private function createCache()
+    {
+        $cachePath = $this->getCachePath();
+        $content   = json_encode(array(), JSON_PRETTY_PRINT);
+
+        $this->files->put($cachePath, $content);
+
+        return collect(json_decode($content, true));
     }
 
     /**
@@ -280,7 +297,7 @@ class LocalRepository extends Repository
      *
      * @return string
      */
-    protected function getCachePath()
+    private function getCachePath()
     {
         return storage_path('app/modules.json');
     }

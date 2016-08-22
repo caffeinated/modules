@@ -6,6 +6,7 @@ use Caffeinated\Modules\Modules;
 use Caffeinated\Modules\Contracts\Repository;
 use Caffeinated\Modules\Providers\ConsoleServiceProvider;
 use Caffeinated\Modules\Providers\GeneratorServiceProvider;
+use Caffeinated\Modules\Providers\HelperServiceProvider;
 use Caffeinated\Modules\Providers\MigrationServiceProvider;
 use Caffeinated\Modules\Providers\RepositoryServiceProvider;
 use Illuminate\Support\ServiceProvider;
@@ -26,10 +27,6 @@ class ModulesServiceProvider extends ServiceProvider
             __DIR__.'/../config/modules.php' => config_path('modules.php'),
         ], 'config');
 
-        $this->publishes([
-            __DIR__.'/../resources/stubs/' => config('modules.custom_stubs'),
-        ], 'stubs');
-
         $this->app['modules']->register();
     }
 
@@ -44,6 +41,7 @@ class ModulesServiceProvider extends ServiceProvider
 
         $this->app->register(ConsoleServiceProvider::class);
         $this->app->register(GeneratorServiceProvider::class);
+        $this->app->register(HelperServiceProvider::class);
         $this->app->register(MigrationServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
 
@@ -66,14 +64,11 @@ class ModulesServiceProvider extends ServiceProvider
 
     public static function compiles()
     {
-        $repository = app()->make('modules');
-        $modules    = $repository->all();
-        $files      = [];
+        $modules = app()->make('modules')->all();
+        $files   = [];
 
-        foreach ($modules as $slug => $properties) {
-            $namespace       = $repository->resolveNamespace($properties);
-            $file            = $repository->getPath()."/{$namespace}/Providers/{$namespace}ServiceProvider.php";
-            $serviceProvider = $repository->getNamespace().'\\'.$namespace."\\Providers\\{$namespace}ServiceProvider";
+        foreach ($modules as $module) {
+            $serviceProvider = module_class($module['slug'], 'Providers\\ModuleServiceProvider');
 
             if (class_exists($serviceProvider)) {
                 $files = array_merge($files, forward_static_call([$serviceProvider, 'compiles']));
