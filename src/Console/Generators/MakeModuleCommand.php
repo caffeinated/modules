@@ -5,7 +5,6 @@ namespace Caffeinated\Modules\Console\Generators;
 use Caffeinated\Modules\Modules;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 class MakeModuleCommand extends Command
@@ -25,52 +24,6 @@ class MakeModuleCommand extends Command
      * @var string
      */
     protected $description = 'Create a new Caffeinated module and bootstrap it';
-
-    /**
-     * Module folders to be created.
-     *
-     * @var array
-     */
-    protected $moduleFolders = [
-        'Console/',
-        'Database/',
-        'Database/Migrations/',
-        'Database/Seeds/',
-        'Http/',
-        'Http/Controllers/',
-        'Http/Middleware/',
-        'Http/Requests/',
-        'Providers/',
-        'Resources/',
-        'Resources/Lang/',
-        'Resources/Views/',
-    ];
-
-    /**
-     * Module files to be created.
-     *
-     * @var array
-     */
-    protected $moduleFiles = [
-        'Database/Seeds/{{namespace}}DatabaseSeeder.php',
-        'Http/routes.php',
-        'Providers/{{namespace}}ServiceProvider.php',
-        'Providers/RouteServiceProvider.php',
-        'module.json',
-    ];
-
-    /**
-     * Module stubs used to populate defined files.
-     *
-     * @var array
-     */
-    protected $moduleStubs = [
-        'seeder',
-        'routes',
-        'module_service_provider',
-        'route_service_provider',
-        'manifest',
-    ];
 
     /**
      * The modules instance.
@@ -114,13 +67,10 @@ class MakeModuleCommand extends Command
      */
     public function fire()
     {
-        $this->container['slug']        = Str::slug($this->argument('slug'));
-        $this->container['name']        = Str::studly($this->container['slug']);
-        $this->container['namespace']   = Str::studly($this->container['slug']);
+        $this->container['slug']        = str_slug($this->argument('slug'));
+        $this->container['name']        = studly_case($this->container['slug']);
         $this->container['version']     = '1.0';
         $this->container['description'] = 'This is the description for the '.$this->container['name'].' module.';
-        $this->container['license']     = 'MIT';
-        $this->container['author']      = ' ';
 
         if ($this->option('quick')) {
             return $this->generate();
@@ -144,20 +94,20 @@ class MakeModuleCommand extends Command
         $this->container['slug']        = $this->ask('Please enter the slug for the module:', $this->container['slug']);
         $this->container['version']     = $this->ask('Please enter the module version:', $this->container['version']);
         $this->container['description'] = $this->ask('Please enter the description of the module:', $this->container['description']);
-        $this->container['author']      = $this->ask('Please enter the author of the module:', $this->container['author']);
-        $this->container['license']     = $this->ask('Please enter the module license:', $this->container['license']);
+        $this->container['basename']    = studly_case($this->container['slug']);
+        $this->container['namespace']   = config('modules.namespace').$this->container['basename'];
 
         $this->comment('You have provided the following manifest information:');
-        $this->comment('Name:        '.$this->container['name']);
-        $this->comment('Slug:        '.$this->container['slug']);
-        $this->comment('Version:     '.$this->container['version']);
-        $this->comment('Description: '.$this->container['description']);
-        $this->comment('Author:      '.$this->container['author']);
-        $this->comment('License:     '.$this->container['license']);
+        $this->comment('Name:                       '.$this->container['name']);
+        $this->comment('Slug:                       '.$this->container['slug']);
+        $this->comment('Version:                    '.$this->container['version']);
+        $this->comment('Description:                '.$this->container['description']);
+        $this->comment('Basename (auto-generated):  '.$this->container['basename']);
+        $this->comment('Namespace (auto-generated): '.$this->container['namespace']);
 
         if ($this->confirm('Do you wish to continue?')) {
             $this->comment('Thanks! That\'s all we need.');
-            $this->comment('Now relax while your module is generated for you.');
+            $this->comment('Now relax while your module is generated.');
 
             $this->generate();
         } else {
@@ -173,9 +123,7 @@ class MakeModuleCommand extends Command
     protected function generate()
     {
         $steps = [
-            'Generating folders...'      => 'generateFolders',
-            'Generating .gitkeep...'     => 'generateGitkeep',
-            'Generating files...'        => 'generateFiles',
+            'Generating module...'       => 'generateModule',
             'Optimizing module cache...' => 'optimizeModules',
         ];
 
@@ -192,10 +140,7 @@ class MakeModuleCommand extends Command
 
         $progress->finish();
 
-        $slug   = $this->container['slug'];
-        $module = $this->module->where('slug', $slug);
-
-        event($slug.'.module.made');
+        event($this->container['slug'].'.module.made');
 
         $this->info("\nModule generated successfully.");
     }
@@ -203,40 +148,25 @@ class MakeModuleCommand extends Command
     /**
      * Generate defined module folders.
      */
-    protected function generateFolders()
+    protected function generateModule()
     {
-        if (!$this->files->isDirectory($this->module->getPath())) {
-            $this->files->makeDirectory($this->module->getPath());
+        if (!$this->files->isDirectory(module_path())) {
+            $this->files->makeDirectory(module_path());
         }
 
-        $this->files->makeDirectory($this->getModulePath($this->container['slug'], true));
+        $directory = module_path(null, $this->container['basename']);
+        $source    = __DIR__.'/../../../resources/stubs/module';
 
-        foreach ($this->moduleFolders as $folder) {
-            $this->files->makeDirectory($this->getModulePath($this->container['slug']).$folder);
-        }
-    }
+        $this->files->makeDirectory($directory);
+        $this->files->copyDirectory($source, $directory);
 
-    /**
-     * Generate defined module files.
-     */
-    protected function generateFiles()
-    {
-        foreach ($this->moduleFiles as $key => $file) {
-            $file = $this->formatContent($file);
+        $files = $this->files->allFiles($directory);
 
-            $this->files->put($this->getDestinationFile($file), $this->getStubContent($key));
-        }
-    }
+        foreach ($files as $file) {
+            $contents = $this->replacePlaceholders($file->getContents());
+            $filePath = module_path(null, $this->container['basename'].'/'.$file->getRelativePathname());
 
-    /**
-     * Generate .gitkeep files within generated folders.
-     */
-    protected function generateGitkeep()
-    {
-        $modulePath = $this->getModulePath($this->container['slug']);
-        foreach ($this->moduleFolders as $folder) {
-            $gitkeep = $modulePath.$folder.'/.gitkeep';
-            $this->files->put($gitkeep, '');
+            $this->files->put($filePath, $contents);
         }
     }
 
@@ -249,68 +179,6 @@ class MakeModuleCommand extends Command
     }
 
     /**
-     * Get the path to the module.
-     *
-     * @param string $slug
-     *
-     * @return string
-     */
-    protected function getModulePath($slug = null, $allowNotExists = false)
-    {
-        if ($slug) {
-            return $this->module->getModulePath($slug, $allowNotExists);
-        }
-
-        return $this->module->getPath();
-    }
-
-    /**
-     * Get destination file.
-     *
-     * @param string $file
-     *
-     * @return string
-     */
-    protected function getDestinationFile($file)
-    {
-        return $this->getModulePath($this->container['slug']).$this->formatContent($file);
-    }
-
-    /**
-     * Get stub content by key.
-     *
-     * @param int $key
-     *
-     * @return string
-     */
-    protected function getStubContent($key)
-    {
-        $laravel  = app();
-
-        list($major, $minor, $patch) = explode('.', $laravel::VERSION);
-        $version                     = implode('.', [$major, $minor]);
-
-        $stubPath = __DIR__.'/../../../resources/stubs/'.$version.'/';
-        $stubName = $this->moduleStubs[$key].'.stub';
-
-        return $this->formatContent($this->files->get($stubPath.$stubName));
-    }
-
-    /**
-     * Replace placeholder text with correct values.
-     *
-     * @return string
-     */
-    protected function formatContent($content)
-    {
-        return str_replace(
-            ['{{slug}}', '{{name}}', '{{namespace}}', '{{version}}', '{{description}}', '{{author}}', '{{license}}', '{{path}}'],
-            [$this->container['slug'], $this->container['name'], $this->container['namespace'], $this->container['version'], $this->container['description'], $this->container['author'], $this->container['license'], $this->module->getNamespace()],
-            $content
-        );
-    }
-
-    /**
      * Pull the given stub file contents and display them on screen.
      *
      * @param string $file
@@ -320,12 +188,31 @@ class MakeModuleCommand extends Command
      */
     protected function displayHeader($file = '', $level = 'info')
     {
-        if(!empty(config('modules.custom_stubs'))){
-            $stub = $this->files->get(config('modules.custom_stubs').'/console/'.$file.'.stub');
-        }else{
-            $stub = $this->files->get(__DIR__.'/../../../resources/stubs/console/'.$file.'.stub');
-        }
+        $stub = $this->files->get(__DIR__.'/../../../resources/stubs/console/'.$file.'.stub');
 
         return $this->$level($stub);
+    }
+
+    protected function replacePlaceholders($contents)
+    {
+        $find = [
+            'DummyBasename',
+            'DummyNamespace',
+            'DummyName',
+            'DummySlug',
+            'DummyVersion',
+            'DummyDescription'
+        ];
+
+        $replace = [
+            $this->container['basename'],
+            $this->container['namespace'],
+            $this->container['name'],
+            $this->container['slug'],
+            $this->container['version'],
+            $this->container['description']
+        ];
+
+        return str_replace($find, $replace, $contents);
     }
 }

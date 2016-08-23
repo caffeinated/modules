@@ -1,6 +1,6 @@
 <?php
 
-namespace {{namespace}}\Providers;
+namespace DummyNamespace\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -14,7 +14,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = '{{namespace}}\Http\Controllers';
+    protected $namespace = 'DummyNamespace\Http\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -55,7 +55,7 @@ class RouteServiceProvider extends ServiceProvider
             'middleware' => 'web',
             'namespace'  => $this->namespace,
         ], function ($router) {
-            require config('modules.path').'/Blog/Routes/web.php';
+            require module_path('DummySlug', 'Routes/web.php');
         });
     }
 
@@ -73,7 +73,7 @@ class RouteServiceProvider extends ServiceProvider
             'namespace'  => $this->namespace,
             'prefix'     => 'api',
         ], function ($router) {
-            require config('modules.path').'/Blog/Routes/api.php';
+            require module_path('DummySlug', 'Routes/api.php');
         });
     }
 }

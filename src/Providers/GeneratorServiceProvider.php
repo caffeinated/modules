@@ -20,7 +20,7 @@ class GeneratorServiceProvider extends ServiceProvider
     public function register()
     {
         $generators = [
-            // 'command.make.module'            => \Caffeinated\Modules\Console\Generators\MakeModuleCommand::class,
+            'command.make.module'            => \Caffeinated\Modules\Console\Generators\MakeModuleCommand::class,
             'command.make.module.controller' => \Caffeinated\Modules\Console\Generators\MakeControllerCommand::class,
             'command.make.module.middleware' => \Caffeinated\Modules\Console\Generators\MakeMiddlewareCommand::class,
             'command.make.module.migration'  => \Caffeinated\Modules\Console\Generators\MakeMigrationCommand::class,
