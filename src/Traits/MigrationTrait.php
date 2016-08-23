@@ -29,8 +29,6 @@ trait MigrationTrait
      */
     protected function getMigrationPath($module)
     {
-        $path = $this->laravel['modules']->getModulePath($module);
-
-        return $path.'Database/Migrations/';
+        return module_path($module, 'Database/Migrations');
     }
 }

@@ -134,18 +134,19 @@ class ModuleMigrateResetCommand extends Command
     protected function runDown($slug, $migration, $pretend)
     {
         $migrationPath = $this->getMigrationPath($slug);
-        $file          = (string) $migrationPath.'/'.$migration.'.php';
-        $classFile     = implode('_', array_slice(explode('_', basename($file, '.php')), 4));
+        $file          = explode('/', $migration);
+        $file          = end($file);
+        $classFile     = implode('_', array_slice(explode('_', basename($migration, '.php')), 4));
         $class         = studly_case($classFile);
         $table         = $this->laravel['config']['database.migrations'];
 
-        include $file;
+        include $migration;
 
         $instance = new $class();
         $instance->down();
 
         $this->laravel['db']->table($table)
-            ->where('migration', $migration)
+            ->where('migration', preg_replace('/\\.[^.\\s]{3,4}$/', '', $file))
             ->delete();
     }
 
