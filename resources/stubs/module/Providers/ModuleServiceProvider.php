@@ -7,7 +7,7 @@ use Caffeinated\Modules\Support\ServiceProvider;
 class ModuleServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap any module services.
+     * Bootstrap the module services.
      *
      * @return void
      */
@@ -15,5 +15,15 @@ class ModuleServiceProvider extends ServiceProvider
     {
         $this->loadTranslationsFrom(__DIR__.'/../Resources/Lang', 'DummySlug');
         $this->loadViewsFrom(__DIR__.'/../Resources/Views', 'DummySlug');
+    }
+
+    /**
+     * Register the module services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->register(RouteServiceProvider::class);
     }
 }
