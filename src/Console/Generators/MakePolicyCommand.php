@@ -4,30 +4,30 @@ namespace Caffeinated\Modules\Console\Generators;
 
 use Caffeinated\Modules\Console\GeneratorCommand;
 
-class MakeRequestCommand extends GeneratorCommand
+class MakePolicyCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'make:module:request
+    protected $signature = 'make:module:policy
     	{slug : The slug of the module.}
-    	{name : The name of the form request class.}';
+    	{name : The name of the policy class.}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new module form request class';
+    protected $description = 'Create a new module policy class';
 
     /**
      * String to store the command type.
      *
      * @var string
      */
-    protected $type = 'Module request';
+    protected $type = 'Module policy';
 
     /**
      * Get the stub file for the generator.
@@ -36,7 +36,7 @@ class MakeRequestCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/stubs/request.stub';
+        return __DIR__.'/stubs/policy.stub';
     }
 
     /**
@@ -47,6 +47,6 @@ class MakeRequestCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return module_class($this->argument('slug'), 'Http\\Requests');
+        return module_class($this->argument('slug'), 'Policies');
     }
 }

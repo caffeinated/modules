@@ -2,7 +2,9 @@
 
 namespace Caffeinated\Modules\Console\Generators;
 
-class MakeSeederCommand extends MakeCommand
+use Caffeinated\Modules\Console\GeneratorCommand;
+
+class MakeSeederCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
@@ -25,73 +27,37 @@ class MakeSeederCommand extends MakeCommand
      *
      * @var string
      */
-    protected $type = 'Seeder';
+    protected $type = 'Module seeder';
 
     /**
-     * Module folders to be created.
-     *
-     * @var array
-     */
-    protected $listFolders = [
-        'Database/Seeds/',
-    ];
-
-    /**
-     * Module files to be created.
-     *
-     * @var array
-     */
-    protected $listFiles = [
-        '{{filename}}.php',
-    ];
-
-    /**
-     * Module stubs used to populate defined files.
-     *
-     * @var array
-     */
-    protected $listStubs = [
-        'default' => [
-            'seeder_plus.stub',
-        ],
-    ];
-
-    /**
-     * Resolve Container after getting file path.
-     *
-     * @param string $FilePath
-     *
-     * @return array
-     */
-    protected function resolveByPath($filePath)
-    {
-        $this->container['filename']  = $this->makeFileName($filePath);
-        $this->container['namespace'] = $this->getNamespace($filePath);
-        $this->container['path']      = $this->getBaseNamespace();
-        $this->container['classname'] = basename($filePath);
-    }
-
-    /**
-     * Replace placeholder text with correct values.
+     * Get the stub file for the generator.
      *
      * @return string
      */
-    protected function formatContent($content)
+    protected function getStub()
     {
-        return str_replace(
-            [
-                '{{filename}}',
-                '{{path}}',
-                '{{namespace}}',
-                '{{classname}}',
-            ],
-            [
-                $this->container['filename'],
-                $this->container['path'],
-                $this->container['namespace'],
-                $this->container['classname'],
-            ],
-            $content
-        );
+        return __DIR__.'/stubs/seeder.stub';
+    }
+
+    /**
+     * Get the destination class path.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    protected function getPath($name)
+    {
+        return module_path($this->argument('slug'), 'Database/Seeds/'.$name.'.php');
+    }
+
+    /**
+     * Parse the name and format according to the root namespace.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    protected function parseName($name)
+    {
+        return $name;
     }
 }
