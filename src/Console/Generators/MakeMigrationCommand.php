@@ -2,7 +2,9 @@
 
 namespace Caffeinated\Modules\Console\Generators;
 
-class MakeMigrationCommand extends MakeCommand
+use Illuminate\Console\Command;
+
+class MakeMigrationCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -23,116 +25,25 @@ class MakeMigrationCommand extends MakeCommand
     protected $description = 'Create a new module migration file';
 
     /**
-     * String to store the command type.
+     * Execute the console command.
      *
-     * @var string
+     * @return void
      */
-    protected $type = 'Migration';
-
-    /**
-     * Module folders to be created.
-     *
-     * @var array
-     */
-    protected $listFolders = [
-        'Database/Migrations/',
-    ];
-
-    /**
-     * Module files to be created.
-     *
-     * @var array
-     */
-    protected $listFiles = [
-        '{{filename}}.php',
-    ];
-
-    /**
-     * Module signature option.
-     *
-     * @var array
-     */
-    protected $signOption = [
-        'create',
-        'table',
-    ];
-
-    /**
-     * Module stubs used to populate defined files.
-     *
-     * @var array
-     */
-    protected $listStubs = [
-        'default' => [
-            'migration.stub',
-        ],
-
-        'create' => [
-            'migration_create.stub',
-        ],
-
-        'table' => [
-            'migration_table.stub',
-        ],
-    ];
-
-    /**
-     * Resolve Container after getting file path.
-     *
-     * @param string $FilePath
-     *
-     * @return array
-     */
-    protected function resolveByPath($filePath)
+    public function fire()
     {
-        $this->container['filename']  = $this->makeFileName($filePath);
-        $this->container['classname'] = basename($filePath);
-        $this->container['tablename'] = 'dummy';
-    }
+        $arguments = $this->argument();
+        $option    = $this->option();
+        $options   = [];
 
-    /**
-     * Resolve Container after getting input option.
-     *
-     * @param string $option
-     *
-     * @return array
-     */
-    protected function resolveByOption($option)
-    {
-        $this->container['tablename'] = $option;
-    }
+        array_walk($option, function(&$value, $key) use (&$options) {
+            $options['--'.$key] = $value;
+        });
 
-    /**
-     * Make FileName.
-     *
-     * @param string $filePath
-     *
-     * @return string
-     */
-    protected function makeFileName($filePath)
-    {
-        return date('Y_m_d_His').'_'.strtolower(snake_case(basename($filePath)));
-    }
+        unset($arguments['slug']);
 
-    /**
-     * Replace placeholder text with correct values.
-     *
-     * @return string
-     */
-    protected function formatContent($content)
-    {
-        return str_replace(
-            [
-                '{{filename}}',
-                '{{classname}}',
-                '{{tablename}}',
-            ],
-            [
-                $this->container['filename'],
-                $this->container['classname'],
-                $this->container['tablename'],
-            ],
-            $content
-        );
+        $options['--path'] = str_replace(realpath(base_path()), '', module_path($this->argument('slug'), 'Database/Migrations'));
+        $options['--path'] = ltrim($options['--path'], '/');
+
+        return $this->call('make:migration', array_merge($arguments, $options));
     }
 }

@@ -2,7 +2,10 @@
 
 namespace Caffeinated\Modules\Console\Generators;
 
-class MakeModelCommand extends MakeCommand
+use Caffeinated\Modules\Console\GeneratorCommand;
+use Illuminate\Support\Str;
+
+class MakeModelCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
@@ -11,7 +14,8 @@ class MakeModelCommand extends MakeCommand
      */
     protected $signature = 'make:module:model
     	{slug : The slug of the module.}
-    	{name : The name of the model class.}';
+    	{name : The name of the model class.}
+        {--migration : Create a new migration file for the model.}';
 
     /**
      * The console command description.
@@ -25,73 +29,46 @@ class MakeModelCommand extends MakeCommand
      *
      * @var string
      */
-    protected $type = 'Model';
+    protected $type = 'Module model';
 
     /**
-     * Module folders to be created.
+     * Execute the console command.
      *
-     * @var array
+     * @return void
      */
-    protected $listFolders = [
-        'Models/',
-    ];
-
-    /**
-     * Module files to be created.
-     *
-     * @var array
-     */
-    protected $listFiles = [
-        '{{filename}}.php',
-    ];
-
-    /**
-     * Module stubs used to populate defined files.
-     *
-     * @var array
-     */
-    protected $listStubs = [
-        'default' => [
-            'model.stub',
-        ],
-    ];
-
-    /**
-     * Resolve Container after getting file path.
-     *
-     * @param string $filePath
-     *
-     * @return array
-     */
-    protected function resolveByPath($filePath)
+    public function fire()
     {
-        $this->container['filename']  = $this->makeFileName($filePath);
-        $this->container['namespace'] = $this->getNamespace($filePath);
-        $this->container['path']      = $this->getBaseNamespace();
-        $this->container['classname'] = basename($filePath);
+        if (parent::fire() !== false) {
+            if ($this->option('migration')) {
+                $table = Str::plural(Str::snake(class_basename($this->argument('name'))));
+
+                $this->call('make:module:migration', [
+                    'slug'     => $this->argument('slug'),
+                    'name'     => "create_{$table}_table",
+                    '--create' => $table
+                ]);
+            }
+        }
     }
 
     /**
-     * Replace placeholder text with correct values.
+     * Get the stub file for the generator.
      *
      * @return string
      */
-    protected function formatContent($content)
+    protected function getStub()
     {
-        return str_replace(
-            [
-                '{{filename}}',
-                '{{path}}',
-                '{{namespace}}',
-                '{{classname}}',
-            ],
-            [
-                $this->container['filename'],
-                $this->container['path'],
-                $this->container['namespace'],
-                $this->container['classname'],
-            ],
-            $content
-        );
+        return __DIR__.'/stubs/model.stub';
+    }
+
+    /**
+     * Get the default namespace for the class.
+     *
+     * @param  string  $rootNamespace
+     * @return string
+     */
+    protected function getDefaultNamespace($rootNamespace)
+    {
+        return module_class($this->argument('slug'), 'Models');
     }
 }

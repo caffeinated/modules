@@ -26,5 +26,5 @@ function module_class($module, $class)
     $module    = Module::where('slug', $module);
     $namespace = config('modules.namespace').$module['basename'];
 
-    return "\\{$namespace}\\{$class}";
+    return "{$namespace}\\{$class}";
 }

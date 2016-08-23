@@ -2,7 +2,9 @@
 
 namespace Caffeinated\Modules\Console\Generators;
 
-class MakeControllerCommand extends MakeCommand
+use Caffeinated\Modules\Console\GeneratorCommand;
+
+class MakeControllerCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
@@ -26,86 +28,30 @@ class MakeControllerCommand extends MakeCommand
      *
      * @var string
      */
-    protected $type = 'Controller';
+    protected $type = 'Module controller';
 
     /**
-     * Module folders to be created.
-     *
-     * @var array
-     */
-    protected $listFolders = [
-        'Http/Controllers/',
-    ];
-
-    /**
-     * Module files to be created.
-     *
-     * @var array
-     */
-    protected $listFiles = [
-        '{{filename}}.php',
-    ];
-
-    /**
-     * Module signature option.
-     *
-     * @var array
-     */
-    protected $signOption = [
-        'resource',
-    ];
-
-    /**
-     * Module stubs used to populate defined files.
-     *
-     * @var array
-     */
-    protected $listStubs = [
-        'default' => [
-            'controller.stub',
-        ],
-
-        'resource' => [
-            'controller_resource.stub',
-        ],
-    ];
-
-    /**
-     * Resolve Container after getting file path.
-     *
-     * @param string $FilePath
-     *
-     * @return array
-     */
-    protected function resolveByPath($filePath)
-    {
-        $this->container['filename']  = $this->makeFileName($filePath);
-        $this->container['namespace'] = $this->getNamespace($filePath);
-        $this->container['path']      = $this->getBaseNamespace();
-        $this->container['classname'] = basename($filePath);
-    }
-
-    /**
-     * Replace placeholder text with correct values.
+     * Get the stub file for the generator.
      *
      * @return string
      */
-    protected function formatContent($content)
+    protected function getStub()
     {
-        return str_replace(
-            [
-                '{{filename}}',
-                '{{path}}',
-                '{{namespace}}',
-                '{{classname}}',
-            ],
-            [
-                $this->container['filename'],
-                $this->container['path'],
-                $this->container['namespace'],
-                $this->container['classname'],
-            ],
-            $content
-        );
+        if ($this->option('resource')) {
+            return __DIR__.'/stubs/controller.resource.stub';
+        }
+
+        return __DIR__.'/stubs/controller.stub';
+    }
+
+    /**
+     * Get the default namespace for the class.
+     *
+     * @param  string  $rootNamespace
+     * @return string
+     */
+    protected function getDefaultNamespace($rootNamespace)
+    {
+        return module_class($this->argument('slug'), 'Http\\Controllers');
     }
 }
