@@ -158,7 +158,7 @@ class MakeModuleCommand extends Command
         $source    = __DIR__.'/../../../resources/stubs/module';
 
         $this->files->makeDirectory($directory);
-        $this->files->copyDirectory($source, $directory);
+        $this->files->copyDirectory($source, $directory, null);
 
         $files = $this->files->allFiles($directory);
 
