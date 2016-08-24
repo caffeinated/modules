@@ -228,9 +228,7 @@ class LocalRepository extends Repository
     {
         $cachePath = $this->getCachePath();
 
-        $this->files->delete($cachePath);
-
-        $cache     = $this->createCache();
+        $cache     = $this->getCache();
         $basenames = $this->getAllBasenames();
         $modules   = collect();
 
