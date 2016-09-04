@@ -27,6 +27,10 @@ class ModulesServiceProvider extends ServiceProvider
             __DIR__.'/../config/modules.php' => config_path('modules.php'),
         ], 'config');
 
+        $this->publishes([
+            __DIR__.'/../database/migrations/' => database_path('migrations')
+        ], 'migrations');
+
         $this->app['modules']->register();
     }
 
