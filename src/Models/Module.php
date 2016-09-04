@@ -11,7 +11,7 @@ class Module extends Model
 	 *
 	 * @var array
 	 */
-    protected $fillable = [];
+    protected $fillable = ['name', 'slug', 'basename', 'manifest', 'enabled', 'order'];
 
     /**
      * The attributes that should be casted to native types.
