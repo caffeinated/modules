@@ -15,6 +15,7 @@ class ModuleServiceProvider extends ServiceProvider
     {
         $this->loadTranslationsFrom(__DIR__.'/../Resources/Lang', 'DummySlug');
         $this->loadViewsFrom(__DIR__.'/../Resources/Views', 'DummySlug');
+        $this->mergeConfigFrom(__DIR__.'/../config.php', 'modules.DummySlug');
     }
 
     /**
