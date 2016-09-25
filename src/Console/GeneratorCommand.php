@@ -31,4 +31,18 @@ abstract class GeneratorCommand extends LaravelGeneratorCommand
 
         return $this->parseName($this->getDefaultNamespace(trim($rootNamespace, '\\')).'\\'.$name);
     }
+
+    /**
+     * Get the destination class path.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    protected function getPath($name)
+    {
+        $rootNamespace = config('modules.namespace');
+        $name = str_replace($rootNamespace, '', $name);
+
+        return module_path().'/'.str_replace('\\', '/', $name).'.php';
+    }
 }
