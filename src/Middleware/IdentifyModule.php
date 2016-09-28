@@ -32,7 +32,7 @@ class IdentifyModule
      */
     public function handle($request, Closure $next, $slug = null)
     {
-        $request->session()->put('module', $this->module->where('slug', $slug));
+        $request->session()->flash('module', $this->module->where('slug', $slug));
 
         return $next($request);
     }
