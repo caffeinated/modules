@@ -40,24 +40,13 @@ class MakeSeederCommand extends GeneratorCommand
     }
 
     /**
-     * Get the destination class path.
+     * Get the default namespace for the class.
      *
-     * @param  string  $name
+     * @param  string  $rootNamespace
      * @return string
      */
-    protected function getPath($name)
+    protected function getDefaultNamespace($rootNamespace)
     {
-        return module_path($this->argument('slug'), 'Database/Seeds/'.$name.'.php');
-    }
-
-    /**
-     * Parse the name and format according to the root namespace.
-     *
-     * @param  string  $name
-     * @return string
-     */
-    protected function parseName($name)
-    {
-        return $name;
+        return module_class($this->argument('slug'), 'Database\\Seeds');
     }
 }
