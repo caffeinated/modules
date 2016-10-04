@@ -3,6 +3,7 @@
 namespace Caffeinated\Modules\Console\Commands;
 
 use Caffeinated\Modules\Modules;
+use Caffeinated\Modules\Database\Migrations\Migrator;
 use Caffeinated\Modules\Traits\MigrationTrait;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Console\Command;
@@ -58,12 +59,14 @@ class ModuleMigrateRollbackCommand extends Command
         $slug = $this->argument('slug');
 
         if ($slug) {
-            return $this->rollback($slug);
+            $rolledback = $this->rollback($slug);
         } else {
             foreach ($this->module->all() as $module) {
-                $this->rollback($module['slug']);
+                $rolledback[] = $this->rollback($module['slug']);
             }
         }
+
+        $rolledback = collect($rolledback)->flatten()->all();
     }
 
     /**
@@ -75,15 +78,17 @@ class ModuleMigrateRollbackCommand extends Command
      */
     protected function rollback($slug)
     {
-        $module = $this->module->where('slug', $slug);
+        $module   = $this->module->where('slug', $slug);
+        $migrator = new Migrator($module);
 
-        $this->requireMigrations($slug);
+        $rolledBack = $migrator->rollback();
 
-        $this->call('migrate:rollback', [
-            '--database' => $this->option('database'),
-            '--force'    => $this->option('force'),
-            '--pretend'  => $this->option('pretend'),
-        ]);
+        if (count($rolledBack)) {
+            foreach ($rolledBack as $migration) {
+                $this->line("Rolled Back: <info>{$migration}</info>");
+            }
+            return;
+        }
 
         event($slug.'.module.rolledback', [$module, $this->option()]);
     }
