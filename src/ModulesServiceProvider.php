@@ -42,7 +42,6 @@ class ModulesServiceProvider extends ServiceProvider
         $this->app->register(ConsoleServiceProvider::class);
         $this->app->register(GeneratorServiceProvider::class);
         $this->app->register(HelperServiceProvider::class);
-        $this->app->register(MigrationServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
 
         $this->app->singleton('modules', function ($app) {
