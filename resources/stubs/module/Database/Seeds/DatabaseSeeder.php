@@ -1,12 +1,12 @@
 <?php
 
-namespace DummyNamespace;
+namespace DummyNamespace\Database\Seeds;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class DummyClass extends Seeder
+class DatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +15,6 @@ class DummyClass extends Seeder
      */
     public function run()
     {
-        //
+        // $this->call(DummyBasenameTableSeeder::class);
     }
 }

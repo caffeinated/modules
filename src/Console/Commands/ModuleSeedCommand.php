@@ -83,17 +83,18 @@ class ModuleSeedCommand extends Command
      */
     protected function seed($slug)
     {
-        $module        = $this->module->where('slug', $slug);
-        $params        = [];
-        $namespacePath = $this->module->getNamespace();
-        $rootSeeder    = $module['namespace'].'DatabaseSeeder';
-        $fullPath      = $namespacePath.'\\'.$module['namespace'].'\Database\Seeds\\'.$rootSeeder;
+        $module             = $this->module->where('slug', $slug);
+        $params             = [];
+        $namespacePath      = $this->module->getNamespace();
+        $rootSeeder         = 'DatabaseSeeder';
+        $rootNamespace      = $namespacePath.'\\'.$module['basename'].'\\Database\\Seeds';
+        $fullyRootSeeder    = $rootNamespace.'\\'.$rootSeeder;
 
-        if (class_exists($fullPath)) {
+        if (class_exists($fullyRootSeeder)) {
             if ($this->option('class')) {
-                $params['--class'] = $this->option('class');
+                $params['--class'] = $rootNamespace.'\\'.$this->option('class');
             } else {
-                $params['--class'] = $fullPath;
+                $params['--class'] = $fullyRootSeeder;
             }
 
             if ($option = $this->option('database')) {
