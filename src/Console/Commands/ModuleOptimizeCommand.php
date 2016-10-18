@@ -31,6 +31,6 @@ class ModuleOptimizeCommand extends Command
 
         $this->laravel['modules']->optimize();
 
-        event('modules.optimized');
+        event('modules.optimized', [$this->laravel['modules']->all()]);
     }
 }
