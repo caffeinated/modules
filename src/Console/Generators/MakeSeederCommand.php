@@ -60,4 +60,15 @@ class MakeSeederCommand extends GeneratorCommand
     {
         return $name;
     }
+    
+    /**
+     * Replace namespace in seeder stub
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function getNamespace($name)
+    {
+        return module_class($this->argument('slug'), 'Database\Seeds');
+    }
 }

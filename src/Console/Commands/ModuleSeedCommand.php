@@ -86,8 +86,8 @@ class ModuleSeedCommand extends Command
         $module        = $this->module->where('slug', $slug);
         $params        = [];
         $namespacePath = $this->module->getNamespace();
-        $rootSeeder    = $module['namespace'].'DatabaseSeeder';
-        $fullPath      = $namespacePath.'\\'.$module['namespace'].'\Database\Seeds\\'.$rootSeeder;
+        $rootSeeder    = $module['name'].'DatabaseSeeder';
+        $fullPath      = $namespacePath.'\\'.$module['name'].'\Database\Seeds\\'.$rootSeeder;
 
         if (class_exists($fullPath)) {
             if ($this->option('class')) {
