@@ -105,7 +105,7 @@ class MakeModuleCommand extends Command
         $this->comment('Basename (auto-generated):  '.$this->container['basename']);
         $this->comment('Namespace (auto-generated): '.$this->container['namespace']);
 
-        if ($this->confirm('Do you wish to continue?')) {
+        if ($this->confirm('If the provided information is correct, type "yes" to generate.')) {
             $this->comment('Thanks! That\'s all we need.');
             $this->comment('Now relax while your module is generated.');
 
