@@ -55,4 +55,20 @@ return [
     */
 
     'driver' => 'local',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Remap Module Subdirectories
+    |--------------------------------------------------------------------------
+    |
+    | Redefine how module directories are structured. The mapping here will
+    | be respected by all commands and generators.
+    |
+    */
+
+    'pathMap' => [
+        // To change where migrations go, specify the default
+        // location as the key and the new location as the value:
+        // 'Database/Migrations' => 'src/Database/Migrations',
+    ],
 ];

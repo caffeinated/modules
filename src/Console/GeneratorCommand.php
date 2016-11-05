@@ -40,9 +40,16 @@ abstract class GeneratorCommand extends LaravelGeneratorCommand
      */
     protected function getPath($name)
     {
-        $rootNamespace = config('modules.namespace');
-        $name = str_replace($rootNamespace, '', $name);
+        $slug = $this->argument('slug');
 
-        return module_path().'/'.str_replace('\\', '/', $name).'.php';
+        // take everything after the module name in the given path (ignoring case)
+        $key = array_search(strtolower($slug), explode('\\', strtolower($name)));
+        if ($key === false) {
+            $newPath = str_replace('\\', '/', $name);
+        } else {
+            $newPath = implode('/', array_slice(explode('\\', $name), $key + 1));
+        }
+
+        return module_path($slug, "$newPath.php");
     }
 }
