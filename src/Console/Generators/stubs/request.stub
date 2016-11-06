@@ -2,7 +2,7 @@
 
 namespace DummyNamespace;
 
-use DummyRootNamespaceHttp\Requests\Request;
+use DummyRootNamespace\Http\Requests\Request;
 
 class DummyClass extends Request
 {
