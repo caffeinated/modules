@@ -2,6 +2,7 @@
 
 namespace Caffeinated\Modules\Providers;
 
+use Caffeinated\Modules\Database\Migrations\Migrator;
 use Illuminate\Support\ServiceProvider;
 
 class ConsoleServiceProvider extends ServiceProvider
@@ -108,7 +109,11 @@ class ConsoleServiceProvider extends ServiceProvider
     protected function registerMigrateRollbackCommand()
     {
         $this->app->singleton('command.module.migrate.rollback', function ($app) {
-            return new \Caffeinated\Modules\Console\Commands\ModuleMigrateRollbackCommand($app['modules']);
+            $repository = $app['migration.repository'];
+            $table = $app['config']['database.migrations'];
+
+            $migrator = new Migrator($table, $repository, $app['db'], $app['files']);
+            return new \Caffeinated\Modules\Console\Commands\ModuleMigrateRollbackCommand($migrator, $app['modules']);
         });
 
         $this->commands('command.module.migrate.rollback');
