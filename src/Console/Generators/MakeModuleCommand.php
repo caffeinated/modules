@@ -154,17 +154,33 @@ class MakeModuleCommand extends Command
             $this->files->makeDirectory(module_path());
         }
 
+        $pathMap   = config('modules.pathMap');
         $directory = module_path(null, $this->container['basename']);
         $source    = __DIR__.'/../../../resources/stubs/module';
 
         $this->files->makeDirectory($directory);
-        $this->files->copyDirectory($source, $directory, null);
 
-        $files = $this->files->allFiles($directory);
+        $sourceFiles = $this->files->allFiles($source, true);
 
-        foreach ($files as $file) {
+        if (!empty($pathMap)) {
+            $search = array_keys($pathMap);
+            $replace = array_values($pathMap);
+        }
+
+        foreach ($sourceFiles as $file) {
             $contents = $this->replacePlaceholders($file->getContents());
-            $filePath = module_path(null, $this->container['basename'].'/'.$file->getRelativePathname());
+            $subPath = $file->getRelativePathname();
+
+            if (!empty($pathMap)) {
+                $subPath = str_replace($search, $replace, $subPath);
+            }
+
+            $filePath = $directory . '/' . $subPath;
+            $dir = dirname($filePath);
+
+            if (!$this->files->isDirectory($dir)) {
+                $this->files->makeDirectory($dir, 0755, true);
+            }
 
             $this->files->put($filePath, $contents);
         }

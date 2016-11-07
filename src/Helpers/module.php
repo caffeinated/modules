@@ -10,24 +10,32 @@ if (! function_exists('module_path')) {
      */
     function module_path($module = null, $file = '')
     {
+        $modulesPath = config('modules.path');
+        $pathMap = config('modules.pathMap');
+
+        if (!empty($file) && !empty($pathMap)) {
+            $file = str_replace(
+                array_keys($pathMap),
+                array_values($pathMap),
+                $file
+            );
+        }
+
+        $filePath = $file ? '/' . ltrim($file, '/') : '';
+
         if (is_null($module)) {
             if (empty($file)) {
-                return config('modules.path');
+                return $modulesPath;
             }
 
-            return config('modules.path').'/'.$file;
+            return $modulesPath . $filePath;
         }
 
         $module = Module::where('slug', $module);
 
-        if (empty($file)) {
-            return config('modules.path').'/'.$module['basename'];
-        }
-
-        return config('modules.path').'/'.$module['basename'].'/'.$file;
+        return $modulesPath . '/' . $module['basename'] . $filePath;
     }
 }
-
 
 if (! function_exists('module_class')) {
     /**

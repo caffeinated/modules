@@ -136,9 +136,7 @@ class ModuleMigrateCommand extends Command
      */
     protected function getMigrationPath($slug)
     {
-        $path = $this->module->getModulePath($slug);
-
-        return $path.'Database/Migrations/';
+        return module_path($slug, 'Database/Migrations');
     }
 
     /**

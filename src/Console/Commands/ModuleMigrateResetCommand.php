@@ -185,9 +185,7 @@ class ModuleMigrateResetCommand extends Command
      */
     protected function getMigrationPath($slug)
     {
-        $path = $this->module->getModulePath($slug).'Database/Migrations';
-
-        return $path;
+        return module_path($slug, 'Database/Migrations');
     }
 
     /**
