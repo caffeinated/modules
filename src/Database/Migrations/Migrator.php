@@ -2,53 +2,86 @@
 
 namespace Caffeinated\Modules\Database\Migrations;
 
-use Illuminate\Support\Str;
+use Illuminate\Database\Migrations\Migrator as BaseMigrator;
+use Illuminate\Database\Migrations\MigrationRepositoryInterface;
+use Illuminate\Database\ConnectionResolverInterface as Resolver;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
 
-class Migrator
+class Migrator extends BaseMigrator
 {
-    /**
-     * @var Collection
-     */
-    protected $module;
+    protected $table;
 
     /**
-     * The notes for the current operation.
+     * Create a new migrator instance.
      *
-     * @var array
+     * @param  string $table
+     * @param  \Illuminate\Database\Migrations\MigrationRepositoryInterface  $repository
+     * @param  \Illuminate\Database\ConnectionResolverInterface  $resolver
+     * @param  \Illuminate\Filesystem\Filesystem  $files
      */
-    protected $notes = [];
-
-    /**
-     * Create a new Migrator instance.
-     *
-     * @param  Modules  $module
-     */
-    public function __construct($module)
+    public function __construct($table,
+                                MigrationRepositoryInterface $repository,
+                                Resolver $resolver,
+                                Filesystem $files)
     {
-        $this->module = $module;
+        $this->table = $table;
+
+        parent::__construct($repository, $resolver, $files);
     }
 
     /**
      * Rollback the last migration operation.
      *
+     * @param  array|string $paths
+     * @param  array  $options
      * @return array
      */
-    public function rollback()
+    public function rollback($paths = [], array $options = [])
     {
         $this->notes = [];
-        $rolledBack  = [];
-        $migrations  = $this->getMigrations();
-        $count       = count($migrations);
+        $rolledBack = [];
+
+        $migrations = $this->getRanMigrations();
+        $files = $this->getMigrationFiles($paths);
+        $count = count($migrations);
 
         if ($count === 0) {
             $this->note('<info>Nothing to rollback.</info>');
         } else {
-            $this->requireMigrations();
+            $this->requireFiles($files);
+
+            $steps = Arr::get($options, 'step', 0);
+            if($steps == 0) {
+                $steps = 1;
+            }
+
+            $lastBatch = $this->repository->getLastBatchNumber();
+            $stepDown = false;
 
             foreach ($migrations as $migration) {
-                $rolledBack[] = $migration;
+                $migration = (object) $migration;
 
-                $this->runDown($migration);
+                if($lastBatch > $migration->batch && $stepDown) {
+                    $steps--;
+                    $stepDown = false;
+                    $lastBatch = $migration->batch;
+                }
+
+                if($steps <= 0) {
+                    break;
+                }
+
+                if(Arr::exists($files, $migration->migration)) {
+                    $rolledBack[] = $files[$migration->migration];
+
+                    $stepDown = true;
+
+                    $this->runDown(
+                        $files[$migration->migration],
+                        $migration, Arr::get($options, 'pretend', false)
+                    );
+                }
             }
         }
 
@@ -56,119 +89,13 @@ class Migrator
     }
 
     /**
-     * Get migration directory path of the specified module.
+     * Get all the ran migrations
      *
-     * @param string $module
-     *
-     * @return string
+     * @return \Illuminate\Support\Collection
      */
-    protected function getMigrationPath()
+    public function getRanMigrations()
     {
-        return module_path($this->module->get('slug'), 'Database/Migrations');
-    }
-
-    /**
-     * Get all migrations for the specified module.
-     *
-     * @return array
-     */
-    protected function getMigrations()
-    {
-        $path = $this->getMigrationPath($this->module->get('slug'));
-
-        return app()->make('files')->glob($path.'/*_*.php');
-    }
-
-    /**
-     * Require (once) all migration files for the specified module.
-     *
-     * @param string $module
-     */
-    protected function requireMigrations()
-    {
-        $migrations = $this->getMigrations();
-
-        foreach ($migrations as $migration) {
-            app()->make('files')->requireOnce($migration);
-        }
-    }
-
-    /**
-     * Resolve a migration instance from a file.
-     *
-     * @param  string  $file
-     * @return object
-     */
-    public function resolve($migration)
-    {
-        $class = Str::studly(implode('_', array_slice(explode('_', $migration), 4)));
-        $class = str_replace('.php', '', $class);
-
-        return app()->make($class);
-    }
-
-    /**
-     * Run "down" a migration instance.
-     *
-     * @param  string  $migration
-     * @param  boolean  $pretend
-     * @return void
-     */
-    protected function runDown($migration, $pretend = false)
-    {
-        // Once we get an instance we can either run a pretend execution of the
-        // migration or we can run the real migration.
-        $instance = $this->resolve($migration);
-
-        if ($pretend) {
-            return $this->pretendToRun($instance, 'down');
-        }
-
-        $instance->down();
-
-        // Once we have successfully run the migration "down" we will remove it from
-        // the migration repository so it will be considered to have not been run
-        // by the application then will be able to fire by any later operation.
-
-        $where = explode('/', $migration);
-        $where = end($where);
-        $where = str_replace('.php', '', $where);
-
-        $this->find($where)->delete();
-
-        $this->note("<info>Rolled back:</info> {$where}");
-    }
-
-    /**
-     * Get table instance.
-     *
-     * @return string
-     */
-    public function table()
-    {
-        return app()->make('db')->table(config('database.migrations'));
-    }
-
-    /**
-     * Find migration data from database by given migration name.
-     *
-     * @param string $migration
-     *
-     * @return object
-     */
-    public function find($migration)
-    {
-        return $this->table()->whereMigration($migration);
-    }
-
-    /**
-     * Raise a note event for the migrator.
-     *
-     * @param  string  $message
-     * @return void
-     */
-    protected function note($message)
-    {
-        $this->notes[] = $message;
+        $query = $this->resolveConnection($this->connection)->table($this->table);
+        return $query->orderBy('batch', 'desc')->orderBy('migration', 'desc')->get();
     }
 }

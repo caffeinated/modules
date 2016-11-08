@@ -3,12 +3,12 @@
 namespace Caffeinated\Modules\Console\Commands;
 
 use Caffeinated\Modules\Modules;
-use Caffeinated\Modules\Database\Migrations\Migrator;
 use Caffeinated\Modules\Traits\MigrationTrait;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Illuminate\Database\Migrations\Migrator;
 
 class ModuleMigrateRollbackCommand extends Command
 {
@@ -29,6 +29,13 @@ class ModuleMigrateRollbackCommand extends Command
     protected $description = 'Rollback the last database migrations for a specific or all modules';
 
     /**
+     * The migrator instance.
+     *
+     * @var \Illuminate\Database\Migrations\Migrator
+     */
+    protected $migrator;
+
+    /**
      * @var Modules
      */
     protected $module;
@@ -36,12 +43,14 @@ class ModuleMigrateRollbackCommand extends Command
     /**
      * Create a new command instance.
      *
+     * @param Migrator $migrator
      * @param Modules $module
      */
-    public function __construct(Modules $module)
+    public function __construct(Migrator $migrator, Modules $module)
     {
         parent::__construct();
 
+        $this->migrator = $migrator;
         $this->module = $module;
     }
 
@@ -56,41 +65,16 @@ class ModuleMigrateRollbackCommand extends Command
             return;
         }
 
-        $slug = $this->argument('slug');
+        $this->migrator->setConnection($this->option('database'));
 
-        if ($slug) {
-            $rolledback = $this->rollback($slug);
-        } else {
-            foreach ($this->module->all() as $module) {
-                $rolledback[] = $this->rollback($module['slug']);
-            }
+        $paths = $this->getMigrationPaths();
+        $this->migrator->rollback(
+            $paths, ['pretend' => $this->option('pretend'), 'step' => (int) $this->option('step')]
+        );
+
+        foreach ($this->migrator->getNotes() as $note) {
+            $this->output->writeln($note);
         }
-
-        $rolledback = collect($rolledback)->flatten()->all();
-    }
-
-    /**
-     * Run the migration rollback for the specified module.
-     *
-     * @param string $slug
-     *
-     * @return mixed
-     */
-    protected function rollback($slug)
-    {
-        $module   = $this->module->where('slug', $slug);
-        $migrator = new Migrator($module);
-
-        $rolledBack = $migrator->rollback();
-
-        if (count($rolledBack)) {
-            foreach ($rolledBack as $migration) {
-                $this->line("Rolled Back: <info>{$migration}</info>");
-            }
-            return;
-        }
-
-        event($slug.'.module.rolledback', [$module, $this->option()]);
     }
 
     /**
@@ -114,6 +98,28 @@ class ModuleMigrateRollbackCommand extends Command
             ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use.'],
             ['force', null, InputOption::VALUE_NONE, 'Force the operation to run while in production.'],
             ['pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'],
+            ['step', null, InputOption::VALUE_OPTIONAL, 'The number of migrations to be reverted.'],
         ];
+    }
+
+    /**
+     * Get all of the migration paths.
+     *
+     * @return array
+     */
+    protected function getMigrationPaths()
+    {
+        $slug = $this->argument('slug');
+        $paths = [];
+
+        if ($slug) {
+            $paths[] = module_path($slug, 'Database/Migrations');
+        } else {
+            foreach ($this->module->all() as $module) {
+                $paths[] = module_path($module['slug'], 'Database/Migrations');
+            }
+        }
+
+        return $paths;
     }
 }
