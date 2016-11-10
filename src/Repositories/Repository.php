@@ -32,7 +32,7 @@ abstract class Repository implements RepositoryContract
     public function __construct(Config $config, Filesystem $files)
     {
         $this->config = $config;
-        $this->files  = $files;
+        $this->files = $files;
     }
 
     /**
@@ -53,7 +53,7 @@ abstract class Repository implements RepositoryContract
 
             return $basenames;
         } catch (\InvalidArgumentException $e) {
-            return collect(array());
+            return collect([]);
         }
     }
 
@@ -66,15 +66,13 @@ abstract class Repository implements RepositoryContract
      */
     public function getManifest($slug)
     {
-        if (! is_null($slug)) {
-            $path       = $this->getManifestPath($slug);
-            $contents   = $this->files->get($path);
+        if (!is_null($slug)) {
+            $path = $this->getManifestPath($slug);
+            $contents = $this->files->get($path);
             $collection = collect(json_decode($contents, true));
 
             return $collection;
         }
-
-        return;
     }
 
     /**
@@ -112,7 +110,7 @@ abstract class Repository implements RepositoryContract
     {
         $module = studly_case(str_slug($slug));
 
-        if(\File::exists($this->getPath()."/{$module}/")) {
+        if (\File::exists($this->getPath()."/{$module}/")) {
             return $this->getPath()."/{$module}/";
         }
 

@@ -11,8 +11,8 @@
 |
 */
 
-Route::group(['prefix' => 'DummySlug'], function() {
-    Route::get('/', function() {
+Route::group(['prefix' => 'DummySlug'], function () {
+    Route::get('/', function () {
         dd('This is the DummyName module index page. Build something great!');
     });
 });

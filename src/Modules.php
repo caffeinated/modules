@@ -20,12 +20,12 @@ class Modules
     /**
      * Create a new Modules instance.
      *
-     * @param Application         $app
-     * @param Repository $repository
+     * @param Application $app
+     * @param Repository  $repository
      */
     public function __construct(Application $app, Repository $repository)
     {
-        $this->app        = $app;
+        $this->app = $app;
         $this->repository = $repository;
     }
 
@@ -48,7 +48,8 @@ class Modules
     /**
      * Register the module service provider.
      *
-     * @param  array  $module
+     * @param array $module
+     *
      * @return void
      */
     private function registerServiceProvider($module)
@@ -63,7 +64,8 @@ class Modules
     /**
      * Autoload custom module files.
      *
-     * @param  array  $module
+     * @param array $module
+     *
      * @return void
      */
     private function autoloadFiles($module)
@@ -82,8 +84,9 @@ class Modules
     /**
      * Oh sweet sweet magical method.
      *
-     * @param  string  $method
-     * @param  mixed  $arguments
+     * @param string $method
+     * @param mixed  $arguments
+     *
      * @return mixed
      */
     public function __call($method, $arguments)

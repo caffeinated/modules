@@ -19,19 +19,20 @@ class ServiceProvider extends IlluminateServiceProvider
     /**
      * Register any additional module middleware.
      *
-     * @param  array|string  $middleware
-	 * @return void
+     * @param array|string $middleware
+     *
+     * @return void
      */
-	protected function addMiddleware($middleware)
-	{
-		$kernel = $this->app['Illuminate\Contracts\Http\Kernel'];
+    protected function addMiddleware($middleware)
+    {
+        $kernel = $this->app['Illuminate\Contracts\Http\Kernel'];
 
-		if (is_array($middleware)) {
-			foreach ($middleware as $ware) {
-				$kernel->pushMiddleware($ware);
-			}
-		} else {
-			$kernel->pushMiddleware($middleware);
-		}
-	}
+        if (is_array($middleware)) {
+            foreach ($middleware as $ware) {
+                $kernel->pushMiddleware($ware);
+            }
+        } else {
+            $kernel->pushMiddleware($middleware);
+        }
+    }
 }

@@ -56,7 +56,7 @@ class MakeModuleCommand extends Command
     {
         parent::__construct();
 
-        $this->files  = $files;
+        $this->files = $files;
         $this->module = $module;
     }
 
@@ -67,9 +67,9 @@ class MakeModuleCommand extends Command
      */
     public function fire()
     {
-        $this->container['slug']        = str_slug($this->argument('slug'));
-        $this->container['name']        = studly_case($this->container['slug']);
-        $this->container['version']     = '1.0';
+        $this->container['slug'] = str_slug($this->argument('slug'));
+        $this->container['name'] = studly_case($this->container['slug']);
+        $this->container['version'] = '1.0';
         $this->container['description'] = 'This is the description for the '.$this->container['name'].' module.';
 
         if ($this->option('quick')) {
@@ -90,12 +90,12 @@ class MakeModuleCommand extends Command
     {
         $this->displayHeader('make_module_step_1');
 
-        $this->container['name']        = $this->ask('Please enter the name of the module:', $this->container['name']);
-        $this->container['slug']        = $this->ask('Please enter the slug for the module:', $this->container['slug']);
-        $this->container['version']     = $this->ask('Please enter the module version:', $this->container['version']);
+        $this->container['name'] = $this->ask('Please enter the name of the module:', $this->container['name']);
+        $this->container['slug'] = $this->ask('Please enter the slug for the module:', $this->container['slug']);
+        $this->container['version'] = $this->ask('Please enter the module version:', $this->container['version']);
         $this->container['description'] = $this->ask('Please enter the description of the module:', $this->container['description']);
-        $this->container['basename']    = studly_case($this->container['slug']);
-        $this->container['namespace']   = config('modules.namespace').$this->container['basename'];
+        $this->container['basename'] = studly_case($this->container['slug']);
+        $this->container['namespace'] = config('modules.namespace').$this->container['basename'];
 
         $this->comment('You have provided the following manifest information:');
         $this->comment('Name:                       '.$this->container['name']);
@@ -154,9 +154,9 @@ class MakeModuleCommand extends Command
             $this->files->makeDirectory(module_path());
         }
 
-        $pathMap   = config('modules.pathMap');
+        $pathMap = config('modules.pathMap');
         $directory = module_path(null, $this->container['basename']);
-        $source    = __DIR__.'/../../../resources/stubs/module';
+        $source = __DIR__.'/../../../resources/stubs/module';
 
         $this->files->makeDirectory($directory);
 
@@ -175,7 +175,7 @@ class MakeModuleCommand extends Command
                 $subPath = str_replace($search, $replace, $subPath);
             }
 
-            $filePath = $directory . '/' . $subPath;
+            $filePath = $directory.'/'.$subPath;
             $dir = dirname($filePath);
 
             if (!$this->files->isDirectory($dir)) {
@@ -217,7 +217,7 @@ class MakeModuleCommand extends Command
             'DummyName',
             'DummySlug',
             'DummyVersion',
-            'DummyDescription'
+            'DummyDescription',
         ];
 
         $replace = [
@@ -226,7 +226,7 @@ class MakeModuleCommand extends Command
             $this->container['name'],
             $this->container['slug'],
             $this->container['version'],
-            $this->container['description']
+            $this->container['description'],
         ];
 
         return str_replace($find, $replace, $contents);
