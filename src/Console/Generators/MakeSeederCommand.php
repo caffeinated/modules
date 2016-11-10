@@ -42,7 +42,8 @@ class MakeSeederCommand extends GeneratorCommand
     /**
      * Get the destination class path.
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return string
      */
     protected function getPath($name)
@@ -53,18 +54,20 @@ class MakeSeederCommand extends GeneratorCommand
     /**
      * Parse the name and format according to the root namespace.
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return string
      */
     protected function parseName($name)
     {
         return $name;
     }
-    
+
     /**
-     * Replace namespace in seeder stub
+     * Replace namespace in seeder stub.
      *
      * @param string $name
+     *
      * @return string
      */
     protected function getNamespace($name)

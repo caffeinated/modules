@@ -32,10 +32,10 @@ class MakeMigrationCommand extends Command
     public function fire()
     {
         $arguments = $this->argument();
-        $option    = $this->option();
-        $options   = [];
+        $option = $this->option();
+        $options = [];
 
-        array_walk($option, function(&$value, $key) use (&$options) {
+        array_walk($option, function (&$value, $key) use (&$options) {
             $options['--'.$key] = $value;
         });
 

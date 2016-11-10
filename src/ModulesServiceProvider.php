@@ -2,12 +2,10 @@
 
 namespace Caffeinated\Modules;
 
-use Caffeinated\Modules\Modules;
 use Caffeinated\Modules\Contracts\Repository;
 use Caffeinated\Modules\Providers\ConsoleServiceProvider;
 use Caffeinated\Modules\Providers\GeneratorServiceProvider;
 use Caffeinated\Modules\Providers\HelperServiceProvider;
-use Caffeinated\Modules\Providers\MigrationServiceProvider;
 use Caffeinated\Modules\Providers\RepositoryServiceProvider;
 use Illuminate\Support\ServiceProvider;
 
@@ -64,7 +62,7 @@ class ModulesServiceProvider extends ServiceProvider
     public static function compiles()
     {
         $modules = app()->make('modules')->all();
-        $files   = [];
+        $files = [];
 
         foreach ($modules as $module) {
             $serviceProvider = module_class($module['slug'], 'Providers\\ModuleServiceProvider');

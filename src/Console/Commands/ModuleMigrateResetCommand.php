@@ -3,12 +3,12 @@
 namespace Caffeinated\Modules\Console\Commands;
 
 use Caffeinated\Modules\Modules;
-use Illuminate\Console\ConfirmableTrait;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Console\ConfirmableTrait;
+use Illuminate\Database\Migrations\Migrator;
+use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class ModuleMigrateResetCommand extends Command
 {
@@ -54,8 +54,8 @@ class ModuleMigrateResetCommand extends Command
     {
         parent::__construct();
 
-        $this->module   = $module;
-        $this->files    = $files;
+        $this->module = $module;
+        $this->files = $files;
         $this->migrator = $migrator;
     }
 
@@ -106,9 +106,9 @@ class ModuleMigrateResetCommand extends Command
     {
         $this->migrator->setconnection($this->input->getOption('database'));
 
-        $pretend       = $this->input->getOption('pretend');
+        $pretend = $this->input->getOption('pretend');
         $migrationPath = $this->getMigrationPath($slug);
-        $migrations    = array_reverse($this->migrator->getMigrationFiles($migrationPath));
+        $migrations = array_reverse($this->migrator->getMigrationFiles($migrationPath));
 
         if (count($migrations) == 0) {
             return $this->error('Nothing to rollback.');
@@ -134,11 +134,11 @@ class ModuleMigrateResetCommand extends Command
     protected function runDown($slug, $migration, $pretend)
     {
         $migrationPath = $this->getMigrationPath($slug);
-        $file          = explode('/', $migration);
-        $file          = end($file);
-        $classFile     = implode('_', array_slice(explode('_', basename($migration, '.php')), 4));
-        $class         = studly_case($classFile);
-        $table         = $this->laravel['config']['database.migrations'];
+        $file = explode('/', $migration);
+        $file = end($file);
+        $classFile = implode('_', array_slice(explode('_', basename($migration, '.php')), 4));
+        $class = studly_case($classFile);
+        $table = $this->laravel['config']['database.migrations'];
 
         include $migration;
 

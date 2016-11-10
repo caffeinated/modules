@@ -45,7 +45,7 @@ class MakeModelCommand extends GeneratorCommand
                 $this->call('make:module:migration', [
                     'slug'     => $this->argument('slug'),
                     'name'     => "create_{$table}_table",
-                    '--create' => $table
+                    '--create' => $table,
                 ]);
             }
         }
@@ -64,7 +64,8 @@ class MakeModelCommand extends GeneratorCommand
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param string $rootNamespace
+     *
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)

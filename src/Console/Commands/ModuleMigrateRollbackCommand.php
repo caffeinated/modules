@@ -4,11 +4,11 @@ namespace Caffeinated\Modules\Console\Commands;
 
 use Caffeinated\Modules\Modules;
 use Caffeinated\Modules\Traits\MigrationTrait;
-use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
+use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Migrations\Migrator;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class ModuleMigrateRollbackCommand extends Command
 {
@@ -44,7 +44,7 @@ class ModuleMigrateRollbackCommand extends Command
      * Create a new command instance.
      *
      * @param Migrator $migrator
-     * @param Modules $module
+     * @param Modules  $module
      */
     public function __construct(Migrator $migrator, Modules $module)
     {

@@ -8,8 +8,8 @@ use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Support\Arr;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class ModuleMigrateCommand extends Command
 {
@@ -50,7 +50,7 @@ class ModuleMigrateCommand extends Command
         parent::__construct();
 
         $this->migrator = $migrator;
-        $this->module   = $module;
+        $this->module = $module;
     }
 
     /**
@@ -62,7 +62,7 @@ class ModuleMigrateCommand extends Command
     {
         $this->prepareDatabase();
 
-        if (! empty($this->argument('slug'))) {
+        if (!empty($this->argument('slug'))) {
             $module = $this->module->where('slug', $this->argument('slug'));
 
             if ($this->module->isEnabled($module['slug'])) {
@@ -95,9 +95,9 @@ class ModuleMigrateCommand extends Command
     protected function migrate($slug)
     {
         if ($this->module->exists($slug)) {
-            $module  = $this->module->where('slug', $slug);
+            $module = $this->module->where('slug', $slug);
             $pretend = Arr::get($this->option(), 'pretend', false);
-            $path    = $this->getMigrationPath($slug);
+            $path = $this->getMigrationPath($slug);
 
             if (floatval(App::version()) > 5.1) {
                 $pretend = ['pretend' => $pretend];
@@ -147,7 +147,7 @@ class ModuleMigrateCommand extends Command
         $this->migrator->setConnection($this->option('database'));
 
         if (!$this->migrator->repositoryExists()) {
-            $options = array('--database' => $this->option('database'));
+            $options = ['--database' => $this->option('database')];
 
             $this->call('migrate:install', $options);
         }

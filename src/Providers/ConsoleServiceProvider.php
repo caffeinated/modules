@@ -113,6 +113,7 @@ class ConsoleServiceProvider extends ServiceProvider
             $table = $app['config']['database.migrations'];
 
             $migrator = new Migrator($table, $repository, $app['db'], $app['files']);
+
             return new \Caffeinated\Modules\Console\Commands\ModuleMigrateRollbackCommand($migrator, $app['modules']);
         });
 

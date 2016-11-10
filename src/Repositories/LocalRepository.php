@@ -123,8 +123,8 @@ class LocalRepository extends Repository
         list($slug, $key) = explode('::', $property);
 
         $cachePath = $this->getCachePath();
-        $cache     = $this->getCache();
-        $module    = $this->where('slug', $slug);
+        $cache = $this->getCache();
+        $module = $this->where('slug', $slug);
 
         if (isset($module[$key])) {
             unset($module[$key]);
@@ -134,7 +134,7 @@ class LocalRepository extends Repository
 
         $module = collect([$module['basename'] => $module]);
 
-        $merged  = $cache->merge($module);
+        $merged = $cache->merge($module);
         $content = json_encode($merged->all(), JSON_PRETTY_PRINT);
 
         return $this->files->put($cachePath, $content);
@@ -228,13 +228,13 @@ class LocalRepository extends Repository
     {
         $cachePath = $this->getCachePath();
 
-        $cache     = $this->getCache();
+        $cache = $this->getCache();
         $basenames = $this->getAllBasenames();
-        $modules   = collect();
+        $modules = collect();
 
         $basenames->each(function ($module, $key) use ($modules, $cache) {
             $basename = collect(['basename' => $module]);
-            $temp     = $basename->merge(collect($cache->get($module)));
+            $temp = $basename->merge(collect($cache->get($module)));
             $manifest = $temp->merge(collect($this->getManifest($module)));
 
             $modules->put($module, $manifest);
@@ -243,11 +243,11 @@ class LocalRepository extends Repository
         $modules->each(function ($module) {
             $module->put('id', crc32($module->get('slug')));
 
-            if (! $module->has('enabled')) {
+            if (!$module->has('enabled')) {
                 $module->put('enabled', config('modules.enabled', true));
             }
 
-            if (! $module->has('order')) {
+            if (!$module->has('order')) {
                 $module->put('order', 9001);
             }
 
@@ -268,7 +268,7 @@ class LocalRepository extends Repository
     {
         $cachePath = $this->getCachePath();
 
-        if (! $this->files->exists($cachePath)) {
+        if (!$this->files->exists($cachePath)) {
             $this->createCache();
 
             $this->optimize();
@@ -285,7 +285,7 @@ class LocalRepository extends Repository
     private function createCache()
     {
         $cachePath = $this->getCachePath();
-        $content   = json_encode(array(), JSON_PRETTY_PRINT);
+        $content = json_encode([], JSON_PRETTY_PRINT);
 
         $this->files->put($cachePath, $content);
 

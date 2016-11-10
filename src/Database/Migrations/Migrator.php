@@ -2,9 +2,9 @@
 
 namespace Caffeinated\Modules\Database\Migrations;
 
-use Illuminate\Database\Migrations\Migrator as BaseMigrator;
-use Illuminate\Database\Migrations\MigrationRepositoryInterface;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
+use Illuminate\Database\Migrations\MigrationRepositoryInterface;
+use Illuminate\Database\Migrations\Migrator as BaseMigrator;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 
@@ -15,10 +15,10 @@ class Migrator extends BaseMigrator
     /**
      * Create a new migrator instance.
      *
-     * @param  string $table
-     * @param  \Illuminate\Database\Migrations\MigrationRepositoryInterface  $repository
-     * @param  \Illuminate\Database\ConnectionResolverInterface  $resolver
-     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param string                                                       $table
+     * @param \Illuminate\Database\Migrations\MigrationRepositoryInterface $repository
+     * @param \Illuminate\Database\ConnectionResolverInterface             $resolver
+     * @param \Illuminate\Filesystem\Filesystem                            $files
      */
     public function __construct($table,
                                 MigrationRepositoryInterface $repository,
@@ -33,8 +33,9 @@ class Migrator extends BaseMigrator
     /**
      * Rollback the last migration operation.
      *
-     * @param  array|string $paths
-     * @param  array  $options
+     * @param array|string $paths
+     * @param array        $options
+     *
      * @return array
      */
     public function rollback($paths = [], array $options = [])
@@ -52,7 +53,7 @@ class Migrator extends BaseMigrator
             $this->requireFiles($files);
 
             $steps = Arr::get($options, 'step', 0);
-            if($steps == 0) {
+            if ($steps == 0) {
                 $steps = 1;
             }
 
@@ -62,17 +63,17 @@ class Migrator extends BaseMigrator
             foreach ($migrations as $migration) {
                 $migration = (object) $migration;
 
-                if($lastBatch > $migration->batch && $stepDown) {
+                if ($lastBatch > $migration->batch && $stepDown) {
                     $steps--;
                     $stepDown = false;
                     $lastBatch = $migration->batch;
                 }
 
-                if($steps <= 0) {
+                if ($steps <= 0) {
                     break;
                 }
 
-                if(Arr::exists($files, $migration->migration)) {
+                if (Arr::exists($files, $migration->migration)) {
                     $rolledBack[] = $files[$migration->migration];
 
                     $stepDown = true;
@@ -89,13 +90,14 @@ class Migrator extends BaseMigrator
     }
 
     /**
-     * Get all the ran migrations
+     * Get all the ran migrations.
      *
      * @return \Illuminate\Support\Collection
      */
     public function getRanMigrations()
     {
         $query = $this->resolveConnection($this->connection)->table($this->table);
+
         return $query->orderBy('batch', 'desc')->orderBy('migration', 'desc')->get();
     }
 }
