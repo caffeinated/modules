@@ -100,7 +100,7 @@ class ModuleMigrateCommand extends Command
             $step = Arr::get($this->option(), 'step', false);
             $path = $this->getMigrationPath($slug);
 
-            $this->migrator->run($path, ["pretend" => $pretend, "step" => $step]);
+            $this->migrator->run($path, ['pretend' => $pretend, 'step' => $step]);
 
             event($slug.'.module.migrated', [$module, $this->option()]);
 
