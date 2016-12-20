@@ -97,13 +97,10 @@ class ModuleMigrateCommand extends Command
         if ($this->module->exists($slug)) {
             $module = $this->module->where('slug', $slug);
             $pretend = Arr::get($this->option(), 'pretend', false);
+            $step = Arr::get($this->option(), 'step', false);
             $path = $this->getMigrationPath($slug);
 
-            if (floatval(App::version()) > 5.1) {
-                $pretend = ['pretend' => $pretend];
-            }
-
-            $this->migrator->run($path, $pretend);
+            $this->migrator->run($path, ["pretend" => $pretend, "step" => $step]);
 
             event($slug.'.module.migrated', [$module, $this->option()]);
 
@@ -175,6 +172,7 @@ class ModuleMigrateCommand extends Command
             ['force', null, InputOption::VALUE_NONE, 'Force the operation to run while in production.'],
             ['pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'],
             ['seed', null, InputOption::VALUE_NONE, 'Indicates if the seed task should be re-run.'],
+            ['step', null, InputOption::VALUE_NONE, 'Force the migrations to be run so they can be rolled back individually.'],
         ];
     }
 }
