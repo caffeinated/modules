@@ -2,7 +2,6 @@
 
 namespace Caffeinated\Modules\Console\Commands;
 
-use App;
 use Caffeinated\Modules\Modules;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
