@@ -3,6 +3,7 @@
 namespace Caffeinated\Modules;
 
 use Caffeinated\Modules\Contracts\Repository;
+use Caffeinated\Modules\Providers\BladeServiceProvider;
 use Caffeinated\Modules\Providers\ConsoleServiceProvider;
 use Caffeinated\Modules\Providers\GeneratorServiceProvider;
 use Caffeinated\Modules\Providers\HelperServiceProvider;
@@ -41,6 +42,7 @@ class ModulesServiceProvider extends ServiceProvider
         $this->app->register(GeneratorServiceProvider::class);
         $this->app->register(HelperServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
+        $this->app->register(BladeServiceProvider::class);
 
         $this->app->singleton('modules', function ($app) {
             $repository = $app->make(Repository::class);
