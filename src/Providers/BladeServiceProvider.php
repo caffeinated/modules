@@ -2,7 +2,6 @@
 
 namespace Caffeinated\Modules\Providers;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 
