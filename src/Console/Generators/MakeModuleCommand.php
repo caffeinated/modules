@@ -88,7 +88,7 @@ class MakeModuleCommand extends Command
      *
      * @return mixed
      */
-    private function stepOne()
+    protected function stepOne()
     {
         $this->displayHeader('make_module_step_1');
 
