@@ -11,11 +11,11 @@
     ],
     "require": {
         "php": ">=5.6.4",
-        "illuminate/database": "5.3.*",
-        "illuminate/support": "5.3.*",
-        "illuminate/filesystem": "5.3.*",
-        "illuminate/config": "5.3.*",
-        "illuminate/routing": "5.3.*"
+        "illuminate/database": "^5.3",
+        "illuminate/support": "^5.3",
+        "illuminate/filesystem": "^5.3",
+        "illuminate/config": "^5.3",
+        "illuminate/routing": "^5.3"
     },
     "autoload": {
         "psr-4": {
