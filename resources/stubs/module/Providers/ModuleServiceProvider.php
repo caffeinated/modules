@@ -26,5 +26,10 @@ class ModuleServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+        
+        // If you have helpers, loads them
+        foreach (glob(__DIR__.'/../Helpers/*.php') as $filename){
+                require_once($filename);
+        }
     }
 }
