@@ -111,6 +111,15 @@ class LocalRepository extends Repository
     }
 
     /**
+    * returns all properties from a given module
+    */
+    public function getProperties($slug)
+    {
+        return $this->where('slug', $slug);
+
+    }
+
+    /**
      * Set the given module property value.
      *
      * @param string $property
