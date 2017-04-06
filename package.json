@@ -1,0 +1,13 @@
+{
+  "name": "modules",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-notify": "^3.0.0",
+    "gulp-phpunit": "^0.22.2",
+    "gulp-run": "^1.7.1"
+  }
+}
