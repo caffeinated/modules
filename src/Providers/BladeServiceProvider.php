@@ -33,7 +33,6 @@ class BladeServiceProvider extends ServiceProvider
             $bladeCompiler->directive('endmodule', function () {
                 return '<?php endif; ?>';
             });
-
         });
     }
 }

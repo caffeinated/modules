@@ -92,21 +92,21 @@ class ModuleMigrateResetCommand extends Command
 
         $migrations = array_reverse($this->migrator->getRepository()->getRan());
 
-        if(count($migrations) == 0){
-            $this->output("Nothing to rollback.");
+        if (count($migrations) == 0) {
+            $this->output('Nothing to rollback.');
         } else {
             $this->migrator->requireFiles($files);
 
-            foreach($migrations as $migration){
-                if(!array_key_exists($migration, $files)){
+            foreach ($migrations as $migration) {
+                if (!array_key_exists($migration, $files)) {
                     continue;
                 }
 
-                $this->runDown($files[$migration], (object) ["migration" => $migration]);
+                $this->runDown($files[$migration], (object) ['migration' => $migration]);
             }
         }
 
-        foreach($this->migrator->getNotes() as $note){
+        foreach ($this->migrator->getNotes() as $note) {
             $this->output->writeln($note);
         }
     }
@@ -128,7 +128,7 @@ class ModuleMigrateResetCommand extends Command
 
         $this->migrator->getRepository()->delete($migration);
 
-        $this->info("Rolledback: ".$file);
+        $this->info('Rolledback: '.$file);
     }
 
     /**
@@ -136,7 +136,8 @@ class ModuleMigrateResetCommand extends Command
      *
      * @return array
      */
-    protected function getMigrationPaths(){
+    protected function getMigrationPaths()
+    {
         $migrationPaths = [];
 
         foreach ($this->getSlugsToReset() as $slug) {
@@ -153,16 +154,17 @@ class ModuleMigrateResetCommand extends Command
      *
      * @return array
      */
-    protected function getSlugsToReset(){
-        if($this->validSlugProvided()){
-            return [$this->argument("slug")];
+    protected function getSlugsToReset()
+    {
+        if ($this->validSlugProvided()) {
+            return [$this->argument('slug')];
         }
 
-        if($this->option("force")){
-            return $this->module->all()->pluck("slug");
+        if ($this->option('force')) {
+            return $this->module->all()->pluck('slug');
         }
 
-        return $this->module->enabled()->pluck("slug");
+        return $this->module->enabled()->pluck('slug');
     }
 
     /**
@@ -172,16 +174,17 @@ class ModuleMigrateResetCommand extends Command
      *
      * @return bool
      */
-    protected function validSlugProvided(){
-        if(empty($this->argument("slug"))){
+    protected function validSlugProvided()
+    {
+        if (empty($this->argument('slug'))) {
             return false;
         }
 
-        if($this->module->isEnabled($this->argument("slug"))){
+        if ($this->module->isEnabled($this->argument('slug'))) {
             return true;
         }
 
-        if($this->option("force")){
+        if ($this->option('force')) {
             return true;
         }
 

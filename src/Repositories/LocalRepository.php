@@ -111,12 +111,11 @@ class LocalRepository extends Repository
     }
 
     /**
-    * returns all properties from a given module
-    */
+     * returns all properties from a given module.
+     */
     public function getProperties($slug)
     {
         return $this->where('slug', $slug);
-
     }
 
     /**
@@ -141,7 +140,6 @@ class LocalRepository extends Repository
         $this->files->put($this->getManifestPath($slug), json_encode($module, JSON_PRETTY_PRINT));
 
         return $this->optimize();
-        
     }
 
     /**
