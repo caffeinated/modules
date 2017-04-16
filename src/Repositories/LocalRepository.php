@@ -24,7 +24,7 @@ class LocalRepository extends Repository
         $slugs = collect();
 
         $this->all()->each(function ($item, $key) use ($slugs) {
-            $slugs->push($item['slug']);
+            $slugs->push(strtolower($item['slug']));
         });
 
         return $slugs;
@@ -111,6 +111,14 @@ class LocalRepository extends Repository
     }
 
     /**
+     * returns all properties from a given module.
+     */
+    public function getProperties($slug)
+    {
+        return $this->where('slug', $slug);
+    }
+
+    /**
      * Set the given module property value.
      *
      * @param string $property
@@ -122,22 +130,16 @@ class LocalRepository extends Repository
     {
         list($slug, $key) = explode('::', $property);
 
-        $cachePath = $this->getCachePath();
-        $cache = $this->getCache();
-        $module = $this->where('slug', $slug);
+        $module = $this->getManifest($slug);
 
         if (isset($module[$key])) {
             unset($module[$key]);
         }
-
         $module[$key] = $value;
 
-        $module = collect([$module['basename'] => $module]);
+        $this->files->put($this->getManifestPath($slug), json_encode($module, JSON_PRETTY_PRINT));
 
-        $merged = $cache->merge($module);
-        $content = json_encode($merged->all(), JSON_PRETTY_PRINT);
-
-        return $this->files->put($cachePath, $content);
+        return $this->optimize();
     }
 
     /**

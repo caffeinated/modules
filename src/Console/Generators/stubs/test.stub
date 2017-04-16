@@ -1,0 +1,10 @@
+<?php
+
+namespace DummyNamespace;
+
+use TestCase;
+
+class DummyClass extends TestCase
+{
+    //
+}
