@@ -73,8 +73,9 @@ class MakeModuleCommand extends Command
         $this->container['description'] = 'This is the description for the '.$this->container['name'].' module.';
 
         if ($this->option('quick')) {
-            $this->container['basename']    = studly_case($this->container['slug']);
-            $this->container['namespace']   = config('modules.namespace').$this->container['basename'];
+            $this->container['basename'] = studly_case($this->container['slug']);
+            $this->container['namespace'] = config('modules.namespace').$this->container['basename'];
+
             return $this->generate();
         }
 
