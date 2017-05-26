@@ -2,6 +2,7 @@
 
 namespace Caffeinated\Modules\Repositories;
 
+use Exception;
 use Caffeinated\Modules\Contracts\Repository as RepositoryContract;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Filesystem\Filesystem;
@@ -66,12 +67,18 @@ abstract class Repository implements RepositoryContract
      */
     public function getManifest($slug)
     {
-        if (!is_null($slug)) {
-            $path = $this->getManifestPath($slug);
+        if (! is_null($slug)) {
+            $path     = $this->getManifestPath($slug);
             $contents = $this->files->get($path);
-            $collection = collect(json_decode($contents, true));
+            $validate = @json_decode($contents, true);
 
-            return $collection;
+            if (json_last_error() === JSON_ERROR_NONE) {
+                $collection = collect(json_decode($contents, true));
+
+                return $collection;
+            }
+
+            throw new Exception('['.$slug.'] Your JSON manifest file was not properly formatted. Check for formatting issues and try again.');
         }
     }
 

@@ -45,7 +45,7 @@ class Modules
 
                 $this->autoloadFiles($module);
             } catch (ModuleNotFoundException $e) {
-                continue;
+                //
             }
         });
     }
