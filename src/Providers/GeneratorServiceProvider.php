@@ -22,6 +22,7 @@ class GeneratorServiceProvider extends ServiceProvider
         $generators = [
             'command.make.module'            => \Caffeinated\Modules\Console\Generators\MakeModuleCommand::class,
             'command.make.module.controller' => \Caffeinated\Modules\Console\Generators\MakeControllerCommand::class,
+            'command.make.module.job'        => \Caffeinated\Modules\Console\Generators\MakeJobCommand::class,
             'command.make.module.middleware' => \Caffeinated\Modules\Console\Generators\MakeMiddlewareCommand::class,
             'command.make.module.migration'  => \Caffeinated\Modules\Console\Generators\MakeMigrationCommand::class,
             'command.make.module.model'      => \Caffeinated\Modules\Console\Generators\MakeModelCommand::class,
