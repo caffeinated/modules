@@ -74,4 +74,16 @@ class MakeSeederCommand extends GeneratorCommand
     {
         return module_class($this->argument('slug'), 'Database\Seeds');
     }
+
+    /**
+     * Parse the class name and format according to the root namespace.
+     *
+     * @param string $name
+     * 
+     * @return string
+     */
+    protected function qualifyClass($name)
+    {
+        return $name;
+    }
 }
