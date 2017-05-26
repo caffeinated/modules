@@ -19,6 +19,8 @@ class ModulesServiceProvider extends ServiceProvider
 
     /**
      * Boot the service provider.
+     *
+     * @return void
      */
     public function boot()
     {
@@ -31,6 +33,8 @@ class ModulesServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
+     *
+     * @return void
      */
     public function register()
     {
@@ -54,7 +58,7 @@ class ModulesServiceProvider extends ServiceProvider
     /**
      * Get the services provided by the provider.
      *
-     * @return string
+     * @return array
      */
     public function provides()
     {
@@ -64,7 +68,7 @@ class ModulesServiceProvider extends ServiceProvider
     public static function compiles()
     {
         $modules = app()->make('modules')->all();
-        $files = [];
+        $files   = [];
 
         foreach ($modules as $module) {
             $serviceProvider = module_class($module['slug'], 'Providers\\ModuleServiceProvider');

@@ -92,13 +92,13 @@ class ModuleMigrateResetCommand extends Command
 
         $migrations = array_reverse($this->migrator->getRepository()->getRan());
 
-        if(count($migrations) == 0){
-            $this->output("Nothing to rollback.");
+        if (count($migrations) == 0) {
+            $this->output->writeln("Nothing to rollback.");
         } else {
             $this->migrator->requireFiles($files);
 
-            foreach($migrations as $migration){
-                if(!array_key_exists($migration, $files)){
+            foreach ($migrations as $migration) {
+                if (! array_key_exists($migration, $files)) {
                     continue;
                 }
 
@@ -106,7 +106,7 @@ class ModuleMigrateResetCommand extends Command
             }
         }
 
-        foreach($this->migrator->getNotes() as $note){
+        foreach ($this->migrator->getNotes() as $note) {
             $this->output->writeln($note);
         }
     }
@@ -120,8 +120,7 @@ class ModuleMigrateResetCommand extends Command
      */
     protected function runDown($file, $migration)
     {
-        $file = $this->migrator->getMigrationName($file);
-
+        $file     = $this->migrator->getMigrationName($file);
         $instance = $this->migrator->resolve($file);
 
         $instance->down();
@@ -153,12 +152,13 @@ class ModuleMigrateResetCommand extends Command
      *
      * @return array
      */
-    protected function getSlugsToReset(){
-        if($this->validSlugProvided()){
+    protected function getSlugsToReset()
+    {
+        if ($this->validSlugProvided()) {
             return [$this->argument("slug")];
         }
 
-        if($this->option("force")){
+        if ($this->option("force")) {
             return $this->module->all()->pluck("slug");
         }
 
@@ -172,16 +172,17 @@ class ModuleMigrateResetCommand extends Command
      *
      * @return bool
      */
-    protected function validSlugProvided(){
-        if(empty($this->argument("slug"))){
+    protected function validSlugProvided()
+    {
+        if (empty($this->argument("slug"))) {
             return false;
         }
 
-        if($this->module->isEnabled($this->argument("slug"))){
+        if ($this->module->isEnabled($this->argument("slug"))) {
             return true;
         }
 
-        if($this->option("force")){
+        if ($this->option("force")) {
             return true;
         }
 

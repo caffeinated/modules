@@ -3,6 +3,7 @@
 namespace Caffeinated\Modules;
 
 use Caffeinated\Modules\Contracts\Repository;
+use Caffeinated\Modules\Exceptions\ModuleNotFoundException;
 use Illuminate\Foundation\Application;
 
 class Modules
@@ -39,9 +40,13 @@ class Modules
         $modules = $this->repository->enabled();
 
         $modules->each(function ($module) {
-            $this->registerServiceProvider($module);
+            try {
+                $this->registerServiceProvider($module);
 
-            $this->autoloadFiles($module);
+                $this->autoloadFiles($module);
+            } catch (ModuleNotFoundException $e) {
+                continue;
+            }
         });
     }
 
