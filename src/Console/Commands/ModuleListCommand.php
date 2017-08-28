@@ -89,9 +89,9 @@ class ModuleListCommand extends Command
     {
         return [
             '#'           => $module['order'],
-            'name'        => $module['name'],
+            'name'        => isset($module['name']) ? $module['name'] : '',
             'slug'        => $module['slug'],
-            'description' => $module['description'],
+            'description' => isset($module['description']) ? $module['description'] : '',
             'status'      => ($this->module->isEnabled($module['slug'])) ? 'Enabled' : 'Disabled',
         ];
     }
