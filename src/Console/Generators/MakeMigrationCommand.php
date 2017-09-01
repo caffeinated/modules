@@ -29,7 +29,7 @@ class MakeMigrationCommand extends Command
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         $arguments = $this->argument();
         $option = $this->option();
