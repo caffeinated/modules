@@ -3,6 +3,8 @@
 namespace Caffeinated\Modules\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Composer;
 
 class ModuleOptimizeCommand extends Command
 {
@@ -25,8 +27,12 @@ class ModuleOptimizeCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
+        $this->info('Generating optimized autoload files');
+        $composer = new Composer(new Filesystem());
+        $composer->dumpAutoloads();
+
         $this->info('Generating optimized module cache');
 
         $this->laravel['modules']->optimize();

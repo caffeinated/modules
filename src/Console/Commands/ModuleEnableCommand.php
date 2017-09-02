@@ -26,7 +26,7 @@ class ModuleEnableCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $slug = $this->argument('slug');
 
