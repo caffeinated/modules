@@ -25,7 +25,7 @@ class ModuleOptimizeCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $this->info('Generating optimized module cache');
 
