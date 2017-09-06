@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">=5.6.4",
-        "illuminate/support": "5.4.*"
+        "illuminate/support": "5.5.*"
     },
     "autoload": {
         "psr-4": {
@@ -20,5 +20,15 @@
     },
     "suggest": {
         "wikimedia/composer-merge-plugin": "Allows the ability to create and merge composer.json files for your individual modules for module-specific dependency management."
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Caffeinated\\Modules\\ModulesServiceProvider"
+            ],
+            "aliases": {
+                "Sentry": "Sentry\\SentryLaravel\\SentryFacade"
+            }
+        }
     }
 }
