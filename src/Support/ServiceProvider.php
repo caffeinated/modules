@@ -35,4 +35,20 @@ class ServiceProvider extends IlluminateServiceProvider
             $kernel->pushMiddleware($middleware);
         }
     }
+
+    /**
+     * Register any additional config.
+     *
+     * @param string $path
+     *
+     * @return void
+     */
+    protected function loadConfigsFrom($path)
+    {
+        foreach (glob($path.'/*.php') as $file) {
+            $fileName = str_replace($path.'/', '', $file);
+            $key = substr($fileName, 0, -4);
+            $this->app['config']->set($key, array_merge_recursive(config($key, []), require $file));
+        }
+    }
 }
