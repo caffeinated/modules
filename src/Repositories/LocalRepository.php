@@ -80,7 +80,7 @@ class LocalRepository extends Repository
      */
     public function exists($slug)
     {
-        return $this->slugs()->contains(str_slug($slug));
+        return $this->slugs()->contains($slug);
     }
 
     /**
