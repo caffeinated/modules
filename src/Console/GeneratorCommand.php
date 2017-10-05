@@ -15,7 +15,7 @@ abstract class GeneratorCommand extends LaravelGeneratorCommand
      *
      * @return string
      */
-    protected function parseName($name)
+    protected function qualifyClass($name)
     {
         $rootNamespace = config('modules.namespace');
 
@@ -23,11 +23,11 @@ abstract class GeneratorCommand extends LaravelGeneratorCommand
             return $name;
         }
 
-        if (Str::contains($name, '/')) {
-            $name = str_replace('/', '\\', $name);
-        }
+        $name = str_replace('/', '\\', $name);
 
-        return $this->parseName($this->getDefaultNamespace(trim($rootNamespace, '\\')).'\\'.$name);
+        return $this->qualifyClass(
+            $this->getDefaultNamespace(trim($rootNamespace, '\\')).'\\'.$name
+        );
     }
 
     /**

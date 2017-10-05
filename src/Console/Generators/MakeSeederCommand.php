@@ -58,7 +58,7 @@ class MakeSeederCommand extends GeneratorCommand
      *
      * @return string
      */
-    protected function parseName($name)
+    protected function qualifyClass($name)
     {
         return $name;
     }
