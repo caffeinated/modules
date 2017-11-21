@@ -100,6 +100,56 @@ interface Repository
     public function set($property, $value);
 
     /**
+     * Get all initialized modules.
+     *
+     * @return Collection
+     */
+    public function initialized();
+
+    /**
+     * Get all uninitialized modules.
+     *
+     * @return Collection
+     */
+    public function uninitialized();
+
+    /**
+     * Determines if the specified module is initialized.
+     *
+     * @param string $slug
+     *
+     * @return bool
+     */
+    public function isInitialized($slug);
+
+    /**
+     * Determines if the specified module is uninitialized.
+     *
+     * @param string $slug
+     *
+     * @return bool
+     */
+    public function isUninitialized($slug);
+
+    /**
+     * Initializes the specified module.
+     *
+     * @param string $slug
+     *
+     * @return bool
+     */
+    public function initialize($slug);
+
+    /**
+     * Uninitializes the specified module.
+     *
+     * @param string $slug
+     *
+     * @return bool
+     */
+    public function uninitialize($slug);
+
+    /**
      * Get all enabled modules.
      *
      * @return Collection

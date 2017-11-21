@@ -30,16 +30,10 @@ class ModuleDisableCommand extends Command
     {
         $slug = $this->argument('slug');
 
-        if ($this->laravel['modules']->isEnabled($slug)) {
-            $this->laravel['modules']->disable($slug);
-
-            $module = $this->laravel['modules']->where('slug', $slug);
-
-            event($slug.'.module.disabled', [$module, null]);
-
+        if ($this->laravel['modules']->disable($slug)) {
             $this->info('Module was disabled successfully.');
         } else {
-            $this->comment('Module is already disabled.');
+            $this->error('Module failed to disable.');
         }
     }
 

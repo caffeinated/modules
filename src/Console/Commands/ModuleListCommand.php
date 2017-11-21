@@ -31,7 +31,7 @@ class ModuleListCommand extends Command
      *
      * @var array
      */
-    protected $headers = ['#', 'Name', 'Slug', 'Description', 'Status'];
+    protected $headers = ['#', 'Name', 'Slug', 'Description', 'Initialized', 'Enabled'];
 
     /**
      * Create a new command instance.
@@ -92,7 +92,8 @@ class ModuleListCommand extends Command
             'name'        => isset($module['name']) ? $module['name'] : '',
             'slug'        => $module['slug'],
             'description' => isset($module['description']) ? $module['description'] : '',
-            'status'      => ($this->module->isEnabled($module['slug'])) ? 'Enabled' : 'Disabled',
+            'initialized' => ($this->module->isInitialized($module['slug'])) ? 'Initialized' : 'Uninitialized',
+            'enabled'     => ($this->module->isEnabled($module['slug'])) ? 'Enabled' : 'Disabled',
         ];
     }
 

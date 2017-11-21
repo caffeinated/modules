@@ -20,6 +20,8 @@ class ConsoleServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerUninitializeCommand();
+        $this->registerInitializeCommand();
         $this->registerDisableCommand();
         $this->registerEnableCommand();
         $this->registerListCommand();
@@ -29,6 +31,30 @@ class ConsoleServiceProvider extends ServiceProvider
         $this->registerMigrateRollbackCommand();
         $this->registerOptimizeCommand();
         $this->registerSeedCommand();
+    }
+
+    /**
+     * Register the module:uninitialize command.
+     */
+    protected function registerUninitializeCommand()
+    {
+        $this->app->singleton('command.module.uninitialize', function () {
+            return new \Caffeinated\Modules\Console\Commands\ModuleUninitializeCommand();
+        });
+
+        $this->commands('command.module.uninitialize');
+    }
+
+    /**
+     * Register the module:initialize command.
+     */
+    protected function registerInitializeCommand()
+    {
+        $this->app->singleton('command.module.initialize', function () {
+            return new \Caffeinated\Modules\Console\Commands\ModuleInitializeCommand();
+        });
+
+        $this->commands('command.module.initialize');
     }
 
     /**

@@ -6,6 +6,7 @@ use Exception;
 use Caffeinated\Modules\Contracts\Repository as RepositoryContract;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Filesystem\Filesystem;
+use Module;
 
 abstract class Repository implements RepositoryContract
 {
@@ -145,4 +146,77 @@ abstract class Repository implements RepositoryContract
     {
         return rtrim($this->config->get('modules.namespace'), '/\\');
     }
+
+    /**
+     * Calls the initialize maintenance method for the specified module.
+     *
+     * @param string $slug
+     *
+     * @return bool
+     */
+    public function initialize($slug)
+    {
+        return $this->callMaintenanceMethod($slug, 'initialize');
+    }
+
+    /**
+     * Calls the uninitialize maintenance method for the specified module.
+     *
+     * @param string $slug
+     *
+     * @return bool
+     */
+    public function uninitialize($slug)
+    {
+        return $this->callMaintenanceMethod($slug, 'uninitialize');
+    }
+
+    /**
+     * Calls the enable maintenance method for the specified module.
+     *
+     * @param string $slug
+     *
+     * @return bool
+     */
+    public function enable($slug)
+    {
+        return $this->callMaintenanceMethod($slug, 'enable');
+    }
+
+    /**
+     * Calls the disable maintenance method for the specified module.
+     *
+     * @param string $slug
+     *
+     * @return bool
+     */
+    public function disable($slug)
+    {
+        return $this->callMaintenanceMethod($slug, 'disable');
+    }
+
+    /**
+     * Resolve and call the requested maintenance method for the specified module.
+     *
+     * @param $slug
+     * @param $method
+     * @return bool
+     */
+    private function callMaintenanceMethod($slug, $method)
+    {
+        $rc = true;
+        $moduleDef = Module::where('slug', $slug);
+        $moduleMaintenaceClass = module_class($slug, 'Utils\\'.$moduleDef['basename'].'Maintenance');
+        $moduleMaintenaceClassFile = module_path($slug, 'Utils/'.$moduleDef['basename'].'Maintenance.php');
+
+        if (file_exists($moduleMaintenaceClassFile)) {
+            include $moduleMaintenaceClassFile;
+            $moduleMaintenace = new $moduleMaintenaceClass($slug);
+
+            $rc = $moduleMaintenace->$method();
+        }
+
+        return $rc;
+    }
+
 }

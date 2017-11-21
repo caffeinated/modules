@@ -5,21 +5,21 @@ namespace Caffeinated\Modules\Console\Commands;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 
-class ModuleEnableCommand extends Command
+class ModuleInitializeCommand extends Command
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'module:enable';
+    protected $name = 'module:initialize';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Enable a module';
+    protected $description = 'Initialize a module';
 
     /**
      * Execute the console command.
@@ -30,10 +30,10 @@ class ModuleEnableCommand extends Command
     {
         $slug = $this->argument('slug');
 
-        if ($this->laravel['modules']->enable($slug)) {
-            $this->info('Module was enabled successfully.');
+        if ($this->laravel['modules']->initialize($slug)) {
+            $this->info('Module was initialized successfully.');
         } else {
-            $this->error('Module failed to enable.');
+            $this->error('Module failed to initialize.');
         }
     }
 

@@ -140,6 +140,100 @@ class LocalRepository extends Repository
         return $this->files->put($cachePath, $content);
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Initialization Methods
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    /**
+     * Get all initialized modules.
+     *
+     * @return Collection
+     */
+    public function initialized()
+    {
+        return $this->all()->where('initialized', true);
+    }
+
+    /**
+     * Get all uninitialized modules.
+     *
+     * @return Collection
+     */
+    public function uninitialized()
+    {
+        return $this->all()->where('initialized', false);
+    }
+
+    /**
+     * Check if specified module is initialized.
+     *
+     * @param string $slug
+     *
+     * @return bool
+     */
+    public function isInitialized($slug)
+    {
+        $module = $this->where('slug', $slug);
+
+        return $module['initialized'] === true;
+    }
+
+    /**
+     * Check if specified module is uninitialized.
+     *
+     * @param string $slug
+     *
+     * @return bool
+     */
+    public function isUninitialized($slug)
+    {
+        $module = $this->where('slug', $slug);
+
+        return $module['initialized'] === false;
+    }
+
+    /**
+     * Initialize the specified module.
+     *
+     * @param string $slug
+     *
+     * @return bool
+     */
+    public function initialize($slug)
+    {
+        if (parent::initialize($slug)) {
+            return $this->set($slug.'::initialized', true);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Uninitialize the specified module.
+     *
+     * @param string $slug
+     *
+     * @return bool
+     */
+    public function uninitialize($slug)
+    {
+        if (parent::uninitialize($slug)) {
+            return $this->set($slug.'::initialized', false);
+        } else {
+            return false;
+        }
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enabling Methods
+    |--------------------------------------------------------------------------
+    |
+    */
+
     /**
      * Get all enabled modules.
      *
@@ -197,7 +291,11 @@ class LocalRepository extends Repository
      */
     public function enable($slug)
     {
-        return $this->set($slug.'::enabled', true);
+        if (parent::enable($slug)) {
+            return $this->set($slug.'::enabled', true);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -209,7 +307,11 @@ class LocalRepository extends Repository
      */
     public function disable($slug)
     {
-        return $this->set($slug.'::enabled', false);
+        if (parent::disable($slug)) {
+            return $this->set($slug.'::enabled', false);
+        } else {
+            return false;
+        }
     }
 
     /*
