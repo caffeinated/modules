@@ -125,8 +125,9 @@ class MakeModuleCommand extends Command
     protected function generate()
     {
         $steps = [
-            'Generating module...'       => 'generateModule',
-            'Optimizing module cache...' => 'optimizeModules',
+            'Generating module...'              => 'generateModule',
+            'Generating maintenance class...'   => 'generateMaintenanceClass',
+            'Optimizing module cache...'        => 'optimizeModules',
         ];
 
         $progress = new ProgressBar($this->output, count($steps));
@@ -186,6 +187,20 @@ class MakeModuleCommand extends Command
 
             $this->files->put($filePath, $contents);
         }
+    }
+
+    /**
+     * Generate the module maintenance class.
+     */
+    protected function generateMaintenanceClass()
+    {
+        $source = __DIR__.'/stubs/maintenance.stub';
+        $target = module_path(null, $this->container['basename']) . '/Utils/' . $this->container['basename'] . 'Maintenance.php';
+
+        $sourceContent = $this->files->get($source);
+        $targetContent = $this->replacePlaceholders($sourceContent);
+
+        $this->files->put($target, $targetContent);
     }
 
     /**

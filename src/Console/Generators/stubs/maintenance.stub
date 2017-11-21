@@ -1,0 +1,95 @@
+<?php
+
+namespace DummyNamespace\Utils;
+
+
+use Caffeinated\Modules\Utils\ModuleMaintenanceBase;
+
+class DummyBasenameMaintenance extends ModuleMaintenanceBase
+{
+
+    /**
+     * Initialize the module.
+     *
+     * @return bool
+     */
+    public function initialize($func = null)
+    {
+        return parent::initialize( function () use ($func) {
+            $rc = true;
+
+            // TODO: Perform any module specific tasks, return true on success or throw either
+            // the exception ModuleInitializationFailureException or return false on failure.
+            
+            $isCallable = is_callable($func, false, $callable_name);
+            if ($isCallable) {
+                $rc = call_user_func($func);
+            }
+            return $rc;
+        });
+    }
+
+    /**
+     * Uninitialize the module.
+     *
+     * @return bool
+     */
+    public function uninitialize($func = null)
+    {
+        return parent::uninitialize( function () use ($func) {
+            $rc = true;
+
+            // TODO: Perform any module specific tasks, return true on success or throw either
+            // the exception ModuleUninitializationFailureException or return false on failure.
+
+            $isCallable = is_callable($func, false, $callable_name);
+            if ($isCallable) {
+                $rc = call_user_func($func);
+            }
+            return $rc;
+        });
+    }
+
+    /**
+     * Enables the module.
+     *
+     * @return bool
+     */
+    public function enable($func = null)
+    {
+        return parent::enable( function () use ($func) {
+            $rc = true;
+
+            // TODO: Perform any module specific tasks, return true on success or throw either
+            // the exception ModuleEnablingFailureException or return false on failure.
+
+            $isCallable = is_callable($func, false, $callable_name);
+            if ($isCallable) {
+                $rc = call_user_func($func);
+            }
+            return $rc;
+        });
+    }
+
+    /**
+     * Disables the module.
+     *
+     * @return bool
+     */
+    public function disable($func = null)
+    {
+        return parent::disable( function () use ($func) {
+            $rc = true;
+
+            // TODO: Perform any module specific tasks, return true on success or throw either
+            // the exception ModuleDisablingFailureException or return false on failure.
+
+            $isCallable = is_callable($func, false, $callable_name);
+            if ($isCallable) {
+                $rc = call_user_func($func);
+            }
+            return $rc;
+        });
+    }
+
+}

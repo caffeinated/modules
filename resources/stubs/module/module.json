@@ -2,5 +2,7 @@
     "name": "DummyName",
     "slug": "DummySlug",
     "version": "DummyVersion",
-    "description": "DummyDescription"
+    "description": "DummyDescription",
+    "enabled": false,
+    "initialized": false
 }
