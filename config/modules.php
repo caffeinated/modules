@@ -50,7 +50,7 @@ return [
     | This driver manages the retrieval and management of module properties.
     | Setting this to custom allows you to specify your own driver instance.
     |
-    | Supported: "local"
+    | Supported: "local", "redis"
     |
     */
 

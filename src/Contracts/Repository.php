@@ -4,6 +4,13 @@ namespace Caffeinated\Modules\Contracts;
 
 interface Repository
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Optimization Methods
+    |--------------------------------------------------------------------------
+    |
+    */
+
     /**
      * Get all module manifest properties and store
      * in the respective container.
@@ -11,6 +18,13 @@ interface Repository
      * @return bool
      */
     public function optimize();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Collection Methods
+    |--------------------------------------------------------------------------
+    |
+    */
 
     /**
      * Get all modules.
@@ -71,6 +85,20 @@ interface Repository
     public function count();
 
     /**
+     * Get all module basenames.
+     *
+     * @return array
+     */
+    public function getAllBasenames();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Manifests Methods
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    /**
      * Returns the modules defined manifest properties.
      *
      * @param string $slug
@@ -78,6 +106,13 @@ interface Repository
      * @return Collection
      */
     public function getManifest($slug);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Repository read and write Methods
+    |--------------------------------------------------------------------------
+    |
+    */
 
     /**
      * Returns the given module property.
@@ -98,6 +133,28 @@ interface Repository
      * @return bool
      */
     public function set($property, $value);
+
+    /**
+     * Returns the entire module repository content as a collection.
+     *
+     * @return Collection
+     */
+    public function load();
+
+    /**
+     * Saves the entire module content to the repository.
+     *
+     * @param $content
+     * @return int|bool a non-zero or true value on success, or false on failure.
+     */
+    public function save($content);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Initialization Methods
+    |--------------------------------------------------------------------------
+    |
+    */
 
     /**
      * Get all initialized modules.
@@ -148,6 +205,13 @@ interface Repository
      * @return bool
      */
     public function uninitialize($slug);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enabling Methods
+    |--------------------------------------------------------------------------
+    |
+    */
 
     /**
      * Get all enabled modules.
