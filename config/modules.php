@@ -50,11 +50,24 @@ return [
     | This driver manages the retrieval and management of module properties.
     | Setting this to custom allows you to specify your own driver instance.
     |
-    | Supported: "local", "redis"
+    | Supported: "local", "redis", "custom"
     |
     */
 
     'driver' => 'local',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Module Driver
+    |--------------------------------------------------------------------------
+    |
+    | This option allows one to define a custom module driver implementation.
+    | This is useful in cases where you may need to support and store module
+    | properties somewhere not supported by default.
+    |
+    */
+
+    'custom_driver' => 'App\Repositories\Modules\CustomRepository',
 
     /*
     |--------------------------------------------------------------------------
