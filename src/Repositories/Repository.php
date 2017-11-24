@@ -67,6 +67,10 @@ abstract class Repository implements RepositoryContract
         $modules->each(function ($module) {
             $module->put('id', crc32($module->get('slug')));
 
+            if (!$module->has('initialized')) {
+                $module->put('initialized', config('modules.initialized', true));
+            }
+
             if (!$module->has('enabled')) {
                 $module->put('enabled', config('modules.enabled', true));
             }

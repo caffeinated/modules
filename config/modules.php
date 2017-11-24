@@ -17,7 +17,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Modules Default State
+    | Modules Default Initialized State
+    |--------------------------------------------------------------------------
+    |
+    | When a previously unknown module is added, if it doesn't have an
+    | 'initialized' state set then this is the value which it will
+    | default to. If this is not provided then the module will
+    | default to being 'initialized'.
+    |
+    */
+
+    'initialized' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Modules Default Enabled State
     |--------------------------------------------------------------------------
     |
     | When a previously unknown module is added, if it doesn't have an 'enabled'
