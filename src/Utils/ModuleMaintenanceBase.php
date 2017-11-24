@@ -7,6 +7,7 @@ use Caffeinated\Modules\Exceptions\ModuleDisablingFailureException;
 use Caffeinated\Modules\Exceptions\ModuleEnablingFailureException;
 use Caffeinated\Modules\Exceptions\ModuleInitializationFailureException;
 use Caffeinated\Modules\Exceptions\ModuleUninitializationFailureException;
+use File;
 use Log;
 use Module;
 
@@ -16,6 +17,11 @@ class ModuleMaintenanceBase implements ModuleMaintenanceInterface
     protected $slug;
 
     protected $moduleDef;
+
+    /**
+     * @var \Illuminate\Filesystem\Filesystem
+     */
+    protected $files;
 
     public function __construct($slug)
     {
@@ -59,6 +65,9 @@ class ModuleMaintenanceBase implements ModuleMaintenanceInterface
             if ($isCallable) {
                 Log::debug('Calling higher closure from ModuleMaintenanceBase initialize closure.');
                 $rc = call_user_func($func);
+
+                // Call to publish any existing assets
+                $this->publishAssets();
             }
 
             if ($rc) {
@@ -186,5 +195,23 @@ class ModuleMaintenanceBase implements ModuleMaintenanceInterface
         return $rc;
 
     }
+
+    /**
+     * Allows a module to trigger the publishing of its assets.
+     */
+    public function publishAssets()
+    {
+        // Can't use the artisan publish command since the module is uninitialiazed & disabled the
+        // Provider will not be registered and booted.
+        // So we have to build our own deploy function.
+        $assetsSource = config('modules.path') . '/' . $this->moduleDef['basename'] . '/assets';
+        if (File::exists($assetsSource)) {
+            $assetsTarget = config('modules.path_public_assets') . '/' . $this->slug;
+            Log::debug('Copying module assets from [' . $assetsSource. '] to [' . $assetsTarget. '].');
+            File::copyDirectory($assetsSource, $assetsTarget);
+            event($this->slug.'.module.published-assets', [$this->moduleDef, null]);
+        }
+    }
+
 
 }

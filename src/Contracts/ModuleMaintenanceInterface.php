@@ -2,7 +2,6 @@
 
 namespace Caffeinated\Modules\Contracts;
 
-
 interface ModuleMaintenanceInterface
 {
 
@@ -63,5 +62,12 @@ interface ModuleMaintenanceInterface
      * @return bool
      */
     public function disable($func = null);
+
+    /**
+     * Allows a module to trigger the publishing of its assets.
+     *
+     * @return mixed
+     */
+    public function publishAssets();
 
 }

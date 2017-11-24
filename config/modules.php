@@ -17,6 +17,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Path to public assets
+    |--------------------------------------------------------------------------
+    |
+    | Define the path where the public assets of each module will be deployed to
+    | to be available under the public directory.
+    |
+    */
+
+    'path_public_assets' => public_path('vendor/modules'), // Set to public/vendor/modules
+
+    /*
+    |--------------------------------------------------------------------------
     | Modules Default Initialized State
     |--------------------------------------------------------------------------
     |
