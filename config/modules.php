@@ -43,6 +43,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Modules Default Service Provider class name
+    |--------------------------------------------------------------------------
+    |
+    | Define class name to use as default module service provider.
+    |
+    */
+
+    'provider_class' => 'Providers\\ModuleServiceProvider',
+
+    /*
+    |--------------------------------------------------------------------------
     | Default Module Driver
     |--------------------------------------------------------------------------
     |
