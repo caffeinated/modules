@@ -31,6 +31,18 @@ class MakeControllerCommand extends GeneratorCommand
     protected $type = 'Module controller';
 
     /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return [
+            ['resource', null, InputOption::VALUE_OPTIONAL, 'Generate a module resource controller class.', null],
+        ];
+    }
+
+    /**
      * Get the stub file for the generator.
      *
      * @return string
@@ -38,18 +50,18 @@ class MakeControllerCommand extends GeneratorCommand
     protected function getStub()
     {
         if ($this->option('resource')) {
-            return __DIR__.'/stubs/controller.resource.stub';
+            return __DIR__ . '/stubs/controller.resource.stub';
         }
 
-        return __DIR__.'/stubs/controller.stub';
+        return __DIR__ . '/stubs/controller.stub';
     }
 
     /**
      * Get the default namespace for the class.
      *
      * @param string $rootNamespace
-     *
      * @return string
+     * @throws \Caffeinated\Modules\Exceptions\ModuleNotFoundException
      */
     protected function getDefaultNamespace($rootNamespace)
     {

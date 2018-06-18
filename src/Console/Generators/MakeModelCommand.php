@@ -32,6 +32,18 @@ class MakeModelCommand extends GeneratorCommand
     protected $type = 'Module model';
 
     /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return [
+            ['migration', null, InputOption::VALUE_OPTIONAL, 'Create a new migration file for the model.', null],
+        ];
+    }
+
+    /**
      * Execute the console command.
      *
      * @return void
@@ -43,8 +55,8 @@ class MakeModelCommand extends GeneratorCommand
                 $table = Str::plural(Str::snake(class_basename($this->argument('name'))));
 
                 $this->call('make:module:migration', [
-                    'slug'     => $this->argument('slug'),
-                    'name'     => "create_{$table}_table",
+                    'slug' => $this->argument('slug'),
+                    'name' => "create_{$table}_table",
                     '--create' => $table,
                 ]);
             }
@@ -58,7 +70,7 @@ class MakeModelCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/stubs/model.stub';
+        return __DIR__ . '/stubs/model.stub';
     }
 
     /**
