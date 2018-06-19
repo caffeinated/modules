@@ -2,15 +2,19 @@
 
 namespace Caffeinated\Modules\Tests;
 
-use Caffeinated\Modules\Facades\Module;
+use Module;
 
 class ModuleFacadeTest extends BaseTestCase
 {
     /** @test */
-    public function it_can_resolve_module_facade()
+    public function it_can_work_with_container()
     {
-        $modules = Module::all();
+        $this->assertInstanceOf(\Caffeinated\Modules\Modules::class, $this->app['modules']);
+    }
 
-        $this->assertInstanceOf(\Countable::class, $modules);
+    /** @test */
+    public function it_can_work_with_facade()
+    {
+        $this->assertSame('Caffeinated\Modules\Facades\Module', (new \ReflectionClass(Module::class))->getName());
     }
 }
