@@ -29,21 +29,57 @@ class RepositoryTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_can_get_all_the_modules()
+    public function it_can_check_if_module_is_disabled()
     {
-        $this->assertCount(3, $this->repository->all());
+        $this->assertFalse($this->repository->isDisabled('repositorymod1'));
 
-        $this->assertInstanceOf(Collection::class, $this->repository->all());
+        $this->repository->disable('repositorymod1');
+
+        $this->assertTrue($this->repository->isDisabled('repositorymod1'));
     }
 
     /** @test */
-    public function it_can_get_the_modules_slugs()
+    public function it_can_check_if_module_is_enabled()
     {
-        $this->assertCount(3, $this->repository->slugs());
+        $this->assertTrue($this->repository->isEnabled('repositorymod1'));
 
-        $this->repository->slugs()->each(function($key, $value) {
-            $this->assertSame('repositorymod'.($value+1), $key);
-        });
+        $this->repository->disable('repositorymod1');
+
+        $this->assertFalse($this->repository->isEnabled('repositorymod1'));
+    }
+
+    /** @test */
+    public function it_can_check_if_the_module_exists()
+    {
+        $this->assertTrue($this->repository->exists('repositorymod1'));
+
+        $this->assertFalse($this->repository->exists('repositorymod4'));
+    }
+
+    /** @test */
+    public function it_can_count_the_modules()
+    {
+        $this->assertSame(3, (int)$this->repository->count());
+    }
+
+    /** @test */
+    public function it_can_get_a_collection_of_disabled_modules()
+    {
+        $this->assertSame(0, (int)$this->repository->disabled()->count());
+
+        $this->repository->disable('repositorymod1');
+
+        $this->assertSame(1, (int)$this->repository->disabled()->count());
+    }
+
+    /** @test */
+    public function it_can_get_a_collection_of_enabled_modules()
+    {
+        $this->assertSame(3, (int)$this->repository->enabled()->count());
+
+        $this->repository->disable('repositorymod1');
+
+        $this->assertSame(2, (int)$this->repository->enabled()->count());
     }
 
     /** @test */
@@ -73,37 +109,54 @@ class RepositoryTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_can_sortby_asc_slug_the_modules()
+    public function it_can_get_all_the_modules()
     {
-        $sortByAsc = array_keys($this->repository->sortby('slug')->toArray());
+        $this->assertCount(3, $this->repository->all());
 
-        $this->assertSame($sortByAsc[0], 'Repositorymod1');
-        $this->assertSame($sortByAsc[1], 'Repositorymod2');
-        $this->assertSame($sortByAsc[2], 'Repositorymod3');
+        $this->assertInstanceOf(Collection::class, $this->repository->all());
     }
 
     /** @test */
-    public function it_can_sortby_desc_slug_the_modules()
+    public function it_can_get_correct_module_and_manifest_for_legacy_modules()
     {
-        $sortByAsc = array_keys($this->repository->sortbyDesc('slug')->toArray());
+        $this->artisan('make:module', ['slug' => 'barbiz', '--quick' => 'quick']);
 
-        $this->assertSame($sortByAsc[0], 'Repositorymod3');
-        $this->assertSame($sortByAsc[1], 'Repositorymod2');
-        $this->assertSame($sortByAsc[2], 'Repositorymod1');
+        // Quick and fast way to simulate legacy Module FolderStructure
+        // https://github.com/caffeinated/modules/pull/224
+        rename(realpath(module_path('barbiz')), realpath(module_path()) . '/BarBiz');
+        file_put_contents(realpath(module_path()) . '/BarBiz/module.json', json_encode(array(
+            'name' => 'BarBiz', 'slug' => 'BarBiz', 'version' => '1.0', 'description' => '',
+        ), JSON_PRETTY_PRINT));
+
+        $this->assertSame(
+            '{"name":"BarBiz","slug":"BarBiz","version":"1.0","description":""}',
+            json_encode($this->repository->getManifest('BarBiz'))
+        );
+
+        $this->assertSame(
+            realpath(module_path() . '/BarBiz'),
+            realpath($this->repository->getModulePath('BarBiz'))
+        );
+
+        $this->finder->deleteDirectory(module_path() . '/BarBiz');
     }
 
     /** @test */
-    public function it_can_check_if_the_module_exists()
+    public function it_can_get_correct_slug_exists_for_legacy_modules()
     {
-        $this->assertTrue($this->repository->exists('repositorymod1'));
+        $this->artisan('make:module', ['slug' => 'foobar', '--quick' => 'quick']);
 
-        $this->assertFalse($this->repository->exists('repositorymod4'));
-    }
+        // Quick and fast way to simulate legacy Module FolderStructure
+        // https://github.com/caffeinated/modules/pull/279
+        // https://github.com/caffeinated/modules/pull/349
+        rename(realpath(module_path('foobar')), realpath(module_path()) . '/FooBar');
+        file_put_contents(realpath(module_path()) . '/FooBar/module.json', json_encode(array(
+            'name' => 'FooBar', 'slug' => 'FooBar', 'version' => '1.0', 'description' => '',
+        ), JSON_PRETTY_PRINT));
 
-    /** @test */
-    public function it_can_count_the_modules()
-    {
-        $this->assertSame(3, (int) $this->repository->count());
+        $this->assertTrue($this->repository->exists('FooBar'));
+
+        $this->finder->deleteDirectory(module_path() . '/FooBar');
     }
 
     /** @test */
@@ -128,6 +181,16 @@ class RepositoryTest extends BaseTestCase
     }
 
     /** @test */
+    public function it_can_get_the_modules_slugs()
+    {
+        $this->assertCount(3, $this->repository->slugs());
+
+        $this->repository->slugs()->each(function ($key, $value) {
+            $this->assertSame('repositorymod' . ($value + 1), $key);
+        });
+    }
+
+    /** @test */
     public function it_can_set_property_of_module()
     {
         $this->assertSame('Repositorymod1', $this->repository->get('repositorymod1::name'));
@@ -146,43 +209,23 @@ class RepositoryTest extends BaseTestCase
     }
 
     /** @test */
-    public function it_can_get_a_collection_of_enabled_modules()
+    public function it_can_sortby_asc_slug_the_modules()
     {
-        $this->assertSame(3, (int) $this->repository->enabled()->count());
+        $sortByAsc = array_keys($this->repository->sortby('slug')->toArray());
 
-        $this->repository->disable('repositorymod1');
-
-        $this->assertSame(2, (int) $this->repository->enabled()->count());
+        $this->assertSame($sortByAsc[0], 'Repositorymod1');
+        $this->assertSame($sortByAsc[1], 'Repositorymod2');
+        $this->assertSame($sortByAsc[2], 'Repositorymod3');
     }
 
     /** @test */
-    public function it_can_get_a_collection_of_disabled_modules()
+    public function it_can_sortby_desc_slug_the_modules()
     {
-        $this->assertSame(0, (int) $this->repository->disabled()->count());
+        $sortByAsc = array_keys($this->repository->sortbyDesc('slug')->toArray());
 
-        $this->repository->disable('repositorymod1');
-
-        $this->assertSame(1, (int) $this->repository->disabled()->count());
-    }
-
-    /** @test */
-    public function it_can_check_if_module_is_enabled()
-    {
-        $this->assertTrue($this->repository->isEnabled('repositorymod1'));
-
-        $this->repository->disable('repositorymod1');
-
-        $this->assertFalse($this->repository->isEnabled('repositorymod1'));
-    }
-
-    /** @test */
-    public function it_can_check_if_module_is_disabled()
-    {
-        $this->assertFalse($this->repository->isDisabled('repositorymod1'));
-
-        $this->repository->disable('repositorymod1');
-
-        $this->assertTrue($this->repository->isDisabled('repositorymod1'));
+        $this->assertSame($sortByAsc[0], 'Repositorymod3');
+        $this->assertSame($sortByAsc[1], 'Repositorymod2');
+        $this->assertSame($sortByAsc[2], 'Repositorymod1');
     }
 
     public function tearDown()
