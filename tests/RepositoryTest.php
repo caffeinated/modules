@@ -160,6 +160,30 @@ class RepositoryTest extends BaseTestCase
     }
 
     /** @test */
+    public function it_can_get_custom_modules_namespace()
+    {
+        $this->app['config']->set('modules.namespace', 'App\\Foo\\Bar\\Baz\\Tests');
+
+        $this->assertSame('App\Foo\Bar\Baz\Tests', $this->repository->getNamespace());
+
+        $this->app['config']->set('modules.namespace', 'App\\Foo\\Baz\\Bar\\Tests\\');
+
+        $this->assertSame('App\Foo\Baz\Bar\Tests', $this->repository->getNamespace());
+    }
+
+    /** @test */
+    public function it_can_get_default_modules_namespace()
+    {
+        $this->assertSame('App\Modules', $this->repository->getNamespace());
+    }
+
+    /** @test */
+    public function it_can_get_default_modules_path()
+    {
+        $this->assertSame(base_path() . '/modules', $this->repository->getPath());
+    }
+
+    /** @test */
     public function it_can_get_manifest_of_module()
     {
         $manifest = $this->repository->getManifest('repositorymod1');
@@ -167,6 +191,17 @@ class RepositoryTest extends BaseTestCase
         $this->assertSame(
             '{"name":"Repositorymod1","slug":"repositorymod1","version":"1.0","description":"This is the description for the Repositorymod1 module."}',
             $manifest->toJson()
+        );
+    }
+
+    /** @test */
+    public function it_can_get_module_path_of_module()
+    {
+        $path = $this->repository->getModulePath('repositorymod1');
+
+        $this->assertSame(
+            base_path() . '/modules/Repositorymod1/',
+            $path
         );
     }
 
@@ -188,6 +223,17 @@ class RepositoryTest extends BaseTestCase
         $this->repository->slugs()->each(function ($key, $value) {
             $this->assertSame('repositorymod' . ($value + 1), $key);
         });
+    }
+
+    /** @test */
+    public function it_can_set_custom_modules_path_in_runtime_mode()
+    {
+        $this->repository->setPath(base_path('tests/runtime/modules'));
+
+        $this->assertSame(
+            base_path() . '/tests/runtime/modules',
+            $this->repository->getPath()
+        );
     }
 
     /** @test */
@@ -226,6 +272,26 @@ class RepositoryTest extends BaseTestCase
         $this->assertSame($sortByAsc[0], 'Repositorymod3');
         $this->assertSame($sortByAsc[1], 'Repositorymod2');
         $this->assertSame($sortByAsc[2], 'Repositorymod1');
+    }
+
+    /**
+     * @test
+     * @expectedException \Exception
+     */
+    public function it_will_throw_exception_by_invalid_json_manifest_file()
+    {
+        file_put_contents(realpath(module_path()) . '/Repositorymod1/module.json', 'invalidjsonformat');
+
+        $manifest = $this->repository->getManifest('repositorymod1');
+    }
+
+    /**
+     * @test
+     * @expectedException \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function it_will_throw_file_not_found_exception_by_unknown_module()
+    {
+        $manifest = $this->repository->getManifest('unknown');
     }
 
     public function tearDown()
