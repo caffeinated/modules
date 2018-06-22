@@ -50,7 +50,7 @@ class MakeModuleCommand extends Command
      * Create a new command instance.
      *
      * @param Filesystem $files
-     * @param Modules    $module
+     * @param Modules $module
      */
     public function __construct(Filesystem $files, Modules $module)
     {
@@ -58,6 +58,18 @@ class MakeModuleCommand extends Command
 
         $this->files = $files;
         $this->module = $module;
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return [
+            ['quick', null, InputOption::VALUE_OPTIONAL, 'Skip the make:module wizard and use default values.', null],
+        ];
     }
 
     /**
@@ -70,11 +82,11 @@ class MakeModuleCommand extends Command
         $this->container['slug'] = str_slug($this->argument('slug'));
         $this->container['name'] = studly_case($this->container['slug']);
         $this->container['version'] = '1.0';
-        $this->container['description'] = 'This is the description for the '.$this->container['name'].' module.';
+        $this->container['description'] = 'This is the description for the ' . $this->container['name'] . ' module.';
 
         if ($this->option('quick')) {
-            $this->container['basename']    = studly_case($this->container['slug']);
-            $this->container['namespace']   = config('modules.namespace').$this->container['basename'];
+            $this->container['basename'] = studly_case($this->container['slug']);
+            $this->container['namespace'] = config('modules.namespace') . $this->container['basename'];
             return $this->generate();
         }
 
@@ -84,48 +96,12 @@ class MakeModuleCommand extends Command
     }
 
     /**
-     * Step 1: Configure module manifest.
-     *
-     * @return mixed
-     */
-    protected function stepOne()
-    {
-        $this->displayHeader('make_module_step_1');
-
-        $this->container['name'] = $this->ask('Please enter the name of the module:', $this->container['name']);
-        $this->container['slug'] = $this->ask('Please enter the slug for the module:', $this->container['slug']);
-        $this->container['version'] = $this->ask('Please enter the module version:', $this->container['version']);
-        $this->container['description'] = $this->ask('Please enter the description of the module:', $this->container['description']);
-        $this->container['basename'] = studly_case($this->container['slug']);
-        $this->container['namespace'] = config('modules.namespace').$this->container['basename'];
-
-        $this->comment('You have provided the following manifest information:');
-        $this->comment('Name:                       '.$this->container['name']);
-        $this->comment('Slug:                       '.$this->container['slug']);
-        $this->comment('Version:                    '.$this->container['version']);
-        $this->comment('Description:                '.$this->container['description']);
-        $this->comment('Basename (auto-generated):  '.$this->container['basename']);
-        $this->comment('Namespace (auto-generated): '.$this->container['namespace']);
-
-        if ($this->confirm('If the provided information is correct, type "yes" to generate.')) {
-            $this->comment('Thanks! That\'s all we need.');
-            $this->comment('Now relax while your module is generated.');
-
-            $this->generate();
-        } else {
-            return $this->stepOne();
-        }
-
-        return true;
-    }
-
-    /**
      * Generate the module.
      */
     protected function generate()
     {
         $steps = [
-            'Generating module...'       => 'generateModule',
+            'Generating module...' => 'generateModule',
             'Optimizing module cache...' => 'optimizeModules',
         ];
 
@@ -142,9 +118,60 @@ class MakeModuleCommand extends Command
 
         $progress->finish();
 
-        event($this->container['slug'].'.module.made');
+        event($this->container['slug'] . '.module.made');
 
         $this->info("\nModule generated successfully.");
+    }
+
+    /**
+     * Pull the given stub file contents and display them on screen.
+     *
+     * @param string $file
+     * @param string $level
+     *
+     * @return mixed
+     */
+    protected function displayHeader($file = '', $level = 'info')
+    {
+        $stub = $this->files->get(__DIR__ . '/../../../resources/stubs/console/' . $file . '.stub');
+
+        return $this->$level($stub);
+    }
+
+    /**
+     * Step 1: Configure module manifest.
+     *
+     * @return mixed
+     */
+    protected function stepOne()
+    {
+        $this->displayHeader('make_module_step_1');
+
+        $this->container['name'] = $this->ask('Please enter the name of the module:', $this->container['name']);
+        $this->container['slug'] = $this->ask('Please enter the slug for the module:', $this->container['slug']);
+        $this->container['version'] = $this->ask('Please enter the module version:', $this->container['version']);
+        $this->container['description'] = $this->ask('Please enter the description of the module:', $this->container['description']);
+        $this->container['basename'] = studly_case($this->container['slug']);
+        $this->container['namespace'] = config('modules.namespace') . $this->container['basename'];
+
+        $this->comment('You have provided the following manifest information:');
+        $this->comment('Name:                       ' . $this->container['name']);
+        $this->comment('Slug:                       ' . $this->container['slug']);
+        $this->comment('Version:                    ' . $this->container['version']);
+        $this->comment('Description:                ' . $this->container['description']);
+        $this->comment('Basename (auto-generated):  ' . $this->container['basename']);
+        $this->comment('Namespace (auto-generated): ' . $this->container['namespace']);
+
+        if ($this->confirm('If the provided information is correct, type "yes" to generate.')) {
+            $this->comment('Thanks! That\'s all we need.');
+            $this->comment('Now relax while your module is generated.');
+
+            $this->generate();
+        } else {
+            return $this->stepOne();
+        }
+
+        return true;
     }
 
     /**
@@ -158,7 +185,7 @@ class MakeModuleCommand extends Command
 
         $pathMap = config('modules.pathMap');
         $directory = module_path(null, $this->container['basename']);
-        $source = __DIR__.'/../../../resources/stubs/module';
+        $source = __DIR__ . '/../../../resources/stubs/module';
 
         $this->files->makeDirectory($directory);
 
@@ -177,7 +204,7 @@ class MakeModuleCommand extends Command
                 $subPath = str_replace($search, $replace, $subPath);
             }
 
-            $filePath = $directory.'/'.$subPath;
+            $filePath = $directory . '/' . $subPath;
             $dir = dirname($filePath);
 
             if (!$this->files->isDirectory($dir)) {
@@ -186,29 +213,6 @@ class MakeModuleCommand extends Command
 
             $this->files->put($filePath, $contents);
         }
-    }
-
-    /**
-     * Reset module cache of enabled and disabled modules.
-     */
-    protected function optimizeModules()
-    {
-        return $this->callSilent('module:optimize');
-    }
-
-    /**
-     * Pull the given stub file contents and display them on screen.
-     *
-     * @param string $file
-     * @param string $level
-     *
-     * @return mixed
-     */
-    protected function displayHeader($file = '', $level = 'info')
-    {
-        $stub = $this->files->get(__DIR__.'/../../../resources/stubs/console/'.$file.'.stub');
-
-        return $this->$level($stub);
     }
 
     protected function replacePlaceholders($contents)
@@ -232,5 +236,13 @@ class MakeModuleCommand extends Command
         ];
 
         return str_replace($find, $replace, $contents);
+    }
+
+    /**
+     * Reset module cache of enabled and disabled modules.
+     */
+    protected function optimizeModules()
+    {
+        return $this->callSilent('module:optimize');
     }
 }
