@@ -45,6 +45,8 @@ abstract class BaseTestCase extends OrchestraTestCase
             'prefix' => '',
         ));
 
+        $app['config']->set('view.paths', [__DIR__.'/resources/views']);
+
         $app['config']->set('modules.path', base_path('modules'));
         $app['config']->set('modules.namespace', 'App\\Modules\\');
         $app['config']->set('modules.driver', 'local');
