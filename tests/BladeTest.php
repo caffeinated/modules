@@ -6,38 +6,47 @@ class BladeTest extends BaseTestCase
 {
     protected $finder;
 
-    protected $compiler;
-
     public function setUp()
     {
-        $this->compiler = new \Illuminate\View\Compilers\BladeCompiler(
-            \Mockery::mock('Illuminate\Filesystem\Filesystem'), __DIR__
-        );
+        parent::setUp();
 
-        $this->compiler->directive('module', function ($slug) {
-            return "<?php if(Module::exists({$slug}) && Module::isEnabled({$slug})): ?>";
-        });
+        $this->finder = $this->app['files'];
 
-        $this->compiler->directive('endmodule', function () {
-            return '<?php endif; ?>';
-        });
+        $this->artisan('make:module', ['slug' => 'blade', '--quick' => 'quick']);
     }
 
     /** @test */
-    public function it_can_compile_module_statement()
+    public function it_has_module_if_module_exists_and_is_enabled()
     {
-        $this->assertSame('<?php if(Module::exists("blade") && Module::isEnabled("blade")): ?>', $this->compiler->compileString('@module("blade")'));
+        $this->artisan('module:enable', ['slug' => 'blade']);
+
+        $this->assertEquals('has module', $this->renderView('module', ['module' => 'blade']));
     }
 
     /** @test */
-    public function it_can_compile_endmodule_statement()
+    public function it_has_no_module_if_module_dont_exists()
     {
-        $this->assertSame('<?php endif; ?>', $this->compiler->compileString('@endmodule("blade")'));
+        $this->assertEquals('no module', $this->renderView('module', ['module' => 'dontexists']));
+    }
+
+    /** @test */
+    public function it_has_no_module_if_module_exists_but_is_not_enabled()
+    {
+        $this->artisan('module:disable', ['slug' => 'blade']);
+
+        $this->assertEquals('no module', $this->renderView('module', ['module' => 'blade']));
+    }
+
+    protected function renderView($view, $parameters)
+    {
+        $this->artisan('view:clear');
+
+        return trim((string)(view($view)->with($parameters)));
     }
 
     public function tearDown()
     {
-        \Mockery::close();
+        $this->finder->deleteDirectory(module_path('blade'));
 
         parent::tearDown();
     }
