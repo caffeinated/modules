@@ -21,7 +21,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $driver = ucfirst(config('modules.driver'));
 
-        if ($driver == 'Custom') {
+        if (strcasecmp($driver, 'Custom') == 0) {
             $namespace = config('modules.custom_driver');
         } else {
             $namespace = 'Caffeinated\Modules\Repositories\\'.$driver.'Repository';
