@@ -50,11 +50,11 @@ return [
     | This driver manages the retrieval and management of module properties.
     | Setting this to custom allows you to specify your own driver instance.
     |
-    | Supported: "Local" or "Custom"
+    | Supported: "local" or "custom"
     |
     */
 
-    'driver' => 'Local',
+    'driver' => 'local',
 
     /*
      |--------------------------------------------------------------------------
