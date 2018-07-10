@@ -50,11 +50,25 @@ return [
     | This driver manages the retrieval and management of module properties.
     | Setting this to custom allows you to specify your own driver instance.
     |
-    | Supported: "local"
+    | Supported: "local" or "custom"
     |
     */
 
     'driver' => 'local',
+
+    /*
+     |--------------------------------------------------------------------------
+     | Custom Module Driver
+     |--------------------------------------------------------------------------
+     |
+     | Using a custom module driver, the 'driver' value need to be set to 'custom'
+     | The path to the driver need to be set in addition at custom_driver.
+     |
+     | @warn: This value will be only considered if driver is set to custom.
+     |
+     */
+
+    // 'custom_driver' => 'Caffeinated\Modules\Repositories\LocalRepository',
 
     /*
     |--------------------------------------------------------------------------
