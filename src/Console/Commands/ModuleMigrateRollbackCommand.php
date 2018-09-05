@@ -68,13 +68,9 @@ class ModuleMigrateRollbackCommand extends Command
         $this->migrator->setConnection($this->option('database'));
 
         $paths = $this->getMigrationPaths();
-        $this->migrator->rollback(
+        $this->migrator->setOutput($this->output)->rollback(
             $paths, ['pretend' => $this->option('pretend'), 'step' => (int) $this->option('step')]
         );
-
-        foreach ($this->migrator->getNotes() as $note) {
-            $this->output->writeln($note);
-        }
     }
 
     /**

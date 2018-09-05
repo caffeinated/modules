@@ -88,7 +88,7 @@ class ModuleMigrateResetCommand extends Command
     {
         $this->migrator->setconnection($this->input->getOption('database'));
 
-        $files = $this->migrator->getMigrationFiles($this->getMigrationPaths());
+        $files = $this->migrator->setOutput($this->output)->getMigrationFiles($this->getMigrationPaths());
 
         $migrations = array_reverse($this->migrator->getRepository()->getRan());
 
@@ -104,10 +104,6 @@ class ModuleMigrateResetCommand extends Command
 
                 $this->runDown($files[$migration], (object) ["migration" => $migration]);
             }
-        }
-
-        foreach ($this->migrator->getNotes() as $note) {
-            $this->output->writeln($note);
         }
     }
 

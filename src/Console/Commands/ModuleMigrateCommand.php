@@ -99,18 +99,9 @@ class ModuleMigrateCommand extends Command
             $step = Arr::get($this->option(), 'step', false);
             $path = $this->getMigrationPath($slug);
 
-            $this->migrator->run($path, ['pretend' => $pretend, 'step' => $step]);
+            $this->migrator->setOutput($this->output)->run($path, ['pretend' => $pretend, 'step' => $step]);
 
             event($slug.'.module.migrated', [$module, $this->option()]);
-
-            // Once the migrator has run we will grab the note output and send it out to
-            // the console screen, since the migrator itself functions without having
-            // any instances of the OutputInterface contract passed into the class.
-            foreach ($this->migrator->getNotes() as $note) {
-                if (!$this->option('quiet')) {
-                    $this->line($note);
-                }
-            }
 
             // Finally, if the "seed" option has been given, we will re-run the database
             // seed task to re-populate the database, which is convenient when adding

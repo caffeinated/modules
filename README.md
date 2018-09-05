@@ -1,11 +1,11 @@
 # Caffeinated Modules
 [![Latest Stable Version](https://poser.pugx.org/caffeinated/modules/v/stable?format=flat-square)](https://packagist.org/packages/caffeinated/modules)
-[![Laravel 5.6](https://img.shields.io/badge/Laravel-5.6-orange.svg?style=flat-square)](https://laravel.com)
+[![Laravel 5.7](https://img.shields.io/badge/Laravel-5.7-orange.svg?style=flat-square)](https://laravel.com)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
 [![Source](http://img.shields.io/badge/source-caffeinated/modules-blue.svg?style=flat-square)](https://github.com/caffeinated/modules)
 [![Total Downloads](https://img.shields.io/packagist/dt/caffeinated/modules.svg?style=flat-square)](https://packagist.org/packages/caffeinated/modules)
 
-Caffeinated Modules is a simple package to allow the means to separate your Laravel 5.6 application out into modules. Each module is completely self-contained allowing the ability to simply drop a module in for use.
+Caffeinated Modules is a simple package to allow the means to separate your Laravel 5.7+ application out into modules. Each module is completely self-contained allowing the ability to simply drop a module in for use.
 
 The package follows the FIG standards PSR-1, PSR-2, and PSR-4 to ensure a high level of interoperability between shared PHP code.
 
