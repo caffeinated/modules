@@ -51,4 +51,18 @@ class ServiceProvider extends IlluminateServiceProvider
             $this->app['config']->set($key, array_merge_recursive(config($key, []), require $file));
         }
     }
+
+    /**
+     * Load all module factories
+     *
+     * @param string $path
+     *
+     * @return void
+     */
+    protected function loadFactoriesFrom($path)
+    {
+        foreach (glob($path.'/*.php') as $file) {
+            require $file;
+        }
+    }
 }
