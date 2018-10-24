@@ -59,7 +59,7 @@ class Modules
      */
     private function registerServiceProvider($module)
     {
-        $serviceProvider = module_class($module['slug'], 'Providers\\ModuleServiceProvider');
+        $serviceProvider = module_class($module['slug'], config('modules.provider_class', 'Providers\\ModuleServiceProvider'));
 
         if (class_exists($serviceProvider)) {
             $this->app->register($serviceProvider);
