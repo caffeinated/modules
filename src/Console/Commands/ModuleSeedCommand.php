@@ -88,6 +88,7 @@ class ModuleSeedCommand extends Command
         $namespacePath = $this->module->getNamespace();
         $rootSeeder = $module['basename'].'DatabaseSeeder';
         $fullPath = $namespacePath.'\\'.$module['basename'].'\Database\Seeds\\'.$rootSeeder;
+        $factoriesPath = module_path($slug).DIRECTORY_SEPARATOR.'Database'.DIRECTORY_SEPARATOR.'Factories'.DIRECTORY_SEPARATOR;
 
         if (class_exists($fullPath)) {
             if ($this->option('class')) {
@@ -104,7 +105,9 @@ class ModuleSeedCommand extends Command
                 $params['--force'] = $option;
             }
 
-            $this->call('db:seed', $params);
+            if (count(glob($factoriesPath.'*.php')) > 0) {
+                $this->call('db:seed', $params);
+            }
 
             event($slug.'.module.seeded', [$module, $this->option()]);
         }

@@ -17,6 +17,7 @@ class ModuleServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../Resources/Views', 'DummySlug');
         $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations', 'DummySlug');
         $this->loadConfigsFrom(__DIR__.'/../config');
+        $this->loadFactoriesFrom(__DIR__.'/../Database/Factories');
     }
 
     /**
