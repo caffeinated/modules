@@ -274,13 +274,7 @@ class LocalRepository extends Repository
             $this->optimize();
         }
 
-        static $modules;
-
-        if (! $modules) {
-            $modules = collect(json_decode($this->files->get($cachePath), true));
-        }
-
-        return $modules;
+        return collect(json_decode($this->files->get($cachePath), true));
     }
 
     /**
