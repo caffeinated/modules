@@ -5,13 +5,6 @@ namespace Caffeinated\Modules\Repositories;
 class LocalRepository extends Repository
 {
     /**
-     * Cached manifests file.
-     *
-     * @var array
-     */
-    protected $manifests;
-
-    /**
      * Get all modules.
      *
      * @return Collection
@@ -233,8 +226,6 @@ class LocalRepository extends Repository
      */
     public function optimize()
     {
-        $this->manifests = null;
-
         $cachePath = $this->getCachePath();
 
         $cache = $this->getCache();
@@ -283,11 +274,7 @@ class LocalRepository extends Repository
             $this->optimize();
         }
 
-        if (! $this->manifests) {
-            $this->manifests = collect(json_decode($this->files->get($cachePath), true));
-        }
-
-        return $this->manifests;
+        return collect(json_decode($this->files->get($cachePath), true));
     }
 
     /**
