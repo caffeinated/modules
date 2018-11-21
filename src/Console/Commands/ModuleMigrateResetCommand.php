@@ -2,7 +2,7 @@
 
 namespace Caffeinated\Modules\Console\Commands;
 
-use Caffeinated\Modules\Modules;
+use Caffeinated\Modules\ModuleRepositoriesManager;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Migrations\Migrator;
@@ -29,7 +29,7 @@ class ModuleMigrateResetCommand extends Command
     protected $description = 'Rollback all database migrations for a specific or all modules';
 
     /**
-     * @var Modules
+     * @var ModuleRepositoriesManager
      */
     protected $module;
 
@@ -46,11 +46,11 @@ class ModuleMigrateResetCommand extends Command
     /**
      * Create a new command instance.
      *
-     * @param Modules    $module
+     * @param ModuleRepositoriesManager    $module
      * @param Filesystem $files
      * @param Migrator   $migrator
      */
-    public function __construct(Modules $module, Filesystem $files, Migrator $migrator)
+    public function __construct(ModuleRepositoriesManager $module, Filesystem $files, Migrator $migrator)
     {
         parent::__construct();
 

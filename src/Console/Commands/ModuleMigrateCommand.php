@@ -2,7 +2,7 @@
 
 namespace Caffeinated\Modules\Console\Commands;
 
-use Caffeinated\Modules\Modules;
+use Caffeinated\Modules\ModuleRepositoriesManager;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Migrations\Migrator;
@@ -29,7 +29,7 @@ class ModuleMigrateCommand extends Command
     protected $description = 'Run the database migrations for a specific or all modules';
 
     /**
-     * @var Modules
+     * @var ModuleRepositoriesManager
      */
     protected $module;
 
@@ -42,9 +42,9 @@ class ModuleMigrateCommand extends Command
      * Create a new command instance.
      *
      * @param Migrator $migrator
-     * @param Modules  $module
+     * @param ModuleRepositoriesManager  $module
      */
-    public function __construct(Migrator $migrator, Modules $module)
+    public function __construct(Migrator $migrator, ModuleRepositoriesManager $module)
     {
         parent::__construct();
 

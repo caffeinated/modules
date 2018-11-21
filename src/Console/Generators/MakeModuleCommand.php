@@ -2,7 +2,7 @@
 
 namespace Caffeinated\Modules\Console\Generators;
 
-use Caffeinated\Modules\Modules;
+use Caffeinated\Modules\ModuleRepositoriesManager;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -28,7 +28,7 @@ class MakeModuleCommand extends Command
     /**
      * The modules instance.
      *
-     * @var Modules
+     * @var ModuleRepositoriesManager
      */
     protected $module;
 
@@ -50,9 +50,9 @@ class MakeModuleCommand extends Command
      * Create a new command instance.
      *
      * @param Filesystem $files
-     * @param Modules $module
+     * @param ModuleRepositoriesManager $module
      */
-    public function __construct(Filesystem $files, Modules $module)
+    public function __construct(Filesystem $files, ModuleRepositoriesManager $module)
     {
         parent::__construct();
 

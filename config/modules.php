@@ -13,7 +13,16 @@ return [
     |
     */
 
-    'path' => app_path('Modules'),
+    'default_location' => 'modules',
+
+    'locations' => [
+        'modules' => [
+            'driver' => 'local',
+            'path' => app_path('Modules'),
+            'namespace' => 'Modules\\',
+            'enabled_by_default' => true
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -65,7 +74,7 @@ return [
     |
     */
 
-    'driver' => 'local',
+    'default_driver' => 'local',
 
     /*
      |--------------------------------------------------------------------------
@@ -79,7 +88,9 @@ return [
      |
      */
 
-    // 'custom_driver' => 'Caffeinated\Modules\Repositories\LocalRepository',
+    'drivers' => [
+        'local' => 'Caffeinated\Modules\Repositories\LocalRepository',
+    ],
 
     /*
     |--------------------------------------------------------------------------

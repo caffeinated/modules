@@ -2,7 +2,7 @@
 
 namespace Caffeinated\Modules\Console\Commands;
 
-use Caffeinated\Modules\Modules;
+use Caffeinated\Modules\ModuleRepositoriesManager;
 use Illuminate\Console\Command;
 
 class ModuleListCommand extends Command
@@ -22,7 +22,7 @@ class ModuleListCommand extends Command
     protected $description = 'List all application modules';
 
     /**
-     * @var Modules
+     * @var ModuleRepositoriesManager
      */
     protected $module;
 
@@ -36,9 +36,9 @@ class ModuleListCommand extends Command
     /**
      * Create a new command instance.
      *
-     * @param Modules $module
+     * @param ModuleRepositoriesManager $module
      */
-    public function __construct(Modules $module)
+    public function __construct(ModuleRepositoriesManager $module)
     {
         parent::__construct();
 
