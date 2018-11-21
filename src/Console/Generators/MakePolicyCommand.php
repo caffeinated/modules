@@ -13,7 +13,8 @@ class MakePolicyCommand extends GeneratorCommand
      */
     protected $signature = 'make:module:policy
     	{slug : The slug of the module.}
-    	{name : The name of the policy class.}';
+    	{name : The name of the policy class.}
+    	{--location= : The modules location to create the module policy class in}';
 
     /**
      * The console command description.
@@ -48,6 +49,6 @@ class MakePolicyCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return module_class($this->argument('slug'), 'Policies');
+        return module_class($this->argument('slug'), 'Policies', $this->option('location'));
     }
 }

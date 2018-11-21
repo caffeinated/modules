@@ -13,7 +13,8 @@ class MakeRequestCommand extends GeneratorCommand
      */
     protected $signature = 'make:module:request
     	{slug : The slug of the module.}
-    	{name : The name of the form request class.}';
+    	{name : The name of the form request class.}
+    	{--location= : The modules location to create the module form request class in}';
 
     /**
      * The console command description.
@@ -48,6 +49,6 @@ class MakeRequestCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return module_class($this->argument('slug'), 'Http\\Requests');
+        return module_class($this->argument('slug'), 'Http\\Requests', $this->option('location'));
     }
 }

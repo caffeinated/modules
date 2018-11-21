@@ -121,15 +121,6 @@ class ModuleRepositoriesManager
     /**
      * @param $location
      * @return \Illuminate\Config\Repository|mixed
-     */
-    protected function locationConfig($location)
-    {
-        return config("modules.locations.$location");
-    }
-
-    /**
-     * @param $location
-     * @return \Illuminate\Config\Repository|mixed
      * @throws \Exception
      */
     protected function repositoryClass($location)

@@ -64,14 +64,15 @@ class ModulesServiceProvider extends ServiceProvider
 
     public static function compiles()
     {
-        $modules = app()->make('modules')->all();
-        $files   = [];
+        $files = [];
 
-        foreach ($modules as $module) {
-            $serviceProvider = module_class($module['slug'], 'Providers\\ModuleServiceProvider');
+        foreach (modules()->repositories() as $repository) {
+            foreach ($repository->all() as $module) {
+                $serviceProvider = module_class($module['slug'], 'Providers\\ModuleServiceProvider', $repository->location);
 
-            if (class_exists($serviceProvider)) {
-                $files = array_merge($files, forward_static_call([$serviceProvider, 'compiles']));
+                if (class_exists($serviceProvider)) {
+                    $files = array_merge($files, forward_static_call([$serviceProvider, 'compiles']));
+                }
             }
         }
 

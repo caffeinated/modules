@@ -13,7 +13,8 @@ class MakeMiddlewareCommand extends GeneratorCommand
      */
     protected $signature = 'make:module:middleware
     	{slug : The slug of the module.}
-    	{name : The name of the middleware class.}';
+    	{name : The name of the middleware class.}
+    	{--location= : The modules location to create the module middleware class in}';
 
     /**
      * The console command description.
@@ -48,6 +49,6 @@ class MakeMiddlewareCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return module_class($this->argument('slug'), 'Http\\Middleware');
+        return module_class($this->argument('slug'), 'Http\\Middleware', $this->option('location'));
     }
 }
