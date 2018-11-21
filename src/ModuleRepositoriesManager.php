@@ -116,7 +116,7 @@ class ModuleRepositoriesManager
             throw new Exception("[$location] not found. Check your module locations configuration.");
         }
 
-        return $this->repositories[$location] ?? new $driverClass($location);
+        return $this->repositories[$location] ?? new $driverClass($location, $this->app['config'], $this->app['files']);
     }
 
     /**

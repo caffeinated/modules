@@ -244,7 +244,7 @@ class LocalRepository extends Repository
             $module->put('id', crc32($module->get('slug')));
 
             if (!$module->has('enabled')) {
-                $module->put('enabled', config('modules.enabled', true));
+                $module->put('enabled', config("modules.locations.$this->location.enabled", true));
             }
 
             if (!$module->has('order')) {

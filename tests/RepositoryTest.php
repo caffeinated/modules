@@ -16,10 +16,7 @@ class RepositoryTest extends BaseTestCase
 
         $this->finder = $this->app['files'];
 
-        $this->repository = new \Caffeinated\Modules\ModuleRepositoriesManager(
-            $this->app,
-            $this->app->make(\Caffeinated\Modules\Contracts\Repository::class)
-        );
+        $this->repository = modules();
 
         $this->artisan('make:module', ['slug' => 'RepositoryMod2', '--quick' => 'quick']);
 
