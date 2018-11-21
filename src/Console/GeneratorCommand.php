@@ -17,7 +17,16 @@ abstract class GeneratorCommand extends LaravelGeneratorCommand
      */
     protected function qualifyClass($name)
     {
-        $rootNamespace = config('modules.namespace');
+        $location = config('modules.default_location');
+
+        try {
+            $location = $this->option('location') ?: config('modules.default_location');
+        }
+        catch (\Exception $e) {
+            //
+        }
+
+        $rootNamespace = config("modules.locations.$location.namespace");
 
         if (Str::startsWith($name, $rootNamespace)) {
             return $name;

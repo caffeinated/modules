@@ -3,6 +3,7 @@
 namespace Caffeinated\Modules\Console\Generators;
 
 use Caffeinated\Modules\Console\GeneratorCommand;
+use Symfony\Component\Console\Input\InputOption;
 
 class MakeControllerCommand extends GeneratorCommand
 {
