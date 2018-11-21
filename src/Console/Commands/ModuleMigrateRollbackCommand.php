@@ -95,6 +95,7 @@ class ModuleMigrateRollbackCommand extends Command
             ['force', null, InputOption::VALUE_NONE, 'Force the operation to run while in production.'],
             ['pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'],
             ['step', null, InputOption::VALUE_OPTIONAL, 'The number of migrations to be reverted.'],
+            ['location', null, InputOption::VALUE_OPTIONAL, 'Which modules location to use.'],
         ];
     }
 

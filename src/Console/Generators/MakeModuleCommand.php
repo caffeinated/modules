@@ -16,7 +16,8 @@ class MakeModuleCommand extends Command
      */
     protected $signature = 'make:module
         {slug : The slug of the module}
-        {--Q|quick : Skip the make:module wizard and use default values}';
+        {--Q|quick : Skip the make:module wizard and use default values}
+        {--location=: The modules location.}';
 
     /**
      * The console command description.
@@ -86,7 +87,7 @@ class MakeModuleCommand extends Command
 
         if ($this->option('quick')) {
             $this->container['basename'] = studly_case($this->container['slug']);
-            $this->container['namespace'] = config('modules.namespace') . $this->container['basename'];
+            $this->container['namespace'] = config("modules.locations.{$this->option('location')}.namespace") . $this->container['basename'];
             return $this->generate();
         }
 
@@ -152,7 +153,7 @@ class MakeModuleCommand extends Command
         $this->container['version'] = $this->ask('Please enter the module version:', $this->container['version']);
         $this->container['description'] = $this->ask('Please enter the description of the module:', $this->container['description']);
         $this->container['basename'] = studly_case($this->container['slug']);
-        $this->container['namespace'] = config('modules.namespace') . $this->container['basename'];
+        $this->container['namespace'] = config("modules.locations.{$this->option('location')}.namespace") . $this->container['basename'];
 
         $this->comment('You have provided the following manifest information:');
         $this->comment('Name:                       ' . $this->container['name']);

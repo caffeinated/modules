@@ -119,7 +119,6 @@ class RepositoryTest extends BaseTestCase
     /** @test */
     public function it_can_get_correct_module_and_manifest_for_legacy_modules()
     {
-        $this->markTestSkipped('skip for now');
         $this->artisan('make:module', ['slug' => 'barbiz', '--quick' => 'quick']);
 
         // Quick and fast way to simulate legacy Module FolderStructure
