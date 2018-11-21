@@ -55,7 +55,7 @@ class ModuleMigrateRefreshCommand extends Command
         }
 
         if (isset($slug)) {
-            $module = $this->laravel['modules']->where('slug', $slug);
+            $module = modules($this->option('location'))->where('slug', $slug);
 
             event($slug.'.module.refreshed', [$module, $this->option()]);
 

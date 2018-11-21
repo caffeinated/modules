@@ -155,10 +155,10 @@ class ModuleMigrateResetCommand extends Command
         }
 
         if ($this->option("force")) {
-            return $this->module->all()->pluck("slug");
+            return modules($this->option('location'))->all()->pluck("slug");
         }
 
-        return $this->module->enabled()->pluck("slug");
+        return modules($this->option('location'))->enabled()->pluck("slug");
     }
 
     /**
@@ -174,7 +174,7 @@ class ModuleMigrateResetCommand extends Command
             return false;
         }
 
-        if ($this->module->isEnabled($this->argument("slug"))) {
+        if (modules($this->option('location'))->isEnabled($this->argument("slug"))) {
             return true;
         }
 

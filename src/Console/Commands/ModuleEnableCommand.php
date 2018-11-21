@@ -4,6 +4,7 @@ namespace Caffeinated\Modules\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class ModuleEnableCommand extends Command
 {
@@ -30,10 +31,10 @@ class ModuleEnableCommand extends Command
     {
         $slug = $this->argument('slug');
 
-        if ($this->laravel['modules']->isDisabled($slug)) {
-            $this->laravel['modules']->enable($slug);
+        if (modules($this->option('location'))->isDisabled($slug)) {
+            modules($this->option('location'))->enable($slug);
 
-            $module = $this->laravel['modules']->where('slug', $slug);
+            $module = modules($this->option('location'))->where('slug', $slug);
 
             event($slug.'.module.enabled', [$module, null]);
 
@@ -52,6 +53,18 @@ class ModuleEnableCommand extends Command
     {
         return [
             ['slug', InputArgument::REQUIRED, 'Module slug.'],
+        ];
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['location', null, InputOption::VALUE_OPTIONAL, 'Which modules location to use.'],
         ];
     }
 }

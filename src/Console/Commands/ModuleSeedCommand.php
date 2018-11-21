@@ -50,11 +50,11 @@ class ModuleSeedCommand extends Command
         $slug = $this->argument('slug');
 
         if (isset($slug)) {
-            if (!$this->module->exists($slug)) {
+            if (!modules($this->option('location'))->exists($slug)) {
                 return $this->error('Module does not exist.');
             }
 
-            if ($this->module->isEnabled($slug)) {
+            if (modules($this->option('location'))->isEnabled($slug)) {
                 $this->seed($slug);
             } elseif ($this->option('force')) {
                 $this->seed($slug);
@@ -63,9 +63,9 @@ class ModuleSeedCommand extends Command
             return;
         } else {
             if ($this->option('force')) {
-                $modules = $this->module->all();
+                $modules = modules($this->option('location'))->all();
             } else {
-                $modules = $this->module->enabled();
+                $modules = modules($this->option('location'))->enabled();
             }
 
             foreach ($modules as $module) {
@@ -83,9 +83,9 @@ class ModuleSeedCommand extends Command
      */
     protected function seed($slug)
     {
-        $module = $this->module->where('slug', $slug);
+        $module = modules($this->option('location'))->where('slug', $slug);
         $params = [];
-        $namespacePath = $this->module->getNamespace();
+        $namespacePath = modules($this->option('location'))->getNamespace();
         $rootSeeder = $module['basename'].'DatabaseSeeder';
         $fullPath = $namespacePath.'\\'.$module['basename'].'\Database\Seeds\\'.$rootSeeder;
 

@@ -15,14 +15,14 @@ interface Repository
     /**
      * Get all modules.
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function all();
 
     /**
      * Get all module slugs.
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function slugs();
 
@@ -32,7 +32,7 @@ interface Repository
      * @param string $key
      * @param mixed  $value
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function where($key, $value);
 
@@ -41,7 +41,7 @@ interface Repository
      *
      * @param string $key
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function sortBy($key);
 
@@ -50,7 +50,7 @@ interface Repository
      *
      * @param string $key
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function sortByDesc($key);
 
@@ -75,7 +75,7 @@ interface Repository
      *
      * @param string $slug
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getManifest($slug);
 
@@ -102,14 +102,14 @@ interface Repository
     /**
      * Get all enabled modules.
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function enabled();
 
     /**
      * Get all disabled modules.
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
     public function disabled();
 

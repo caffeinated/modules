@@ -54,8 +54,6 @@ class ModuleRepositoriesManager
                 }
             });
         }
-
-
     }
 
     /**
@@ -95,7 +93,7 @@ class ModuleRepositoriesManager
     }
 
     /**
-     * @return \Caffeinated\Modules\Contracts\Repository[]
+     * @return \Caffeinated\Modules\Repositories\Repository[]
      */
     public function repositories()
     {
@@ -116,7 +114,8 @@ class ModuleRepositoriesManager
             throw new Exception("[$location] not found. Check your module locations configuration.");
         }
 
-        return $this->repositories[$location] ?? new $driverClass($location, $this->app['config'], $this->app['files']);
+        return  $this->repositories[$location]
+            ?? $this->repositories[$location] = new $driverClass($location, $this->app['config'], $this->app['files']);
     }
 
     /**

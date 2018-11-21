@@ -62,9 +62,9 @@ class ModuleMigrateCommand extends Command
         $this->prepareDatabase();
 
         if (!empty($this->argument('slug'))) {
-            $module = $this->module->where('slug', $this->argument('slug'));
+            $module = modules($this->option('location'))->where('slug', $this->argument('slug'));
 
-            if ($this->module->isEnabled($module['slug'])) {
+            if (modules($this->option('location'))->isEnabled($module['slug'])) {
                 return $this->migrate($module['slug']);
             } elseif ($this->option('force')) {
                 return $this->migrate($module['slug']);
@@ -73,9 +73,9 @@ class ModuleMigrateCommand extends Command
             }
         } else {
             if ($this->option('force')) {
-                $modules = $this->module->all();
+                $modules = modules($this->option('location'))->all();
             } else {
-                $modules = $this->module->enabled();
+                $modules = modules($this->option('location'))->enabled();
             }
 
             foreach ($modules as $module) {
@@ -93,8 +93,8 @@ class ModuleMigrateCommand extends Command
      */
     protected function migrate($slug)
     {
-        if ($this->module->exists($slug)) {
-            $module = $this->module->where('slug', $slug);
+        if (modules($this->option('location'))->exists($slug)) {
+            $module = modules($this->option('location'))->where('slug', $slug);
             $pretend = Arr::get($this->option(), 'pretend', false);
             $step = Arr::get($this->option(), 'step', false);
             $path = $this->getMigrationPath($slug);
