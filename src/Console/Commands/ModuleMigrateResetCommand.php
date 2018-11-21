@@ -3,6 +3,7 @@
 namespace Caffeinated\Modules\Console\Commands;
 
 use Caffeinated\Modules\ModuleRepositoriesManager;
+use Caffeinated\Modules\Repositories\Repository;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Migrations\Migrator;
@@ -70,7 +71,15 @@ class ModuleMigrateResetCommand extends Command
             return;
         }
 
-        $this->reset();
+        if ($location = $this->option('location')) {
+            $repository = modules($location);
+
+            $this->reset($repository);
+        } else {
+            foreach (modules()->repositories() as $repository) {
+                $this->reset($repository);
+            }
+        }
     }
 
     /**
@@ -80,15 +89,16 @@ class ModuleMigrateResetCommand extends Command
      * migrated up as. This ensures the database is properly reversed
      * without conflict.
      *
-     * @param string $slug
+     * @param \Caffeinated\Modules\Repositories\Repository $repository
      *
      * @return mixed
      */
-    protected function reset()
+    protected function reset(Repository $repository)
     {
         $this->migrator->setconnection($this->input->getOption('database'));
 
-        $files = $this->migrator->setOutput($this->output)->getMigrationFiles($this->getMigrationPaths());
+        $migrationPaths = $this->getMigrationPaths($repository);
+        $files = $this->migrator->setOutput($this->output)->getMigrationFiles($migrationPaths);
 
         $migrations = array_reverse($this->migrator->getRepository()->getRan());
 
@@ -129,13 +139,15 @@ class ModuleMigrateResetCommand extends Command
     /**
      * Generate a list of all migration paths, given the arguments/operations supplied.
      *
+     * @param \Caffeinated\Modules\Repositories\Repository $repository
+     *
      * @return array
      */
-    protected function getMigrationPaths(){
+    protected function getMigrationPaths(Repository $repository) {
         $migrationPaths = [];
 
-        foreach ($this->getSlugsToReset() as $slug) {
-            $migrationPaths[] = $this->getMigrationPath($slug);
+        foreach ($this->getSlugsToReset($repository) as $slug) {
+            $migrationPaths[] = $this->getMigrationPath($slug, $repository);
 
             event($slug.'.module.reset', [$this->module, $this->option()]);
         }
@@ -146,19 +158,21 @@ class ModuleMigrateResetCommand extends Command
     /**
      * Using the arguments, generate a list of slugs to reset the migrations for.
      *
-     * @return array
+     * @param \Caffeinated\Modules\Repositories\Repository $repository
+     *
+     * @return \Illuminate\Support\Collection
      */
-    protected function getSlugsToReset()
+    protected function getSlugsToReset(Repository $repository)
     {
-        if ($this->validSlugProvided()) {
-            return [$this->argument("slug")];
+        if ($this->validSlugProvided($repository)) {
+            return collect([$this->argument('slug')]);
         }
 
-        if ($this->option("force")) {
-            return modules($this->option('location'))->all()->pluck("slug");
+        if ($this->option('force')) {
+            return $repository->all()->pluck('slug');
         }
 
-        return modules($this->option('location'))->enabled()->pluck("slug");
+        return $repository->enabled()->pluck('slug');
     }
 
     /**
@@ -166,19 +180,21 @@ class ModuleMigrateResetCommand extends Command
      *
      * We will accept a slug as long as it is not empty and is enalbed (or force is passed).
      *
+     * @param \Caffeinated\Modules\Repositories\Repository $repository
+     *
      * @return bool
      */
-    protected function validSlugProvided()
+    protected function validSlugProvided(Repository $repository)
     {
-        if (empty($this->argument("slug"))) {
+        if (empty($this->argument('slug'))) {
             return false;
         }
 
-        if (modules($this->option('location'))->isEnabled($this->argument("slug"))) {
+        if ($repository->isEnabled($this->argument('slug'))) {
             return true;
         }
 
-        if ($this->option("force")) {
+        if ($this->option('force')) {
             return true;
         }
 
@@ -187,40 +203,43 @@ class ModuleMigrateResetCommand extends Command
 
     /**
      * Get the console command parameters.
-     *
+     * todo remove
      * @param string $slug
      *
      * @return array
      */
-    protected function getParameters($slug)
-    {
-        $params = [];
-
-        $params['--path'] = $this->getMigrationPath($slug);
-
-        if ($option = $this->option('database')) {
-            $params['--database'] = $option;
-        }
-
-        if ($option = $this->option('pretend')) {
-            $params['--pretend'] = $option;
-        }
-
-        if ($option = $this->option('seed')) {
-            $params['--seed'] = $option;
-        }
-
-        return $params;
-    }
+//    protected function getParameters($slug)
+//    {
+//        $params = [];
+//
+//        $params['--path'] = $this->getMigrationPath($slug);
+//
+//        if ($option = $this->option('database')) {
+//            $params['--database'] = $option;
+//        }
+//
+//        if ($option = $this->option('pretend')) {
+//            $params['--pretend'] = $option;
+//        }
+//
+//        if ($option = $this->option('seed')) {
+//            $params['--seed'] = $option;
+//        }
+//
+//        return $params;
+//    }
 
     /**
      * Get migrations path.
      *
+     * @param string $slug
+     * @param \Caffeinated\Modules\Repositories\Repository $repository
+     *
      * @return string
      */
-    protected function getMigrationPath($slug)
+    protected function getMigrationPath($slug, Repository $repository)
     {
-        return module_path($slug, 'Database/Migrations');
+        return module_path($slug, 'Database/Migrations', $repository->location);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Caffeinated\Modules\Console\Commands;
 
 use Caffeinated\Modules\ModuleRepositoriesManager;
+use Caffeinated\Modules\Repositories\Repository;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Migrations\Migrator;
@@ -61,25 +62,40 @@ class ModuleMigrateCommand extends Command
     {
         $this->prepareDatabase();
 
-        if (!empty($this->argument('slug'))) {
-            $module = modules($this->option('location'))->where('slug', $this->argument('slug'));
+        if ($location = $this->option('location')) {
+            $repository = modules($location);
 
-            if (modules($this->option('location'))->isEnabled($module['slug'])) {
-                return $this->migrate($module['slug']);
-            } elseif ($this->option('force')) {
-                return $this->migrate($module['slug']);
-            } else {
-                return $this->error('Nothing to migrate.');
-            }
+            $this->migrate($repository);
         } else {
-            if ($this->option('force')) {
-                $modules = modules($this->option('location'))->all();
-            } else {
-                $modules = modules($this->option('location'))->enabled();
+            foreach (modules()->repositories() as $repository) {
+               $this->migrate($repository);
             }
+        }
+    }
+
+    /**
+     * @param \Caffeinated\Modules\Repositories\Repository $repository
+     * @return mixed|void
+     */
+    protected function migrate(Repository $repository)
+    {
+        if (! empty($this->argument('slug'))) {
+            $module = $repository->where('slug', $this->argument('slug'));
+
+            if ($repository->isEnabled($module['slug'])) {
+                $this->executeMigrations($module['slug'], $repository->location);
+            } elseif ($this->option('force')) {
+                $this->executeMigrations($module['slug'], $repository->location);
+            }
+
+            $this->error('Nothing to migrate.');
+        } else {
+            $modules = $this->option('force')
+                ? $repository->all()
+                : $repository->enabled();
 
             foreach ($modules as $module) {
-                $this->migrate($module['slug']);
+                $this->executeMigrations($module['slug'], $repository->location);
             }
         }
     }
@@ -88,13 +104,14 @@ class ModuleMigrateCommand extends Command
      * Run migrations for the specified module.
      *
      * @param string $slug
+     * @param string $location
      *
      * @return mixed
      */
-    protected function migrate($slug)
+    protected function executeMigrations($slug, $location)
     {
-        if (modules($this->option('location'))->exists($slug)) {
-            $module = modules($this->option('location'))->where('slug', $slug);
+        if (modules($location)->exists($slug)) {
+            $module = modules($location)->where('slug', $slug);
             $pretend = Arr::get($this->option(), 'pretend', false);
             $step = Arr::get($this->option(), 'step', false);
             $path = $this->getMigrationPath($slug);

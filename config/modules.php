@@ -20,7 +20,7 @@ return [
             'driver' => 'local',
             'path' => app_path('Modules'),
             'namespace' => 'Modules\\',
-            'enabled_by_default' => true
+            'enabled' => true,
         ],
     ],
 

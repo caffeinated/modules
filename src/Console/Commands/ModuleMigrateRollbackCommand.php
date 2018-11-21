@@ -3,6 +3,7 @@
 namespace Caffeinated\Modules\Console\Commands;
 
 use Caffeinated\Modules\ModuleRepositoriesManager;
+use Caffeinated\Modules\Repositories\Repository;
 use Caffeinated\Modules\Traits\MigrationTrait;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
@@ -65,12 +66,52 @@ class ModuleMigrateRollbackCommand extends Command
             return;
         }
 
+        if ($location = $this->option('location')) {
+            $repository = modules($location);
+
+            $this->rollback($repository);
+        } else {
+            foreach (modules()->repositories() as $repository) {
+                $this->rollback($repository);
+            }
+        }
+    }
+
+    /**
+     * @param \Caffeinated\Modules\Repositories\Repository $repository
+     */
+    protected function rollback(Repository $repository)
+    {
         $this->migrator->setConnection($this->option('database'));
 
-        $paths = $this->getMigrationPaths();
+        $paths = $this->getMigrationPaths($repository);
+
         $this->migrator->setOutput($this->output)->rollback(
-            $paths, ['pretend' => $this->option('pretend'), 'step' => (int) $this->option('step')]
+            $paths, ['pretend' => $this->option('pretend'), 'step' => (int)$this->option('step')]
         );
+    }
+
+    /**
+     * Get all of the migration paths.
+     *
+     * @param \Caffeinated\Modules\Repositories\Repository $repository
+     *
+     * @return array
+     */
+    protected function getMigrationPaths(Repository $repository)
+    {
+        $slug = $this->argument('slug');
+        $paths = [];
+
+        if ($slug) {
+            $paths[] = module_path($slug, 'Database/Migrations', $repository->location);
+        } else {
+            foreach ($repository->all() as $module) {
+                $paths[] = module_path($module['slug'], 'Database/Migrations', $repository->location);
+            }
+        }
+
+        return $paths;
     }
 
     /**
@@ -97,26 +138,5 @@ class ModuleMigrateRollbackCommand extends Command
             ['step', null, InputOption::VALUE_OPTIONAL, 'The number of migrations to be reverted.'],
             ['location', null, InputOption::VALUE_OPTIONAL, 'Which modules location to use.'],
         ];
-    }
-
-    /**
-     * Get all of the migration paths.
-     *
-     * @return array
-     */
-    protected function getMigrationPaths()
-    {
-        $slug = $this->argument('slug');
-        $paths = [];
-
-        if ($slug) {
-            $paths[] = module_path($slug, 'Database/Migrations');
-        } else {
-            foreach (modules($this->option('location'))->all() as $module) {
-                $paths[] = module_path($module['slug'], 'Database/Migrations');
-            }
-        }
-
-        return $paths;
     }
 }

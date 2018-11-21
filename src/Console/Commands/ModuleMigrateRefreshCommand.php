@@ -2,6 +2,7 @@
 
 namespace Caffeinated\Modules\Console\Commands;
 
+use Caffeinated\Modules\Repositories\Repository;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Symfony\Component\Console\Input\InputArgument;
@@ -36,32 +37,14 @@ class ModuleMigrateRefreshCommand extends Command
             return;
         }
 
-        $slug = $this->argument('slug');
+        if ($location = $this->option('location')) {
+            $repository = modules($location);
 
-        $this->call('module:migrate:reset', [
-            'slug'       => $slug,
-            '--database' => $this->option('database'),
-            '--force'    => $this->option('force'),
-            '--pretend'  => $this->option('pretend'),
-        ]);
-
-        $this->call('module:migrate', [
-            'slug'       => $slug,
-            '--database' => $this->option('database'),
-        ]);
-
-        if ($this->needsSeeding()) {
-            $this->runSeeder($slug, $this->option('database'));
-        }
-
-        if (isset($slug)) {
-            $module = modules($this->option('location'))->where('slug', $slug);
-
-            event($slug.'.module.refreshed', [$module, $this->option()]);
-
-            $this->info('Module has been refreshed.');
+            $this->resetMigrations($repository);
         } else {
-            $this->info('All modules have been refreshed.');
+            foreach (modules()->repositories() as $repository) {
+                $this->resetMigrations($repository);
+            }
         }
     }
 
@@ -86,6 +69,40 @@ class ModuleMigrateRefreshCommand extends Command
             'slug'       => $slug,
             '--database' => $database,
         ]);
+    }
+
+    protected function resetMigrations(Repository $repository)
+    {
+        $slug = $this->argument('slug');
+
+        $this->call('module:migrate:reset', [
+            'slug' => $slug,
+            '--database' => $this->option('database'),
+            '--force' => $this->option('force'),
+            '--pretend' => $this->option('pretend'),
+            '--location' => $repository->location,
+        ]);
+
+        $this->call('module:migrate', [
+            'slug' => $slug,
+            '--database' => $this->option('database'),
+            '--location' => $repository->location,
+        ]);
+
+        if ($this->needsSeeding()) {
+            $this->runSeeder($slug, $this->option('database'));
+        }
+
+        if (isset($slug)) {
+            $module = $repository->where('slug', $slug);
+
+            event($slug . '.module.refreshed', [$module, $this->option()]);
+
+            $this->info('Module has been refreshed.');
+        }
+        else {
+            $this->info('All modules have been refreshed.');
+        }
     }
 
     /**
