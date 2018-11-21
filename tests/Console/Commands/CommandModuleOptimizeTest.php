@@ -23,7 +23,7 @@ class CommandModuleOptimizeTest extends BaseTestCase
         $before = file_get_contents(storage_path('app/modules.json'));
 
         $this->assertSame(
-            '{
+'{
     "Optimize": {
         "basename": "Optimize",
         "name": "Optimize",
@@ -40,14 +40,12 @@ class CommandModuleOptimizeTest extends BaseTestCase
 
         //
 
-        file_put_contents(module_path('optimize').'/module.json',
-            json_encode(
-                array_merge(
-                    json_decode(file_get_contents(module_path('optimize').'/module.json'), true),
-                    ['version' => '1.3.3.7']
-                )
-            , JSON_PRETTY_PRINT)
-        );
+        $modulePath = module_path('optimize') . '/module.json';
+        $manifest = json_decode(file_get_contents($modulePath), true);
+        $manifest['version'] = '1.3.3.7';
+        $manifest = json_encode($manifest, JSON_PRETTY_PRINT);
+
+        file_put_contents($modulePath, $manifest);
 
         $this->artisan('module:optimize');
 
@@ -56,7 +54,7 @@ class CommandModuleOptimizeTest extends BaseTestCase
         $optimized = file_get_contents(storage_path('app/modules.json'));
 
         $this->assertSame(
-            '{
+'{
     "Optimize": {
         "basename": "Optimize",
         "name": "Optimize",
