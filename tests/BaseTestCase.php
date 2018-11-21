@@ -6,6 +6,8 @@ use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 abstract class BaseTestCase extends OrchestraTestCase
 {
+    public $default = 'modules';
+
     public function setUp()
     {
         parent::setUp();
@@ -47,7 +49,7 @@ abstract class BaseTestCase extends OrchestraTestCase
 
         $app['config']->set('view.paths', [__DIR__.'/resources/views']);
 
-        $app['config']->set('modules.path', [
+        $app['config']->set('modules.locations', [
             'modules' => [
                 'driver' => 'local',
                 'path' => base_path('modules'),

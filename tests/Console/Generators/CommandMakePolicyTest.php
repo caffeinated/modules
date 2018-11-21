@@ -33,7 +33,7 @@ class CommandMakePolicyTest extends BaseTestCase
     /** @test */
     public function it_can_generate_a_new_policy_with_custom_module_namespace()
     {
-        $this->app['config']->set('modules.namespace', 'App\\CustomPolicyNamespace\\');
+        $this->app['config']->set("modules.locations.$this->default.namespace", 'App\\CustomPolicyNamespace\\');
 
         $this->artisan('make:module:policy', ['slug' => 'policy', 'name' => 'CustomPolicy']);
 

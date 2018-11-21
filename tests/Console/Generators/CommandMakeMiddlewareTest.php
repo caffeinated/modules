@@ -33,7 +33,7 @@ class CommandMakeMiddlewareTest extends BaseTestCase
     /** @test */
     public function it_can_generate_a_new_middleware_with_custom_module_namespace()
     {
-        $this->app['config']->set('modules.namespace', 'App\\MiddlewareModules\\');
+        $this->app['config']->set("modules.locations.$this->default.namespace", 'App\\MiddlewareModules\\');
 
         $this->artisan('make:module:middleware', ['slug' => 'middleware', 'name' => 'CustomMiddleware']);
 

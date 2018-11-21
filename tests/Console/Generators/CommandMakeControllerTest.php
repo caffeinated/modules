@@ -43,7 +43,7 @@ class CommandMakeControllerTest extends BaseTestCase
     /** @test */
     public function it_can_generate_a_new_controller_with_custom_module_namespace()
     {
-        $this->app['config']->set('modules.namespace', 'App\\CustomModuleNamespace\\');
+        $this->app['config']->set("modules.locations.$this->default.namespace", 'App\\CustomModuleNamespace\\');
 
         $this->artisan('make:module:controller', ['slug' => 'controller', 'name' => 'CustomController']);
 

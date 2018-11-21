@@ -187,6 +187,10 @@ class MakeModuleCommand extends Command
         $directory = module_path(null, $this->container['basename']);
         $source = __DIR__ . '/../../../resources/stubs/module';
 
+        if (env('APP_ENV') === 'testing') {
+            $this->files->deleteDirectory($directory);
+        }
+
         $this->files->makeDirectory($directory);
 
         $sourceFiles = $this->files->allFiles($source, true);
