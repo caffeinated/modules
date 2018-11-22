@@ -2,6 +2,7 @@
 
 namespace Caffeinated\Modules\Tests;
 
+use Illuminate\Support\Facades\File;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 abstract class BaseTestCase extends OrchestraTestCase
@@ -11,6 +12,10 @@ abstract class BaseTestCase extends OrchestraTestCase
     public function setUp()
     {
         parent::setUp();
+
+        if (File::isDirectory(module_path())) {
+            File::deleteDirectory(module_path());
+        }
     }
 
     /**
