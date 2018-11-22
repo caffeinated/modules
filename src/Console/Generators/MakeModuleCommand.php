@@ -17,7 +17,7 @@ class MakeModuleCommand extends Command
     protected $signature = 'make:module
         {slug : The slug of the module}
         {--Q|quick : Skip the make:module wizard and use default values}
-        {--location=: The modules location.}';
+        {--location= : The modules location.}';
 
     /**
      * The console command description.
@@ -62,32 +62,24 @@ class MakeModuleCommand extends Command
     }
 
     /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return [
-            ['quick', null, InputOption::VALUE_OPTIONAL, 'Skip the make:module wizard and use default values.', null],
-        ];
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
      */
     public function handle()
     {
+        $location = $this->option('location');
+
         $this->container['slug'] = str_slug($this->argument('slug'));
         $this->container['name'] = studly_case($this->container['slug']);
         $this->container['version'] = '1.0';
         $this->container['description'] = 'This is the description for the ' . $this->container['name'] . ' module.';
+        $this->container['location'] = $location;
 
         if ($this->option('quick')) {
             $this->container['basename'] = studly_case($this->container['slug']);
-            $this->container['namespace'] = config("modules.locations.{$this->option('location')}.namespace") . $this->container['basename'];
+            $this->container['namespace'] = config("modules.locations.$location.namespace").$this->container['basename'];
+
             return $this->generate();
         }
 
@@ -180,12 +172,14 @@ class MakeModuleCommand extends Command
      */
     protected function generateModule()
     {
-        if (!$this->files->isDirectory(module_path())) {
-            $this->files->makeDirectory(module_path());
+        $root = module_path(null, '', $this->container['location']);
+
+        if (!$this->files->isDirectory($root)) {
+            $this->files->makeDirectory($root);
         }
 
         $pathMap = config('modules.pathMap');
-        $directory = module_path(null, $this->container['basename']);
+        $directory = module_path(null, $this->container['basename'], $this->container['location']);
         $source = __DIR__ . '/../../../resources/stubs/module';
 
         $this->files->makeDirectory($directory);
