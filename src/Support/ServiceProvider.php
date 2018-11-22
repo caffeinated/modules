@@ -45,10 +45,13 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     protected function loadConfigsFrom($path)
     {
-        foreach (glob($path.'/*.php') as $file) {
-            $fileName = str_replace($path.'/', '', $file);
-            $key = substr($fileName, 0, -4);
-            $this->app['config']->set($key, array_merge_recursive(config($key, []), require $file));
+        // skip config if cache
+        if (file_exists($this->app->getCachedConfigPath())) {
+            foreach (glob($path.'/*.php') as $file) {
+                $fileName = str_replace($path.'/', '', $file);
+                $key = substr($fileName, 0, -4);
+                $this->app['config']->set($key, array_merge_recursive(config($key, []), require $file));
+            }
         }
     }
 
