@@ -77,12 +77,10 @@ abstract class Repository implements RepositoryContract
         if (! is_null($slug)) {
             $path     = $this->getManifestPath($slug);
             $contents = $this->files->get($path);
-            $validate = @json_decode($contents, true);
+            $manifest = collect(json_decode($contents, true));
 
             if (json_last_error() === JSON_ERROR_NONE) {
-                $collection = collect(json_decode($contents, true));
-
-                return $collection;
+                return $manifest;
             }
 
             throw new Exception('['.$slug.'] Your JSON manifest file was not properly formatted. Check for formatting issues and try again.');
