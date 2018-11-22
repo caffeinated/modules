@@ -70,7 +70,7 @@ abstract class Repository implements RepositoryContract
      *
      * @param string $slug
      *
-     * @return Collection|null
+     * @return \Illuminate\Support\Collection
      */
     public function getManifest($slug)
     {
