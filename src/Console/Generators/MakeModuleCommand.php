@@ -146,6 +146,7 @@ class MakeModuleCommand extends Command
         $this->container['description'] = $this->ask('Please enter the description of the module:', $this->container['description']);
         $this->container['basename'] = studly_case($this->container['slug']);
         $this->container['namespace'] = config("modules.locations.{$this->option('location')}.namespace") . $this->container['basename'];
+        $this->container['location'] = $this->option('location');
 
         $this->comment('You have provided the following manifest information:');
         $this->comment('Name:                       ' . $this->container['name']);
@@ -219,6 +220,7 @@ class MakeModuleCommand extends Command
             'DummySlug',
             'DummyVersion',
             'DummyDescription',
+            'DummyLocation',
         ];
 
         $replace = [
@@ -228,6 +230,7 @@ class MakeModuleCommand extends Command
             $this->container['slug'],
             $this->container['version'],
             $this->container['description'],
+            $this->container['location'] ?? config('modules.default_location'),
         ];
 
         return str_replace($find, $replace, $contents);
