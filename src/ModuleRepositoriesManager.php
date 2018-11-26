@@ -42,11 +42,13 @@ class ModuleRepositoriesManager
     public function register()
     {
         foreach (array_keys(config('modules.locations')) as $location) {
-            $modules = $this->repository($location)->enabled();
+            $repository = $this->repository($location);
 
-            $modules->each(function ($module) {
+            $modules = $repository->enabled();
+
+            $modules->each(function ($module) use ($repository) {
                 try {
-                    $this->registerServiceProvider($module);
+                    $this->registerServiceProvider($repository, $module);
 
                     $this->autoloadFiles($module);
                 } catch (ModuleNotFoundException $e) {
@@ -63,9 +65,9 @@ class ModuleRepositoriesManager
      *
      * @return void
      */
-    private function registerServiceProvider($module)
+    private function registerServiceProvider(Repository $repository, $module)
     {
-        $serviceProvider = module_class($module['slug'], config('modules.provider_class', 'Providers\\ModuleServiceProvider'));
+        $serviceProvider = module_class($module['slug'], config('modules.provider_class', 'Providers\\ModuleServiceProvider'), $repository->location);
 
         if (class_exists($serviceProvider)) {
             $this->app->register($serviceProvider);
