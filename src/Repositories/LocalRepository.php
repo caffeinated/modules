@@ -2,8 +2,6 @@
 
 namespace Caffeinated\Modules\Repositories;
 
-use Illuminate\Support\Collection;
-
 class LocalRepository extends Repository
 {
     /**
@@ -229,24 +227,32 @@ class LocalRepository extends Repository
     public function optimize()
     {
         $cachePath = $this->getCachePath();
+
         $cache = $this->getCache();
         $basenames = $this->getAllBasenames();
         $modules = collect();
 
-        // merge cached json file over original manifest files
-        // to prevent overriding dynamic and new properties
-        foreach ($basenames as $basename) {
-            $manifest = $this->getManifest($basename);
-            $cachedManifest = $cache[$basename] ?? [];
+        $basenames->each(function ($module, $key) use ($modules, $cache) {
+            $basename = collect(['basename' => $module]);
+            $temp = $basename->merge(collect($cache->get($module)));
+            $manifest = $temp->merge(collect($this->getManifest($module)));
 
-            // use ->prepend() to put the basename property at the top
-            $manifest->prepend($basename, 'basename');
-            $manifest->put('id', $cachedManifest['id'] ?? crc32($manifest['slug']));
-            $manifest->put('enabled', $cachedManifest['enabled'] ?? config("modules.locations.$this->location.enabled", true));
-            $manifest->put('order', $cachedManifest['order'] ?? 9001);
+            $modules->put($module, $manifest);
+        });
 
-            $modules->put($basename, $manifest);
-        }
+        $modules->each(function ($module) {
+            $module->put('id', crc32($module->get('slug')));
+
+            if (!$module->has('enabled')) {
+                $module->put('enabled', config("modules.locations.$this->location.enabled", true));
+            }
+
+            if (!$module->has('order')) {
+                $module->put('order', 9001);
+            }
+
+            return $module;
+        });
 
         $content = json_encode($modules->all(), JSON_PRETTY_PRINT);
 
