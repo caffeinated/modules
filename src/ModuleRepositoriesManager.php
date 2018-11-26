@@ -2,7 +2,7 @@
 
 namespace Caffeinated\Modules;
 
-use Caffeinated\Modules\Contracts\Repository;
+use Caffeinated\Modules\Repositories\Repository;
 use Caffeinated\Modules\Exceptions\ModuleNotFoundException;
 use Exception;
 use Illuminate\Foundation\Application;
@@ -102,7 +102,7 @@ class ModuleRepositoriesManager
 
     /**
      * @param string $location
-     * @return \Caffeinated\Modules\Contracts\Repository
+     * @return \Caffeinated\Modules\Repositories\Repository
      * @throws \Exception
      */
     protected function repository($location = null)

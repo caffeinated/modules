@@ -48,19 +48,8 @@ class ModuleSeedCommand extends Command
      */
     public function handle()
     {
-        if ($location = $this->option('location')) {
-            $repository = modules($location);
+        $repository = modules($this->option('location'));
 
-            $this->runSeeders($repository);
-        } else {
-            foreach (modules()->repositories() as $repository) {
-                $this->runSeeders($repository);
-            }
-        }
-    }
-
-    protected function runSeeders(Repository $repository)
-    {
         $slug = $this->argument('slug');
 
         if ($slug) {

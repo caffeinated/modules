@@ -16,6 +16,10 @@ abstract class BaseTestCase extends OrchestraTestCase
         if (File::isDirectory(module_path())) {
             File::deleteDirectory(module_path());
         }
+
+        if (File::exists(storage_path('app/modules/modules.json'))) {
+            File::delete(storage_path('app/modules/modules.json'));
+        }
     }
 
     /**

@@ -62,15 +62,9 @@ class ModuleMigrateCommand extends Command
     {
         $this->prepareDatabase();
 
-        if ($location = $this->option('location')) {
-            $repository = modules($location);
+        $repository = modules()->location($this->option('location'));
 
-            $this->migrate($repository);
-        } else {
-            foreach (modules()->repositories() as $repository) {
-               $this->migrate($repository);
-            }
-        }
+        $this->migrate($repository);
     }
 
     /**
@@ -140,7 +134,7 @@ class ModuleMigrateCommand extends Command
      */
     protected function getMigrationPath($slug)
     {
-        return module_path($slug, 'Database/Migrations');
+        return module_path($slug, 'Database/Migrations', $this->option('location'));
     }
 
     /**

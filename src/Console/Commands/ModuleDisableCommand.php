@@ -30,11 +30,12 @@ class ModuleDisableCommand extends Command
     public function handle()
     {
         $slug = $this->argument('slug');
+        $repository = modules($this->option('location'));
 
-        if (modules($this->option('location'))->isEnabled($slug)) {
-            modules($this->option('location'))->disable($slug);
+        if ($repository->isEnabled($slug)) {
+            $repository->disable($slug);
 
-            $module = modules($this->option('location'))->where('slug', $slug);
+            $module = $repository->where('slug', $slug);
 
             event($slug.'.module.disabled', [$module, null]);
 

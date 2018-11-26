@@ -37,15 +37,9 @@ class ModuleMigrateRefreshCommand extends Command
             return;
         }
 
-        if ($location = $this->option('location')) {
-            $repository = modules($location);
+        $repository = modules()->location($this->option('location'));
 
-            $this->resetMigrations($repository);
-        } else {
-            foreach (modules()->repositories() as $repository) {
-                $this->resetMigrations($repository);
-            }
-        }
+        $this->resetMigrations($repository);
     }
 
     /**

@@ -66,22 +66,8 @@ class ModuleMigrateRollbackCommand extends Command
             return;
         }
 
-        if ($location = $this->option('location')) {
-            $repository = modules($location);
+        $repository = modules()->location($this->option('location'));
 
-            $this->rollback($repository);
-        } else {
-            foreach (modules()->repositories() as $repository) {
-                $this->rollback($repository);
-            }
-        }
-    }
-
-    /**
-     * @param \Caffeinated\Modules\Repositories\Repository $repository
-     */
-    protected function rollback(Repository $repository)
-    {
         $this->migrator->setConnection($this->option('database'));
 
         $paths = $this->getMigrationPaths($repository);

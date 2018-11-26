@@ -71,15 +71,9 @@ class ModuleMigrateResetCommand extends Command
             return;
         }
 
-        if ($location = $this->option('location')) {
-            $repository = modules($location);
+        $repository = modules()->location($this->option('location'));
 
-            $this->reset($repository);
-        } else {
-            foreach (modules()->repositories() as $repository) {
-                $this->reset($repository);
-            }
-        }
+        $this->reset($repository);
     }
 
     /**

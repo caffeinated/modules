@@ -299,6 +299,12 @@ class LocalRepository extends Repository
      */
     private function getCachePath()
     {
-        return storage_path('app/modules.json');
+        if (!$this->files->isDirectory(storage_path("app/modules"))) {
+            $this->files->makeDirectory(storage_path("app/modules"));
+        }
+
+        $location = str_slug($this->location);
+
+        return storage_path("app/modules/$location.json");
     }
 }
