@@ -2,7 +2,8 @@
 
 namespace Caffeinated\Modules\Console\Commands;
 
-use Caffeinated\Modules\Modules;
+use Caffeinated\Modules\ModuleRepositoriesManager;
+use Caffeinated\Modules\Repositories\Repository;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,16 +25,16 @@ class ModuleSeedCommand extends Command
     protected $description = 'Seed the database with records for a specific or all modules';
 
     /**
-     * @var Modules
+     * @var ModuleRepositoriesManager
      */
     protected $module;
 
     /**
      * Create a new command instance.
      *
-     * @param Modules $module
+     * @param ModuleRepositoriesManager $module
      */
-    public function __construct(Modules $module)
+    public function __construct(ModuleRepositoriesManager $module)
     {
         parent::__construct();
 
@@ -47,29 +48,34 @@ class ModuleSeedCommand extends Command
      */
     public function handle()
     {
+        $repository = modules($this->option('location'));
+
         $slug = $this->argument('slug');
 
-        if (isset($slug)) {
-            if (!$this->module->exists($slug)) {
+        if ($slug) {
+            if (! $repository->exists($slug)) {
                 return $this->error('Module does not exist.');
             }
 
-            if ($this->module->isEnabled($slug)) {
-                $this->seed($slug);
-            } elseif ($this->option('force')) {
-                $this->seed($slug);
+            if ($repository->isEnabled($slug)) {
+                $this->seed($slug, $repository);
+            }
+            elseif ($this->option('force')) {
+                $this->seed($slug, $repository);
             }
 
             return;
-        } else {
+        }
+        else {
             if ($this->option('force')) {
-                $modules = $this->module->all();
-            } else {
-                $modules = $this->module->enabled();
+                $modules = $repository->all();
+            }
+            else {
+                $modules = $repository->enabled();
             }
 
             foreach ($modules as $module) {
-                $this->seed($module['slug']);
+                $this->seed($module['slug'], $repository);
             }
         }
     }
@@ -77,15 +83,16 @@ class ModuleSeedCommand extends Command
     /**
      * Seed the specific module.
      *
-     * @param string $module
+     * @param string $slug
+     * @param \Caffeinated\Modules\Repositories\Repository $repository
      *
-     * @return array
+     * @return void
      */
-    protected function seed($slug)
+    protected function seed($slug, Repository $repository)
     {
-        $module = $this->module->where('slug', $slug);
+        $module = $repository->where('slug', $slug);
         $params = [];
-        $namespacePath = $this->module->getNamespace();
+        $namespacePath = $repository->getNamespace();
         $rootSeeder = $module['basename'].'DatabaseSeeder';
         $fullPath = $namespacePath.'\\'.$module['basename'].'\Database\Seeds\\'.$rootSeeder;
 
@@ -131,6 +138,7 @@ class ModuleSeedCommand extends Command
             ['class', null, InputOption::VALUE_OPTIONAL, 'The class name of the module\'s root seeder.'],
             ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to seed.'],
             ['force', null, InputOption::VALUE_NONE, 'Force the operation to run while in production.'],
+            ['location', null, InputOption::VALUE_OPTIONAL, 'Which modules location to use.'],
         ];
     }
 }

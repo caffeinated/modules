@@ -2,7 +2,8 @@
 
 namespace Caffeinated\Modules\Console\Commands;
 
-use Caffeinated\Modules\Modules;
+use Caffeinated\Modules\ModuleRepositoriesManager;
+use Caffeinated\Modules\Repositories\Repository;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Migrations\Migrator;
@@ -29,7 +30,7 @@ class ModuleMigrateCommand extends Command
     protected $description = 'Run the database migrations for a specific or all modules';
 
     /**
-     * @var Modules
+     * @var ModuleRepositoriesManager
      */
     protected $module;
 
@@ -42,9 +43,9 @@ class ModuleMigrateCommand extends Command
      * Create a new command instance.
      *
      * @param Migrator $migrator
-     * @param Modules  $module
+     * @param ModuleRepositoriesManager  $module
      */
-    public function __construct(Migrator $migrator, Modules $module)
+    public function __construct(Migrator $migrator, ModuleRepositoriesManager $module)
     {
         parent::__construct();
 
@@ -61,25 +62,34 @@ class ModuleMigrateCommand extends Command
     {
         $this->prepareDatabase();
 
-        if (!empty($this->argument('slug'))) {
-            $module = $this->module->where('slug', $this->argument('slug'));
+        $repository = modules()->location($this->option('location'));
 
-            if ($this->module->isEnabled($module['slug'])) {
-                return $this->migrate($module['slug']);
+        $this->migrate($repository);
+    }
+
+    /**
+     * @param \Caffeinated\Modules\Repositories\Repository $repository
+     * @return mixed|void
+     */
+    protected function migrate(Repository $repository)
+    {
+        if (! empty($this->argument('slug'))) {
+            $module = $repository->where('slug', $this->argument('slug'));
+
+            if ($repository->isEnabled($module['slug'])) {
+                $this->executeMigrations($module['slug'], $repository->location);
             } elseif ($this->option('force')) {
-                return $this->migrate($module['slug']);
-            } else {
-                return $this->error('Nothing to migrate.');
+                $this->executeMigrations($module['slug'], $repository->location);
             }
+
+            $this->error('Nothing to migrate.');
         } else {
-            if ($this->option('force')) {
-                $modules = $this->module->all();
-            } else {
-                $modules = $this->module->enabled();
-            }
+            $modules = $this->option('force')
+                ? $repository->all()
+                : $repository->enabled();
 
             foreach ($modules as $module) {
-                $this->migrate($module['slug']);
+                $this->executeMigrations($module['slug'], $repository->location);
             }
         }
     }
@@ -88,13 +98,14 @@ class ModuleMigrateCommand extends Command
      * Run migrations for the specified module.
      *
      * @param string $slug
+     * @param string $location
      *
      * @return mixed
      */
-    protected function migrate($slug)
+    protected function executeMigrations($slug, $location)
     {
-        if ($this->module->exists($slug)) {
-            $module = $this->module->where('slug', $slug);
+        if (modules($location)->exists($slug)) {
+            $module = modules($location)->where('slug', $slug);
             $pretend = Arr::get($this->option(), 'pretend', false);
             $step = Arr::get($this->option(), 'step', false);
             $path = $this->getMigrationPath($slug);
@@ -123,7 +134,7 @@ class ModuleMigrateCommand extends Command
      */
     protected function getMigrationPath($slug)
     {
-        return module_path($slug, 'Database/Migrations');
+        return module_path($slug, 'Database/Migrations', $this->option('location'));
     }
 
     /**
@@ -163,6 +174,7 @@ class ModuleMigrateCommand extends Command
             ['pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'],
             ['seed', null, InputOption::VALUE_NONE, 'Indicates if the seed task should be re-run.'],
             ['step', null, InputOption::VALUE_NONE, 'Force the migrations to be run so they can be rolled back individually.'],
+            ['location', null, InputOption::VALUE_OPTIONAL, 'Which modules location to use.'],
         ];
     }
 }

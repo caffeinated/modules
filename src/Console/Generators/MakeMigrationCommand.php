@@ -3,6 +3,7 @@
 namespace Caffeinated\Modules\Console\Generators;
 
 use Illuminate\Console\Command;
+use Symfony\Component\Console\Input\InputOption;
 
 class MakeMigrationCommand extends Command
 {
@@ -15,7 +16,8 @@ class MakeMigrationCommand extends Command
     	{slug : The slug of the module.}
     	{name : The name of the migration.}
     	{--create= : The table to be created.}
-        {--table= : The table to migrate.}';
+        {--table= : The table to migrate.}
+    	{--location= : The modules location to create the module migration in.}';
 
     /**
      * The console command description.
@@ -23,19 +25,6 @@ class MakeMigrationCommand extends Command
      * @var string
      */
     protected $description = 'Create a new module migration file';
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return [
-            ['create', null, InputOption::VALUE_OPTIONAL, 'The table to be created.', null],
-            ['table', null, InputOption::VALUE_OPTIONAL, 'The table to migrate.', null],
-        ];
-    }
 
     /**
      * Execute the console command.
@@ -53,8 +42,10 @@ class MakeMigrationCommand extends Command
         });
 
         unset($arguments['slug']);
+        unset($options['--location']);
 
-        $options['--path'] = str_replace(realpath(base_path()), '', realpath(module_path($this->argument('slug'), 'Database/Migrations')));
+        $modulePath = module_path($this->argument('slug'), 'Database/Migrations', $this->option('location'));
+        $options['--path'] = str_replace(realpath(base_path()), '', realpath($modulePath));
         $options['--path'] = ltrim($options['--path'], '/');
 
         return $this->call('make:migration', array_merge($arguments, $options));

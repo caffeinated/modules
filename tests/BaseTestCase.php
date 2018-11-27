@@ -2,13 +2,24 @@
 
 namespace Caffeinated\Modules\Tests;
 
+use Illuminate\Support\Facades\File;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 abstract class BaseTestCase extends OrchestraTestCase
 {
+    public $default = 'modules';
+
     public function setUp()
     {
         parent::setUp();
+
+        if (File::isDirectory(module_path())) {
+            File::deleteDirectory(module_path());
+        }
+
+        if (File::exists(storage_path('app/modules/modules.json'))) {
+            File::delete(storage_path('app/modules/modules.json'));
+        }
     }
 
     /**
@@ -47,8 +58,13 @@ abstract class BaseTestCase extends OrchestraTestCase
 
         $app['config']->set('view.paths', [__DIR__.'/resources/views']);
 
-        $app['config']->set('modules.path', base_path('modules'));
-        $app['config']->set('modules.namespace', 'App\\Modules\\');
-        $app['config']->set('modules.driver', 'local');
+        $app['config']->set('modules.locations', [
+            'modules' => [
+                'driver' => 'local',
+                'path' => base_path('modules'),
+                'namespace' => 'App\Modules\\',
+                'enabled_by_default' => true
+            ],
+        ]);
     }
 }

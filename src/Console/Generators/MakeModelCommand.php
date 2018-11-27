@@ -15,7 +15,8 @@ class MakeModelCommand extends GeneratorCommand
     protected $signature = 'make:module:model
     	{slug : The slug of the module.}
     	{name : The name of the model class.}
-        {--migration : Create a new migration file for the model.}';
+        {--migration : Create a new migration file for the model.}
+    	{--location= : The modules location to create the module model class in}';
 
     /**
      * The console command description.
@@ -32,18 +33,6 @@ class MakeModelCommand extends GeneratorCommand
     protected $type = 'Module model';
 
     /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return [
-            ['migration', null, InputOption::VALUE_OPTIONAL, 'Create a new migration file for the model.', null],
-        ];
-    }
-
-    /**
      * Execute the console command.
      *
      * @return void
@@ -58,6 +47,7 @@ class MakeModelCommand extends GeneratorCommand
                     'slug' => $this->argument('slug'),
                     'name' => "create_{$table}_table",
                     '--create' => $table,
+                    '--location' => $this->option('location'),
                 ]);
             }
         }

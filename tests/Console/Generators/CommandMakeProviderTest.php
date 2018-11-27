@@ -33,7 +33,7 @@ class CommandMakeProviderTest extends BaseTestCase
     /** @test */
     public function it_can_generate_a_new_provider_with_custom_module_namespace()
     {
-        $this->app['config']->set('modules.namespace', 'App\\CustomProviderNamespace\\');
+        $this->app['config']->set("modules.locations.$this->default.namespace", 'App\\CustomProviderNamespace\\');
 
         $this->artisan('make:module:provider', ['slug' => 'provider', 'name' => 'CustomProvider']);
 

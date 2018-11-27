@@ -10,6 +10,11 @@ use Illuminate\Filesystem\Filesystem;
 abstract class Repository implements RepositoryContract
 {
     /**
+     * @var string
+     */
+    public $location;
+
+    /**
      * @var \Illuminate\Config\Repository
      */
     protected $config;
@@ -27,11 +32,13 @@ abstract class Repository implements RepositoryContract
     /**
      * Constructor method.
      *
+     * @param string                            $location
      * @param \Illuminate\Config\Repository     $config
      * @param \Illuminate\Filesystem\Filesystem $files
      */
-    public function __construct(Config $config, Filesystem $files)
+    public function __construct(string $location, Config $config, Filesystem $files)
     {
+        $this->location = $location;
         $this->config = $config;
         $this->files = $files;
     }
@@ -89,7 +96,7 @@ abstract class Repository implements RepositoryContract
      */
     public function getPath()
     {
-        return $this->path ?: $this->config->get('modules.path');
+        return $this->path ?: $this->config->get("modules.locations.$this->location.path");
     }
 
     /**
@@ -143,6 +150,6 @@ abstract class Repository implements RepositoryContract
      */
     public function getNamespace()
     {
-        return rtrim($this->config->get('modules.namespace'), '/\\');
+        return rtrim($this->config->get("modules.locations.$this->location.namespace"), '/\\');
     }
 }

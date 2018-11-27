@@ -40,7 +40,7 @@ class CommandMakeModelTest extends BaseTestCase
     /** @test */
     public function it_can_generate_a_new_model_with_custom_module_namespace()
     {
-        $this->app['config']->set('modules.namespace', 'App\\CustomModelNamespace\\');
+        $this->app['config']->set("modules.locations.$this->default.namespace", 'App\\CustomModelNamespace\\');
 
         $this->artisan('make:module:model', ['slug' => 'model', 'name' => 'CustomModel']);
 

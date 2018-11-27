@@ -45,13 +45,10 @@ class ModulesServiceProvider extends ServiceProvider
         $this->app->register(ConsoleServiceProvider::class);
         $this->app->register(GeneratorServiceProvider::class);
         $this->app->register(HelperServiceProvider::class);
-        $this->app->register(RepositoryServiceProvider::class);
         $this->app->register(BladeServiceProvider::class);
 
         $this->app->singleton('modules', function ($app) {
-            $repository = $app->make(Repository::class);
-
-            return new Modules($app, $repository);
+            return new ModuleRepositoriesManager($app);
         });
     }
 
@@ -67,14 +64,15 @@ class ModulesServiceProvider extends ServiceProvider
 
     public static function compiles()
     {
-        $modules = app()->make('modules')->all();
-        $files   = [];
+        $files = [];
 
-        foreach ($modules as $module) {
-            $serviceProvider = module_class($module['slug'], 'Providers\\ModuleServiceProvider');
+        foreach (modules()->repositories() as $repository) {
+            foreach ($repository->all() as $module) {
+                $serviceProvider = module_class($module['slug'], 'Providers\\ModuleServiceProvider', $repository->location);
 
-            if (class_exists($serviceProvider)) {
-                $files = array_merge($files, forward_static_call([$serviceProvider, 'compiles']));
+                if (class_exists($serviceProvider)) {
+                    $files = array_merge($files, forward_static_call([$serviceProvider, 'compiles']));
+                }
             }
         }
 

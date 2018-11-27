@@ -2,6 +2,7 @@
 
 namespace Caffeinated\Modules\Console\Commands;
 
+use Caffeinated\Modules\Repositories\Repository;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Symfony\Component\Console\Input\InputArgument;
@@ -36,33 +37,9 @@ class ModuleMigrateRefreshCommand extends Command
             return;
         }
 
-        $slug = $this->argument('slug');
+        $repository = modules()->location($this->option('location'));
 
-        $this->call('module:migrate:reset', [
-            'slug'       => $slug,
-            '--database' => $this->option('database'),
-            '--force'    => $this->option('force'),
-            '--pretend'  => $this->option('pretend'),
-        ]);
-
-        $this->call('module:migrate', [
-            'slug'       => $slug,
-            '--database' => $this->option('database'),
-        ]);
-
-        if ($this->needsSeeding()) {
-            $this->runSeeder($slug, $this->option('database'));
-        }
-
-        if (isset($slug)) {
-            $module = $this->laravel['modules']->where('slug', $slug);
-
-            event($slug.'.module.refreshed', [$module, $this->option()]);
-
-            $this->info('Module has been refreshed.');
-        } else {
-            $this->info('All modules have been refreshed.');
-        }
+        $this->resetMigrations($repository);
     }
 
     /**
@@ -88,6 +65,40 @@ class ModuleMigrateRefreshCommand extends Command
         ]);
     }
 
+    protected function resetMigrations(Repository $repository)
+    {
+        $slug = $this->argument('slug');
+
+        $this->call('module:migrate:reset', [
+            'slug' => $slug,
+            '--database' => $this->option('database'),
+            '--force' => $this->option('force'),
+            '--pretend' => $this->option('pretend'),
+            '--location' => $repository->location,
+        ]);
+
+        $this->call('module:migrate', [
+            'slug' => $slug,
+            '--database' => $this->option('database'),
+            '--location' => $repository->location,
+        ]);
+
+        if ($this->needsSeeding()) {
+            $this->runSeeder($slug, $this->option('database'));
+        }
+
+        if (isset($slug)) {
+            $module = $repository->where('slug', $slug);
+
+            event($slug . '.module.refreshed', [$module, $this->option()]);
+
+            $this->info('Module has been refreshed.');
+        }
+        else {
+            $this->info('All modules have been refreshed.');
+        }
+    }
+
     /**
      * Get the console command arguments.
      *
@@ -110,6 +121,7 @@ class ModuleMigrateRefreshCommand extends Command
             ['force', null, InputOption::VALUE_NONE, 'Force the operation to run while in production.'],
             ['pretend', null, InputOption::VALUE_NONE, 'Dump the SQL queries that would be run.'],
             ['seed', null, InputOption::VALUE_NONE, 'Indicates if the seed task should be re-run.'],
+            ['location', null, InputOption::VALUE_OPTIONAL, 'Which modules location to use.'],
         ];
     }
 }

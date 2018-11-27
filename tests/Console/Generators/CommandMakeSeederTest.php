@@ -33,7 +33,7 @@ class CommandMakeSeederTest extends BaseTestCase
     /** @test */
     public function it_can_generate_a_new_seeder_with_custom_module_namespace()
     {
-        $this->app['config']->set('modules.namespace', 'App\\CustomSeederNamespace\\');
+        $this->app['config']->set("modules.locations.$this->default.namespace", 'App\\CustomSeederNamespace\\');
 
         $this->artisan('make:module:seeder', ['slug' => 'seeder', 'name' => 'CustomSeeder']);
 

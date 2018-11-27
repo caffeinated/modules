@@ -33,7 +33,7 @@ class CommandMakeRequestTest extends BaseTestCase
     /** @test */
     public function it_can_generate_a_new_request_with_custom_module_namespace()
     {
-        $this->app['config']->set('modules.namespace', 'App\\CustomRequestNamespace\\');
+        $this->app['config']->set("modules.locations.$this->default.namespace", 'App\\CustomRequestNamespace\\');
 
         $this->artisan('make:module:request', ['slug' => 'request', 'name' => 'CustomRequest']);
 

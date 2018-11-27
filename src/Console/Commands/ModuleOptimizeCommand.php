@@ -3,6 +3,7 @@
 namespace Caffeinated\Modules\Console\Commands;
 
 use Illuminate\Console\Command;
+use Symfony\Component\Console\Input\InputOption;
 
 class ModuleOptimizeCommand extends Command
 {
@@ -27,10 +28,33 @@ class ModuleOptimizeCommand extends Command
      */
     public function handle()
     {
-        $this->info('Generating optimized module cache');
+        if ($location = $this->option('location')) {
+            $this->info('Generating optimized module cache...');
 
-        $this->laravel['modules']->optimize();
+            $repository = modules($location);
+            $repository->optimize();
 
-        event('modules.optimized', [$this->laravel['modules']->all()]);
+            event('modules.optimized', [$repository->all()]);
+        } else {
+            foreach (modules()->repositories() as $repository) {
+                $this->info("Generating optimized module cache for [$repository->location]...");
+
+                $repository->optimize();
+
+                event('modules.optimized', [$repository->all()]);
+            }
+        }
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['location', null, InputOption::VALUE_OPTIONAL, 'Which modules location to use.'],
+        ];
     }
 }
