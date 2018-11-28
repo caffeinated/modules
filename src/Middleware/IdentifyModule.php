@@ -2,7 +2,7 @@
 
 namespace Caffeinated\Modules\Middleware;
 
-use Caffeinated\Modules\ModuleRepositoriesManager;
+use Caffeinated\Modules\RepositoryManager;
 use Closure;
 
 class IdentifyModule
@@ -17,7 +17,7 @@ class IdentifyModule
      *
      * @param Caffeinated\Modules $module
      */
-    public function __construct(ModuleRepositoriesManager $module)
+    public function __construct(RepositoryManager $module)
     {
         $this->module = $module;
     }

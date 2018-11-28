@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 class RepositoryServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap the application services.
+     * Bootstrap the provided services.
      */
     public function boot()
     {
@@ -15,18 +15,13 @@ class RepositoryServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the application services.
+     * Register the provided services.
      */
     public function register()
     {
-        $driver = ucfirst(config('modules.driver'));
+        $default = config('modules.default_driver');
+        $driver  = config('modules.drivers.'.$default);
 
-        if (strcasecmp($driver, 'custom') == 0) {
-            $namespace = config('modules.custom_driver');
-        } else {
-            $namespace = 'Caffeinated\Modules\Repositories\\'.$driver.'Repository';
-        }
-
-        $this->app->bind('Caffeinated\Modules\Contracts\Repository', $namespace);
+        $this->app->bind('Caffeinated\Modules\Contracts\Repository', $driver);
     }
 }

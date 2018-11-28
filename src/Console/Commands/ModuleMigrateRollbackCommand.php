@@ -2,14 +2,14 @@
 
 namespace Caffeinated\Modules\Console\Commands;
 
-use Caffeinated\Modules\ModuleRepositoriesManager;
-use Caffeinated\Modules\Repositories\Repository;
-use Caffeinated\Modules\Traits\MigrationTrait;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
+use Caffeinated\Modules\RepositoryManager;
 use Illuminate\Database\Migrations\Migrator;
-use Symfony\Component\Console\Input\InputArgument;
+use Caffeinated\Modules\Traits\MigrationTrait;
+use Caffeinated\Modules\Repositories\Repository;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 
 class ModuleMigrateRollbackCommand extends Command
 {
@@ -37,7 +37,7 @@ class ModuleMigrateRollbackCommand extends Command
     protected $migrator;
 
     /**
-     * @var ModuleRepositoriesManager
+     * @var RepositoryManager
      */
     protected $module;
 
@@ -45,14 +45,14 @@ class ModuleMigrateRollbackCommand extends Command
      * Create a new command instance.
      *
      * @param Migrator $migrator
-     * @param ModuleRepositoriesManager  $module
+     * @param RepositoryManager  $module
      */
-    public function __construct(Migrator $migrator, ModuleRepositoriesManager $module)
+    public function __construct(Migrator $migrator, RepositoryManager $module)
     {
         parent::__construct();
 
         $this->migrator = $migrator;
-        $this->module = $module;
+        $this->module   = $module;
     }
 
     /**
@@ -66,11 +66,10 @@ class ModuleMigrateRollbackCommand extends Command
             return;
         }
 
-        $repository = modules()->location($this->option('location'));
-
         $this->migrator->setConnection($this->option('database'));
-
-        $paths = $this->getMigrationPaths($repository);
+        
+        $repository = modules()->location($this->option('location'));
+        $paths      = $this->getMigrationPaths($repository);
 
         $this->migrator->setOutput($this->output)->rollback(
             $paths, ['pretend' => $this->option('pretend'), 'step' => (int)$this->option('step')]
@@ -86,7 +85,7 @@ class ModuleMigrateRollbackCommand extends Command
      */
     protected function getMigrationPaths(Repository $repository)
     {
-        $slug = $this->argument('slug');
+        $slug  = $this->argument('slug');
         $paths = [];
 
         if ($slug) {

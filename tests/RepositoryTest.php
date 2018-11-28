@@ -121,9 +121,10 @@ class RepositoryTest extends BaseTestCase
     {
         $this->artisan('make:module', ['slug' => 'barbiz', '--quick' => 'quick']);
 
-        // Quick and fast way to simulate legacy Module FolderStructure
+        // Quick and fast way to simulate legacy module folder structure
         // https://github.com/caffeinated/modules/pull/224
         rename(realpath(module_path('barbiz')), realpath(module_path()) . '/BarBiz');
+        
         file_put_contents(realpath(module_path()) . '/BarBiz/module.json', json_encode(array(
             'name' => 'BarBiz', 'slug' => 'BarBiz', 'version' => '1.0', 'description' => '',
         ), JSON_PRETTY_PRINT));

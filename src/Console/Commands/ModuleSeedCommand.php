@@ -2,11 +2,11 @@
 
 namespace Caffeinated\Modules\Console\Commands;
 
-use Caffeinated\Modules\ModuleRepositoriesManager;
-use Caffeinated\Modules\Repositories\Repository;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputArgument;
+use Caffeinated\Modules\RepositoryManager;
+use Caffeinated\Modules\Repositories\Repository;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 
 class ModuleSeedCommand extends Command
 {
@@ -25,16 +25,16 @@ class ModuleSeedCommand extends Command
     protected $description = 'Seed the database with records for a specific or all modules';
 
     /**
-     * @var ModuleRepositoriesManager
+     * @var RepositoryManager
      */
     protected $module;
 
     /**
      * Create a new command instance.
      *
-     * @param ModuleRepositoriesManager $module
+     * @param RepositoryManager $module
      */
-    public function __construct(ModuleRepositoriesManager $module)
+    public function __construct(RepositoryManager $module)
     {
         parent::__construct();
 
@@ -90,11 +90,11 @@ class ModuleSeedCommand extends Command
      */
     protected function seed($slug, Repository $repository)
     {
-        $module = $repository->where('slug', $slug);
-        $params = [];
+        $module        = $repository->where('slug', $slug);
+        $params        = [];
         $namespacePath = $repository->getNamespace();
-        $rootSeeder = $module['basename'].'DatabaseSeeder';
-        $fullPath = $namespacePath.'\\'.$module['basename'].'\Database\Seeds\\'.$rootSeeder;
+        $rootSeeder    = $module['basename'].'DatabaseSeeder';
+        $fullPath      = $namespacePath.'\\'.$module['basename'].'\Database\Seeds\\'.$rootSeeder;
 
         if (class_exists($fullPath)) {
             if ($this->option('class')) {
