@@ -2,14 +2,14 @@
 
 namespace Caffeinated\Modules\Console\Commands;
 
-use Caffeinated\Modules\ModuleRepositoriesManager;
-use Caffeinated\Modules\Repositories\Repository;
 use Illuminate\Console\Command;
-use Illuminate\Console\ConfirmableTrait;
-use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Filesystem\Filesystem;
-use Symfony\Component\Console\Input\InputArgument;
+use Illuminate\Console\ConfirmableTrait;
+use Caffeinated\Modules\RepositoryManager;
+use Illuminate\Database\Migrations\Migrator;
+use Caffeinated\Modules\Repositories\Repository;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 
 class ModuleMigrateResetCommand extends Command
 {
@@ -30,7 +30,7 @@ class ModuleMigrateResetCommand extends Command
     protected $description = 'Rollback all database migrations for a specific or all modules';
 
     /**
-     * @var ModuleRepositoriesManager
+     * @var RepositoryManager
      */
     protected $module;
 
@@ -47,16 +47,16 @@ class ModuleMigrateResetCommand extends Command
     /**
      * Create a new command instance.
      *
-     * @param ModuleRepositoriesManager    $module
+     * @param RepositoryManager    $module
      * @param Filesystem $files
      * @param Migrator   $migrator
      */
-    public function __construct(ModuleRepositoriesManager $module, Filesystem $files, Migrator $migrator)
+    public function __construct(RepositoryManager $module, Filesystem $files, Migrator $migrator)
     {
         parent::__construct();
 
-        $this->module = $module;
-        $this->files = $files;
+        $this->module   = $module;
+        $this->files    = $files;
         $this->migrator = $migrator;
     }
 

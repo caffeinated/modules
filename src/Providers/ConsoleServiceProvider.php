@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 class ConsoleServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap the application services.
+     * Bootstrap the provided services.
      */
     public function boot()
     {
@@ -16,7 +16,7 @@ class ConsoleServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the application services.
+     * Register the provided services.
      */
     public function register()
     {

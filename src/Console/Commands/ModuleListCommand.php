@@ -2,8 +2,8 @@
 
 namespace Caffeinated\Modules\Console\Commands;
 
-use Caffeinated\Modules\Repositories\Repository;
 use Illuminate\Console\Command;
+use Caffeinated\Modules\Repositories\Repository;
 
 class ModuleListCommand extends Command
 {

@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 class GeneratorServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap the application services.
+     * Bootstrap the provided services.
      */
     public function boot()
     {
@@ -15,7 +15,7 @@ class GeneratorServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the application services.
+     * Register the provided services.
      */
     public function register()
     {

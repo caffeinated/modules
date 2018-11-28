@@ -10,15 +10,18 @@ use Illuminate\Support\Arr;
 
 class Migrator extends BaseMigrator
 {
+    /**
+     * @var string
+     */
     protected $table;
 
     /**
      * Create a new migrator instance.
      *
-     * @param string                                                       $table
-     * @param \Illuminate\Database\Migrations\MigrationRepositoryInterface $repository
-     * @param \Illuminate\Database\ConnectionResolverInterface             $resolver
-     * @param \Illuminate\Filesystem\Filesystem                            $files
+     * @param  string                                                        $table
+     * @param  \Illuminate\Database\Migrations\MigrationRepositoryInterface  $repository
+     * @param  \Illuminate\Database\ConnectionResolverInterface              $resolver
+     * @param  \Illuminate\Filesystem\Filesystem                             $files
      */
     public function __construct($table,
                                 MigrationRepositoryInterface $repository,
@@ -41,7 +44,7 @@ class Migrator extends BaseMigrator
     public function rollback($paths = [], array $options = [])
     {
         $this->notes = [];
-        $rolledBack = [];
+        $rolledBack  = [];
 
         $migrations = $this->getRanMigrations();
         $files = $this->getMigrationFiles($paths);
@@ -58,14 +61,15 @@ class Migrator extends BaseMigrator
             }
 
             $lastBatch = $this->repository->getLastBatchNumber();
-            $stepDown = false;
+            $stepDown  = false;
 
             foreach ($migrations as $migration) {
                 $migration = (object) $migration;
 
                 if ($lastBatch > $migration->batch && $stepDown) {
                     $steps--;
-                    $stepDown = false;
+
+                    $stepDown  = false;
                     $lastBatch = $migration->batch;
                 }
 

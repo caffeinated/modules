@@ -1,54 +1,54 @@
 # Caffeinated Modules
-[![Source](http://img.shields.io/badge/source-caffeinated/modules-blue.svg?style=flat-square)](https://github.com/caffeinated/modules)
+[![Source](https://img.shields.io/badge/source-caffeinated/modules-blue.svg?style=flat-square)](https://github.com/caffeinated/modules)
 [![Latest Stable Version](https://poser.pugx.org/caffeinated/modules/v/stable?format=flat-square)](https://packagist.org/packages/caffeinated/modules)
-[![Laravel 5.7](https://img.shields.io/badge/Laravel-5.7-orange.svg?style=flat-square)](https://laravel.com)
-[![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
 [![Total Downloads](https://img.shields.io/packagist/dt/caffeinated/modules.svg?style=flat-square)](https://packagist.org/packages/caffeinated/modules)
 [![Travis (.org)](https://img.shields.io/travis/caffeinated/modules.svg?style=flat-square)](https://github.com/caffeinated/modules)
 
-Caffeinated Modules is a simple package to allow the means to separate your Laravel 5.7+ application out into modules. Each module is completely self-contained allowing the ability to simply drop a module in for use.
+Extract and modularize your code for maintainability. Essentially creates "mini-laravel" structures to organize your application.
 
-The package follows the FIG standards PSR-1, PSR-2, and PSR-4 to ensure a high level of interoperability between shared PHP code.
+This package follows the FIG standards PSR-1, PSR-2, and PSR-4 to ensure a high level of interoperability between shared PHP code.
 
 ## Documentation
 You will find user friendly and updated documentation in the wiki here: [Caffeinated Modules Wiki](https://github.com/caffeinated/modules/wiki)
 
-## Quick Installation
-Begin by installing the package through Composer.
+## Installation
+Simply install the package through Composer. From here the package will automatically register its service provider.
 
 ```
 composer require caffeinated/modules
 ```
 
-Once this operation is complete, simply add both the service provider and facade classes to your project's `config/app.php` file:
-
-#### Service Provider
-
-```php
-Caffeinated\Modules\ModulesServiceProvider::class,
-```
-
-#### Facade
+### Facade
+Optionally, you may also register the accompanying facade for easier access to the underlying API. Inside your project's config/app.php file, add the following to the array of facades:
 
 ```php
 'Module' => Caffeinated\Modules\Facades\Module::class,
 ```
 
-And that's it! With your coffee in reach, start building out some awesome modules!
+### Config
+To publish the config file, run the following:
 
-## Tests
+```
+php artisan vendor:publish --provider="Caffeinated\Modules\ModulesServiceProvider" --tag="config"
+```
 
+## Testing
 Run the tests with:
 
 ``` bash
 vendor/bin/phpunit
 ```
 
-## Credits
+## Contributing
+Please see [CONTRIBUTING](CONTRIBUTING) for details.
 
+## Security
+If you discover any security related issues, please email shea.lewis89@gmail.com directly instead of using the issue tracker.
+
+## Credits
 - [Shea Lewis](https://github.com/kaidesu)
 - [All Contributors](../../contributors)
 
 ## License
-
 The MIT License (MIT). Please see [License File](LICENSE) for more information.

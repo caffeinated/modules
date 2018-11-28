@@ -2,14 +2,14 @@
 
 namespace Caffeinated\Modules\Console\Commands;
 
-use Caffeinated\Modules\ModuleRepositoriesManager;
-use Caffeinated\Modules\Repositories\Repository;
+use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
+use Caffeinated\Modules\RepositoryManager;
 use Illuminate\Database\Migrations\Migrator;
-use Illuminate\Support\Arr;
-use Symfony\Component\Console\Input\InputArgument;
+use Caffeinated\Modules\Repositories\Repository;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 
 class ModuleMigrateCommand extends Command
 {
@@ -30,7 +30,7 @@ class ModuleMigrateCommand extends Command
     protected $description = 'Run the database migrations for a specific or all modules';
 
     /**
-     * @var ModuleRepositoriesManager
+     * @var RepositoryManager
      */
     protected $module;
 
@@ -43,9 +43,9 @@ class ModuleMigrateCommand extends Command
      * Create a new command instance.
      *
      * @param Migrator $migrator
-     * @param ModuleRepositoriesManager  $module
+     * @param RepositoryManager  $module
      */
-    public function __construct(Migrator $migrator, ModuleRepositoriesManager $module)
+    public function __construct(Migrator $migrator, RepositoryManager $module)
     {
         parent::__construct();
 

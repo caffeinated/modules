@@ -2,12 +2,12 @@
 
 namespace Caffeinated\Modules;
 
-use Caffeinated\Modules\Repositories\Repository;
-use Caffeinated\Modules\Exceptions\ModuleNotFoundException;
 use Exception;
 use Illuminate\Foundation\Application;
+use Caffeinated\Modules\Repositories\Repository;
+use Caffeinated\Modules\Exceptions\ModuleNotFoundException;
 
-class ModuleRepositoriesManager
+class RepositoryManager
 {
     /**
      * @var Application
@@ -130,7 +130,7 @@ class ModuleRepositoriesManager
         $locationConfig = config("modules.locations.$location");
 
         if (is_null($locationConfig)) {
-            throw new Exception("Location [$location] not configured. Please check your modules.php configuration.");
+            throw new Exception("Location [$location] not configured. Please check your modules.php configuration file.");
         }
 
         $driver = $locationConfig['driver'] ?? config('modules.default_driver');

@@ -122,7 +122,7 @@ abstract class Repository implements RepositoryContract
      */
     public function getModulePath($slug)
     {
-        $module = studly_case(str_slug($slug));
+        $module = studly_case($slug);
 
         if (\File::exists($this->getPath()."/{$module}/")) {
             return $this->getPath()."/{$module}/";
