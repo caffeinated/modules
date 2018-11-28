@@ -17,10 +17,10 @@ return [
 
     'locations' => [
         'modules' => [
-            'driver' => 'local',
-            'path' => app_path('Modules'),
-            'namespace' => 'Modules\\',
-            'enabled' => true,
+            'driver'    => 'local',
+            'path'      => app_path('Modules'),
+            'namespace' => 'App\\Modules\\',
+            'enabled'   => true,
         ],
     ],
 
@@ -39,19 +39,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Modules Base Namespace
-    |--------------------------------------------------------------------------
-    |
-    | Define the base namespace for your modules. Be sure to update this value
-    | if you move your modules directory to a new path. This is primarily used
-    | by the module:make Artisan command.
-    |
-    */
-
-    'namespace' => 'App\Modules\\',
-
-    /*
-    |--------------------------------------------------------------------------
     | Modules Default Service Provider class name
     |--------------------------------------------------------------------------
     |
@@ -66,11 +53,9 @@ return [
     | Default Module Driver
     |--------------------------------------------------------------------------
     |
-    | This option controls the module storage driver that will be utilized.
-    | This driver manages the retrieval and management of module properties.
-    | Setting this to custom allows you to specify your own driver instance.
-    |
-    | Supported: "local" or "custom"
+    | Here you may specify the default module storage druver that should be
+    | used by the package. A "local" driver is available out of the box that
+    | uses the local filesystem to store and maintain module manifests.
     |
     */
 
@@ -78,13 +63,12 @@ return [
 
     /*
      |--------------------------------------------------------------------------
-     | Custom Module Driver
+     | Module Drivers
      |--------------------------------------------------------------------------
      |
-     | Using a custom module driver, the 'driver' value need to be set to 'custom'
-     | The path to the driver need to be set in addition at custom_driver.
-     |
-     | @warn: This value will be only considered if driver is set to custom.
+     | Here you may configure as many module drivers as you wish. Use the
+     | local driver class as a basis for creating your own. The possibilities
+     | are endless!
      |
      */
 
