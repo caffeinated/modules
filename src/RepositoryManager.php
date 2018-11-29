@@ -43,8 +43,7 @@ class RepositoryManager
     {
         foreach (array_keys(config('modules.locations')) as $location) {
             $repository = $this->repository($location);
-
-            $modules = $repository->enabled();
+            $modules    = $repository->enabled();
 
             $modules->each(function ($module) use ($repository) {
                 try {
@@ -67,8 +66,8 @@ class RepositoryManager
      */
     private function registerServiceProvider(Repository $repository, $module)
     {
-        $location = $repository->location;
-        $provider = config("modules.location.$location.provider", 'Providers\\ModuleServiceProvider');
+        $location        = $repository->location;
+        $provider        = config("modules.location.$location.provider", 'Providers\\ModuleServiceProvider');
         $serviceProvider = module_class($module['slug'], $provider, $location);
 
         if (class_exists($serviceProvider)) {

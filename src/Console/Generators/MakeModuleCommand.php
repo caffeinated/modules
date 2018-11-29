@@ -140,12 +140,12 @@ class MakeModuleCommand extends Command
     {
         $this->displayHeader('make_module_step_1');
 
-        $this->container['name'] = $this->ask('Please enter the name of the module:', $this->container['name']);
-        $this->container['slug'] = $this->ask('Please enter the slug for the module:', $this->container['slug']);
-        $this->container['version'] = $this->ask('Please enter the module version:', $this->container['version']);
+        $this->container['name']        = $this->ask('Please enter the name of the module:', $this->container['name']);
+        $this->container['slug']        = $this->ask('Please enter the slug for the module:', $this->container['slug']);
+        $this->container['version']     = $this->ask('Please enter the module version:', $this->container['version']);
         $this->container['description'] = $this->ask('Please enter the description of the module:', $this->container['description']);
-        $this->container['basename'] = studly_case($this->container['slug']);
-        $this->container['namespace'] = config("modules.locations.{$this->option('location')}.namespace") . $this->container['basename'];
+        $this->container['basename']    = studly_case($this->container['slug']);
+        $this->container['namespace']   = config("modules.locations.{$this->container['location']}.namespace") . $this->container['basename'];
 
         $this->comment('You have provided the following manifest information:');
         $this->comment('Name:                       ' . $this->container['name']);
