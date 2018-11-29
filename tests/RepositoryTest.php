@@ -159,11 +159,11 @@ class RepositoryTest extends BaseTestCase
     /** @test */
     public function it_can_get_custom_modules_namespace()
     {
-        $this->app['config']->set("modules.locations.$this->default.namespace", 'App\\Foo\\Bar\\Baz\\Tests');
+        $this->app['config']->set("modules.locations.{$this->default}.namespace", 'App\\Foo\\Bar\\Baz\\Tests');
 
         $this->assertSame('App\Foo\Bar\Baz\Tests', $this->repository->getNamespace());
 
-        $this->app['config']->set("modules.locations.$this->default.namespace", 'App\\Foo\\Baz\\Bar\\Tests\\');
+        $this->app['config']->set("modules.locations.{$this->default}.namespace", 'App\\Foo\\Baz\\Bar\\Tests\\');
 
         $this->assertSame('App\Foo\Baz\Bar\Tests', $this->repository->getNamespace());
     }

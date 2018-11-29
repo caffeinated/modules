@@ -70,15 +70,15 @@ class MakeModuleCommand extends Command
     {
         $location = $this->option('location');
 
-        $this->container['slug'] = str_slug($this->argument('slug'));
-        $this->container['name'] = studly_case($this->container['slug']);
-        $this->container['version'] = '1.0';
+        $this->container['slug']        = str_slug($this->argument('slug'));
+        $this->container['name']        = studly_case($this->container['slug']);
+        $this->container['version']     = '1.0';
         $this->container['description'] = 'This is the description for the ' . $this->container['name'] . ' module.';
-        $this->container['location'] = $location ?: config('modules.default_location');
+        $this->container['location']    = $location ?: config('modules.default_location');
 
         if ($this->option('quick')) {
-            $this->container['basename'] = studly_case($this->container['slug']);
-            $this->container['namespace'] = config("modules.locations.$location.namespace").$this->container['basename'];
+            $this->container['basename']  = studly_case($this->container['slug']);
+            $this->container['namespace'] = config("modules.locations.{$this->container['location']}.namespace").$this->container['basename'];
 
             return $this->generate();
         }

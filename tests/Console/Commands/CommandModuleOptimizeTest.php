@@ -20,7 +20,7 @@ class CommandModuleOptimizeTest extends BaseTestCase
     /** @test */
     public function it_can_optimize_a_module()
     {
-        $before = file_get_contents(storage_path('app/modules/modules.json'));
+        $before = file_get_contents(storage_path('app/modules/app.json'));
 
         $this->assertSame(
 '{
@@ -51,7 +51,7 @@ class CommandModuleOptimizeTest extends BaseTestCase
 
         //
 
-        $optimized = file_get_contents(storage_path('app/modules/modules.json'));
+        $optimized = file_get_contents(storage_path('app/modules/app.json'));
 
         $this->assertSame(
 '{

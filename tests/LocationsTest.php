@@ -17,11 +17,11 @@ class LocationsTest extends BaseTestCase
         parent::setUp();
 
         $this->app['config']->set('modules.locations', [
-            'modules' => [
-                'driver' => 'local',
-                'path' => base_path('modules'),
-                'namespace' => 'App\Modules\\',
-                'enabled' => true
+            'app' => [
+                'driver'    => 'local',
+                'path'      => base_path('modules'),
+                'namespace' => 'App\\Modules\\',
+                'enabled'   => true
             ],
             'plugins' => [
                 'driver' => 'local',
@@ -214,6 +214,7 @@ class LocationsTest extends BaseTestCase
         $this->artisan('module:migrate', [
             '--location' => 'plugins',
         ]);
+
         $this->assertTrue(Schema::hasTable('baz_biz_plugin'));
         $this->artisan('module:migrate:rollback'); // no specified location
         $this->assertTrue(Schema::hasTable('baz_biz_plugin'));
