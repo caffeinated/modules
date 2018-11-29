@@ -6,7 +6,8 @@ and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Module locations. Define and configure as many locations to store your modules as desired.
+- Module locations. Define and configure as many locations to store your modules as desired
+- Ability to configure manifest filename
 - CHANGELOG document
 - CONTRIBUTING document
 
