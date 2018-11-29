@@ -63,7 +63,10 @@ abstract class BaseTestCase extends OrchestraTestCase
                 'driver' => 'local',
                 'path' => base_path('modules'),
                 'namespace' => 'App\Modules\\',
-                'enabled_by_default' => true
+                'enabled' => true,
+                'provider' => 'Providers\\ModuleServiceProvider',
+                'mapping' => [],
+                'manifest' => 'module.json'
             ],
         ]);
     }

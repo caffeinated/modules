@@ -67,7 +67,9 @@ class RepositoryManager
      */
     private function registerServiceProvider(Repository $repository, $module)
     {
-        $serviceProvider = module_class($module['slug'], config('modules.provider_class', 'Providers\\ModuleServiceProvider'), $repository->location);
+        $location = $repository->location;
+        $provider = config("modules.location.$location.provider", 'Providers\\ModuleServiceProvider');
+        $serviceProvider = module_class($module['slug'], $provider, $location);
 
         if (class_exists($serviceProvider)) {
             $this->app->register($serviceProvider);
