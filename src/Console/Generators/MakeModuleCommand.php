@@ -179,7 +179,7 @@ class MakeModuleCommand extends Command
             $this->files->makeDirectory($root);
         }
 
-        $pathMap = config('modules.pathMap');
+        $mapping = config("modules.locations.{$this->container['location']}.mapping");
         $directory = module_path(null, $this->container['basename'], $this->container['location']);
         $source = __DIR__ . '/../../../resources/stubs/module';
 
@@ -187,16 +187,16 @@ class MakeModuleCommand extends Command
 
         $sourceFiles = $this->files->allFiles($source, true);
 
-        if (!empty($pathMap)) {
-            $search = array_keys($pathMap);
-            $replace = array_values($pathMap);
+        if (!empty($mapping)) {
+            $search = array_keys($mapping);
+            $replace = array_values($mapping);
         }
 
         foreach ($sourceFiles as $file) {
             $contents = $this->replacePlaceholders($file->getContents());
             $subPath = $file->getRelativePathname();
 
-            if (!empty($pathMap)) {
+            if (!empty($mapping)) {
                 $subPath = str_replace($search, $replace, $subPath);
             }
 

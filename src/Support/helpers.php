@@ -33,12 +33,12 @@ if (!function_exists('module_path')) {
     {
         $location = $location ?: config('modules.default_location');
         $modulesPath = config("modules.locations.$location.path");
-        $pathMap = config('modules.pathMap');
+        $mapping = config("modules.locations.$location.mapping");
 
-        if (!empty($file) && !empty($pathMap)) {
+        if (!empty($file) && !empty($mapping)) {
             $file = str_replace(
-                array_keys($pathMap),
-                array_values($pathMap),
+                array_keys($mapping),
+                array_values($mapping),
                 $file
             );
         }
