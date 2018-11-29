@@ -140,7 +140,9 @@ abstract class Repository implements RepositoryContract
      */
     protected function getManifestPath($slug)
     {
-        return $this->getModulePath($slug).'module.json';
+        $filename = config("modules.locations.$this->location.manifest") ?: 'module.json';
+
+        return $this->getModulePath($slug).$filename;
     }
 
     /**
