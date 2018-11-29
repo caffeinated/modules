@@ -21,13 +21,13 @@ class LocationsTest extends BaseTestCase
                 'driver' => 'local',
                 'path' => base_path('modules'),
                 'namespace' => 'App\Modules\\',
-                'enabled_by_default' => true
+                'enabled' => true
             ],
             'plugins' => [
                 'driver' => 'local',
                 'path' => base_path('plugins'),
                 'namespace' => 'App\Plugins\\',
-                'enabled_by_default' => true
+                'enabled' => true
             ]
         ]);
 

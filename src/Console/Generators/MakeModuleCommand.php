@@ -74,7 +74,7 @@ class MakeModuleCommand extends Command
         $this->container['name'] = studly_case($this->container['slug']);
         $this->container['version'] = '1.0';
         $this->container['description'] = 'This is the description for the ' . $this->container['name'] . ' module.';
-        $this->container['location'] = $location;
+        $this->container['location'] = $location ?: config('modules.default_location');
 
         if ($this->option('quick')) {
             $this->container['basename'] = studly_case($this->container['slug']);
@@ -146,7 +146,6 @@ class MakeModuleCommand extends Command
         $this->container['description'] = $this->ask('Please enter the description of the module:', $this->container['description']);
         $this->container['basename'] = studly_case($this->container['slug']);
         $this->container['namespace'] = config("modules.locations.{$this->option('location')}.namespace") . $this->container['basename'];
-        $this->container['location'] = $this->option('location');
 
         $this->comment('You have provided the following manifest information:');
         $this->comment('Name:                       ' . $this->container['name']);
@@ -173,14 +172,16 @@ class MakeModuleCommand extends Command
      */
     protected function generateModule()
     {
-        $root = module_path(null, '', $this->container['location']);
+        $location = $this->container['location'];
+        $root = module_path(null, '', $location);
+        $manifest = config("modules.locations.$location.manifest") ?: 'module.json';
 
         if (!$this->files->isDirectory($root)) {
             $this->files->makeDirectory($root);
         }
 
-        $mapping = config("modules.locations.{$this->container['location']}.mapping");
-        $directory = module_path(null, $this->container['basename'], $this->container['location']);
+        $mapping = config("modules.locations.$location.mapping");
+        $directory = module_path(null, $this->container['basename'], $location);
         $source = __DIR__ . '/../../../resources/stubs/module';
 
         $this->files->makeDirectory($directory);
@@ -202,6 +203,11 @@ class MakeModuleCommand extends Command
 
             $filePath = $directory . '/' . $subPath;
             $dir = dirname($filePath);
+
+            // if the file is module.json, replace it with the custom manifest file name
+            if ($file->getFilename() === 'module.json' && $manifest) {
+                $filePath = str_replace('module.json', $manifest, $filePath);
+            }
 
             if (!$this->files->isDirectory($dir)) {
                 $this->files->makeDirectory($dir, 0755, true);
