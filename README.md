@@ -10,7 +10,7 @@ Extract and modularize your code for maintainability. Essentially creates "mini-
 This package follows the FIG standards PSR-1, PSR-2, and PSR-4 to ensure a high level of interoperability between shared PHP code.
 
 ## Documentation
-You will find user friendly and updated documentation in the wiki here: [Caffeinated Modules Wiki](https://github.com/caffeinated/modules/wiki)
+You will find user friendly and updated documentation on the [Caffeinated website](https://caffeinatedpackages.com/guide/packages/modules.html).
 
 ## Installation
 Simply install the package through Composer. From here the package will automatically register its service provider.
@@ -33,15 +33,18 @@ To publish the config file, run the following:
 php artisan vendor:publish --provider="Caffeinated\Modules\ModulesServiceProvider" --tag="config"
 ```
 
-## Testing
-Run the tests with:
-
-``` bash
-vendor/bin/phpunit
-```
+## Changelog
+You will find a complete changelog history within the [CHANGELOG](CHANGELOG.md) file.
 
 ## Contributing
-Please see [CONTRIBUTING](CONTRIBUTING) for details.
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+## Testing
+Run tests with PHPUnit:
+
+```bash
+vendor/bin/phpunit
+```
 
 ## Security
 If you discover any security related issues, please email shea.lewis89@gmail.com directly instead of using the issue tracker.
@@ -51,4 +54,4 @@ If you discover any security related issues, please email shea.lewis89@gmail.com
 - [All Contributors](../../contributors)
 
 ## License
-The MIT License (MIT). Please see [License File](LICENSE) for more information.
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
