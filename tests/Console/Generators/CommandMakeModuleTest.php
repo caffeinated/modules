@@ -22,7 +22,7 @@ class CommandMakeModuleTest extends BaseTestCase
     public function it_can_generate_module_with_custom_mapping()
     {
         $this->app['config']->set("modules.locations.{$this->default}.mapping", [
-            'config'              => 'config',
+            'Config'              => 'config',
             'Database/Factories'  => 'src/Database/Factories',
             'Database/Migrations' => 'src/Database/Migrations',
             'Database/Seeds'      => 'src/Database/Seeds',
