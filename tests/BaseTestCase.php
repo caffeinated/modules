@@ -64,7 +64,7 @@ abstract class BaseTestCase extends OrchestraTestCase
                 'path'      => base_path('modules'),
                 'namespace' => 'App\\Modules\\',
                 'enabled'   => true,
-                'provider'  => 'Providers\\ModuleServiceProvider',
+                'provider'  => 'ModuleServiceProvider',
                 'mapping'   => [],
                 'manifest'  => 'module.json'
             ],

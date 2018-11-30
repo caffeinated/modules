@@ -75,7 +75,7 @@ class MakeModuleCommand extends Command
         $this->container['version']     = '1.0';
         $this->container['description'] = 'This is the description for the ' . $this->container['name'] . ' module.';
         $this->container['location']    = $location ?: config('modules.default_location');
-        $this->container['provider']    = config("modules.{$this->container['location']}.provider");
+        $this->container['provider']    = config("modules.locations.{$this->container['location']}.provider");
 
         if ($this->option('quick')) {
             $this->container['basename']  = studly_case($this->container['slug']);
@@ -182,9 +182,9 @@ class MakeModuleCommand extends Command
             $this->files->makeDirectory($root);
         }
 
-        $mapping = config("modules.locations.$location.mapping");
+        $mapping   = config("modules.locations.$location.mapping");
         $directory = module_path(null, $this->container['basename'], $location);
-        $source = __DIR__ . '/../../../resources/stubs/module';
+        $source    = __DIR__ . '/../../../resources/stubs/module';
 
         $this->files->makeDirectory($directory);
 
@@ -204,19 +204,20 @@ class MakeModuleCommand extends Command
             }
 
             $filePath = $directory . '/' . $subPath;
-            $dir = dirname($filePath);
-
+            
             // if the file is module.json, replace it with the custom manifest file name
             if ($file->getFilename() === 'module.json' && $manifest) {
                 $filePath = str_replace('module.json', $manifest, $filePath);
             }
-
+            
             // if the file is ModuleServiceProvider.php, replace it with the custom provider file name
             if ($file->getFilename() === 'ModuleServiceProvider.php') {
-                $filePath = str_replace('ModuleServiceProvider.php', $provider.'.php', $filePath);
+                $filePath = str_replace('ModuleServiceProvider', $provider, $filePath);
             }
-
-            if (!$this->files->isDirectory($dir)) {
+            
+            $dir = dirname($filePath);
+            
+            if (! $this->files->isDirectory($dir)) {
                 $this->files->makeDirectory($dir, 0755, true);
             }
 
