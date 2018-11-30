@@ -13,11 +13,11 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadTranslationsFrom(__DIR__.'/../Resources/Lang', 'DummySlug');
-        $this->loadViewsFrom(__DIR__.'/../Resources/Views', 'DummySlug');
-        $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations', 'DummySlug');
-        $this->loadConfigsFrom(__DIR__.'/../config');
-        $this->loadFactoriesFrom(__DIR__.'/../Database/Factories');
+        $this->loadTranslationsFrom(module_path('DummySlug', 'ResourcesLangMapping', 'DummyLocation'), 'DummySlug');
+        $this->loadViewsFrom(module_path('DummySlug', 'ResourcesViewsMapping', 'DummyLocation'), 'DummySlug');
+        $this->loadMigrationsFrom(module_path('DummySlug', 'DatabaseMigrationsMapping', 'DummyLocation'), 'DummySlug');
+        $this->loadConfigsFrom(module_path('DummySlug', 'ConfigMapping', 'DummyLocation'));
+        $this->loadFactoriesFrom(module_path('DummySlug', 'DatabaseFactoriesMapping', 'DummyLocation'));
     }
 
     /**

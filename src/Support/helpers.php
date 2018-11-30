@@ -35,14 +35,6 @@ if (!function_exists('module_path')) {
         $modulesPath = config("modules.locations.$location.path");
         $mapping = config("modules.locations.$location.mapping");
 
-        if (!empty($file) && !empty($mapping)) {
-            $file = str_replace(
-                array_keys($mapping),
-                array_values($mapping),
-                $file
-            );
-        }
-
         $filePath = $file ? '/' . ltrim($file, '/') : '';
 
         if (is_null($slug)) {

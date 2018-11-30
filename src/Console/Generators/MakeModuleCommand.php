@@ -219,6 +219,9 @@ class MakeModuleCommand extends Command
 
     protected function replacePlaceholders($contents)
     {
+        $location = $this->container['location'];
+        $mapping  = config("modules.locations.$location.mapping");
+        
         $find = [
             'DummyBasename',
             'DummyNamespace',
@@ -227,8 +230,19 @@ class MakeModuleCommand extends Command
             'DummyVersion',
             'DummyDescription',
             'DummyLocation',
+            
+            'ConfigMapping',
+            'DatabaseFactoriesMapping',
+            'DatabaseMigrationsMapping',
+            'DatabaseSeedsMapping',
+            'HttpControllersMapping',
+            'HttpMiddlewareMapping',
+            'ProvidersMapping',
+            'ResourcesLangMapping',
+            'ResourcesViewsMapping',
+            'RoutesMapping',
         ];
-
+        
         $replace = [
             $this->container['basename'],
             $this->container['namespace'],
@@ -237,6 +251,17 @@ class MakeModuleCommand extends Command
             $this->container['version'],
             $this->container['description'],
             $this->container['location'] ?? config('modules.default_location'),
+
+            $mapping['Config']              ?? 'Config',
+            $mapping['Database/Factories']  ?? 'Database/Factories',
+            $mapping['Database/Migrations'] ?? 'Database/Migrations',
+            $mapping['Database/Seeds']      ?? 'Database/Seeds',
+            $mapping['Http/Controllers']    ?? 'Http/Controllers',
+            $mapping['Http/Middleware']     ?? 'Http/Middleware',
+            $mapping['Providers']           ?? 'Providers',
+            $mapping['Resources/Lang']      ?? 'Resources/Lang',
+            $mapping['Resources/Views']     ?? 'Resources/Views',
+            $mapping['Routes']              ?? 'Routes'
         ];
 
         return str_replace($find, $replace, $contents);

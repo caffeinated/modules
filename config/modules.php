@@ -39,7 +39,7 @@ return [
                 // Here you may configure the class mapping, effectivly
                 // customizing your generated default module structure.
 
-                'config'              => 'config',
+                'Config'              => 'Config',
                 'Database/Factories'  => 'Database/Factories',
                 'Database/Migrations' => 'Database/Migrations',
                 'Database/Seeds'      => 'Database/Seeds',
