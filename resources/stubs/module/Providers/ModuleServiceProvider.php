@@ -4,7 +4,7 @@ namespace DummyNamespace\Providers;
 
 use Caffeinated\Modules\Support\ServiceProvider;
 
-class ModuleServiceProvider extends ServiceProvider
+class DummyProvider extends ServiceProvider
 {
     /**
      * Bootstrap the module services.

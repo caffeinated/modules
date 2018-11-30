@@ -75,6 +75,7 @@ class MakeModuleCommand extends Command
         $this->container['version']     = '1.0';
         $this->container['description'] = 'This is the description for the ' . $this->container['name'] . ' module.';
         $this->container['location']    = $location ?: config('modules.default_location');
+        $this->container['provider']    = config("modules.{$this->container['location']}.provider");
 
         if ($this->option('quick')) {
             $this->container['basename']  = studly_case($this->container['slug']);
@@ -173,8 +174,9 @@ class MakeModuleCommand extends Command
     protected function generateModule()
     {
         $location = $this->container['location'];
-        $root = module_path(null, '', $location);
+        $root     = module_path(null, '', $location);
         $manifest = config("modules.locations.$location.manifest") ?: 'module.json';
+        $provider = config("modules.locations.$location.provider") ?: 'ModuleServiceProvider';
 
         if (!$this->files->isDirectory($root)) {
             $this->files->makeDirectory($root);
@@ -209,6 +211,11 @@ class MakeModuleCommand extends Command
                 $filePath = str_replace('module.json', $manifest, $filePath);
             }
 
+            // if the file is ModuleServiceProvider.php, replace it with the custom provider file name
+            if ($file->getFilename() === 'ModuleServiceProvider.php') {
+                $filePath = str_replace('ModuleServiceProvider.php', $provider.'.php', $filePath);
+            }
+
             if (!$this->files->isDirectory($dir)) {
                 $this->files->makeDirectory($dir, 0755, true);
             }
@@ -230,6 +237,7 @@ class MakeModuleCommand extends Command
             'DummyVersion',
             'DummyDescription',
             'DummyLocation',
+            'DummyProvider',
             
             'ConfigMapping',
             'DatabaseFactoriesMapping',
@@ -251,6 +259,7 @@ class MakeModuleCommand extends Command
             $this->container['version'],
             $this->container['description'],
             $this->container['location'] ?? config('modules.default_location'),
+            $this->container['provider'],
 
             $mapping['Config']              ?? 'Config',
             $mapping['Database/Factories']  ?? 'Database/Factories',

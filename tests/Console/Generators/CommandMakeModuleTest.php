@@ -19,6 +19,17 @@ class CommandMakeModuleTest extends BaseTestCase
     }
 
     /** @test */
+    public function it_can_customize_module_provider()
+    {
+        $this->app['config']->set("modules.locations.{$this->default}.provider", "CustomServiceProvider");
+
+        $this->artisan('make:module', ['slug' => 'custom', '--quick' => 'quick']);
+
+        $this->assertDirectoryExists(module_path('custom', '/Providers'));
+        $this->assertFileExists(module_path('custom', '/Providers/CustomServiceProvider.php'));
+    }
+
+    /** @test */
     public function it_can_generate_module_with_custom_mapping()
     {
         $this->app['config']->set("modules.locations.{$this->default}.mapping", [

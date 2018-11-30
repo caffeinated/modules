@@ -32,7 +32,7 @@ return [
             'path'      => app_path('Modules'),
             'namespace' => 'App\\Modules\\',
             'enabled'   => true,
-            'provider'  => 'Providers\\ModuleServiceProvider',
+            'provider'  => 'ModuleServiceProvider',
             'manifest'  => 'module.json',
             'mapping'   => [
                 

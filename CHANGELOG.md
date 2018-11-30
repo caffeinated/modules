@@ -6,16 +6,17 @@ and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Module locations. Define and configure as many locations to store your modules as desired
+- Module locations - define and configure as many locations to store your modules as desired
 - Ability to configure manifest filename
 - CHANGELOG document
 - CONTRIBUTING document
 
 ### Changed
 - Updated year in LICENSE document
+- Customized directory mappings are now used in generated files
 
 ### Fixed
-- Unit tests that were previously failing now pass with flying colors.
+- Unit tests that were previously failing now pass with flying colors
 
 ## [4.5.1] - 2018-10-31
 ### Removed
