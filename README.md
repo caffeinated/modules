@@ -13,17 +13,10 @@ This package follows the FIG standards PSR-1, PSR-2, and PSR-4 to ensure a high 
 You will find user friendly and updated documentation on the [Caffeinated website](https://caffeinatedpackages.com/guide/packages/modules.html).
 
 ## Installation
-Simply install the package through Composer. From here the package will automatically register its service provider.
+Simply install the package through Composer. From here the package will automatically register its service provider and `Module` facade.
 
 ```
 composer require caffeinated/modules
-```
-
-### Facade
-Optionally, you may also register the accompanying facade for easier access to the underlying API. Inside your project's config/app.php file, add the following to the array of facades:
-
-```php
-'Module' => Caffeinated\Modules\Facades\Module::class,
 ```
 
 ### Config
