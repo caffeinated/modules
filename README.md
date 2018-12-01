@@ -7,8 +7,6 @@
 
 Extract and modularize your code for maintainability. Essentially creates "mini-laravel" structures to organize your application.
 
-This package follows the FIG standards PSR-1, PSR-2, and PSR-4 to ensure a high level of interoperability between shared PHP code.
-
 ## Documentation
 You will find user friendly and updated documentation on the [Caffeinated website](https://caffeinatedpackages.com/guide/packages/modules.html).
 

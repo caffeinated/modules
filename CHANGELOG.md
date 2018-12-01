@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [5.0.0] - 2018-11-30
 ### Added
 - Module locations - define and configure as many locations to store your modules as desired
 - Ability to configure manifest filename
@@ -17,6 +19,7 @@ and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Unit tests that were previously failing now pass with flying colors
+- Custom service provider name is now taken into consideration when generating new modules
 
 ## [4.5.1] - 2018-10-31
 ### Removed
