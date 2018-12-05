@@ -48,7 +48,7 @@ class ModuleSeedCommand extends Command
      */
     public function handle()
     {
-        $repository = modules($this->option('location'));
+        $repository = modules($this->option('location') ?? config('modules.default_location'));
 
         $slug = $this->argument('slug');
 
