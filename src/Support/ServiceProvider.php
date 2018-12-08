@@ -46,7 +46,7 @@ class ServiceProvider extends IlluminateServiceProvider
     protected function loadConfigsFrom($path)
     {
         // skip config if cache
-        if (file_exists($this->app->getCachedConfigPath())) {
+        if (!file_exists($this->app->getCachedConfigPath())) {
             foreach (glob($path.'/*.php') as $file) {
                 $fileName = str_replace($path.'/', '', $file);
                 $key = substr($fileName, 0, -4);
