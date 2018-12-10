@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Cached config is now properly returned
+- Properly reference default location when seeding modules
 
 ## [5.0.0] - 2018-11-30
 ### Added
