@@ -5,7 +5,7 @@ namespace Caffeinated\Modules\Support;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
-use use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Database\Eloquent\Factory;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
