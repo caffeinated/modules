@@ -6,6 +6,10 @@ and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.0.2] - 2019-02-11
+### Fixed
+- Fix undefined variable factory when loading factories
+
 ## [5.0.1] - 2018-12-09
 ### Fixed
 - Cached config is now properly returned
