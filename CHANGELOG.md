@@ -6,6 +6,10 @@ and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.1.0] - 2019-02-26
+### Added
+- Laravel 5.8 support
+
 ## [5.0.2] - 2019-02-11
 ### Fixed
 - Fix undefined variable factory when loading factories
