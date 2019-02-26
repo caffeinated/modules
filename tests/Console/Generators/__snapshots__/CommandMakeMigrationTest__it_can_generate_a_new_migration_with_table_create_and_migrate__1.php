@@ -14,7 +14,7 @@ class CustomMigration extends Migration
     public function up()
     {
         Schema::create(\'CustomTableMigrationTable\', function (Blueprint $table) {
-            $table->increments(\'id\');
+            $table->bigIncrements(\'id\');
             $table->timestamps();
         });
     }

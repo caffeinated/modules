@@ -8,7 +8,7 @@ class CommandModuleDisableTest extends BaseTestCase
 {
     protected $finder;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -47,7 +47,7 @@ class CommandModuleDisableTest extends BaseTestCase
         $this->assertTrue($cached->toArray()['enabled']);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->finder->deleteDirectory(module_path('disable'));
 

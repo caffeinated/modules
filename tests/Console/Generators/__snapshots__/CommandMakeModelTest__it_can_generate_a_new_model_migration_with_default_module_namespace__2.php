@@ -14,7 +14,7 @@ class CreateDefaultMigrationModelsTable extends Migration
     public function up()
     {
         Schema::create(\'default_migration_models\', function (Blueprint $table) {
-            $table->increments(\'id\');
+            $table->bigIncrements(\'id\');
             $table->timestamps();
         });
     }

@@ -11,7 +11,7 @@ class CommandMakeModuleTest extends BaseTestCase
 
     protected $finder;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -59,7 +59,7 @@ class CommandMakeModuleTest extends BaseTestCase
         $this->assertDirectoryExists(module_path('custom').'/routes');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->finder->deleteDirectory(module_path('custom'));
 
