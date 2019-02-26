@@ -30,6 +30,7 @@ class GeneratorServiceProvider extends ServiceProvider
             'command.make.module.request'    => \Caffeinated\Modules\Console\Generators\MakeRequestCommand::class,
             'command.make.module.seeder'     => \Caffeinated\Modules\Console\Generators\MakeSeederCommand::class,
             'command.make.module.test'       => \Caffeinated\Modules\Console\Generators\MakeTestCommand::class,
+            'command.make.module.job'        => \Caffeinated\Modules\Console\Generators\MakeJobCommand::class,
         ];
 
         foreach ($generators as $slug => $class) {
