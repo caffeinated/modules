@@ -36,7 +36,7 @@ return [
             'manifest'  => 'module.json',
             'mapping'   => [
                 
-                // Here you may configure the class mapping, effectivly
+                // Here you may configure the class mapping, effectively
                 // customizing your generated default module structure.
 
                 'Config'              => 'Config',
