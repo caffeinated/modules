@@ -6,6 +6,10 @@ and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.1.1] - 2019-07-10
+### Changed
+- Explicitly require authentication on API routes by default
+
 ## [5.1.0] - 2019-02-26
 ### Added
 - Laravel 5.8 support
