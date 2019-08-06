@@ -5,7 +5,6 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/caffeinated/modules.svg?style=flat-square)](https://packagist.org/packages/caffeinated/modules)
 [![Travis (.org)](https://img.shields.io/travis/caffeinated/modules.svg?style=flat-square)](https://travis-ci.org/caffeinated/modules)
 
-
 Extract and modularize your code for maintainability. Essentially creates "mini-laravel" structures to organize your application.
 
 ## Documentation
