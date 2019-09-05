@@ -2,6 +2,8 @@
 
 namespace Caffeinated\Modules\Repositories;
 
+use Illuminate\Support\Str;
+
 class LocalRepository extends Repository
 {
     /**
@@ -80,7 +82,7 @@ class LocalRepository extends Repository
      */
     public function exists($slug)
     {
-        return ($this->slugs()->contains($slug) || $this->slugs()->contains(str_slug($slug)));
+        return ($this->slugs()->contains($slug) || $this->slugs()->contains(Str::slug($slug)));
     }
 
     /**
@@ -303,7 +305,7 @@ class LocalRepository extends Repository
             $this->files->makeDirectory(storage_path("app/modules"));
         }
 
-        $location = str_slug($this->location);
+        $location = Str::slug($this->location);
 
         return storage_path("app/modules/$location.json");
     }

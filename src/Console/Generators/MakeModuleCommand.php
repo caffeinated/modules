@@ -2,6 +2,7 @@
 
 namespace Caffeinated\Modules\Console\Generators;
 
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Caffeinated\Modules\RepositoryManager;
@@ -70,15 +71,15 @@ class MakeModuleCommand extends Command
     {
         $location = $this->option('location');
 
-        $this->container['slug']        = str_slug($this->argument('slug'));
-        $this->container['name']        = studly_case($this->container['slug']);
+        $this->container['slug']        = Str::slug($this->argument('slug'));
+        $this->container['name']        = Str::studly($this->container['slug']);
         $this->container['version']     = '1.0';
         $this->container['description'] = 'This is the description for the ' . $this->container['name'] . ' module.';
         $this->container['location']    = $location ?: config('modules.default_location');
         $this->container['provider']    = config("modules.locations.{$this->container['location']}.provider");
 
         if ($this->option('quick')) {
-            $this->container['basename']  = studly_case($this->container['slug']);
+            $this->container['basename']  = Str::studly($this->container['slug']);
             $this->container['namespace'] = config("modules.locations.{$this->container['location']}.namespace").$this->container['basename'];
 
             return $this->generate();
