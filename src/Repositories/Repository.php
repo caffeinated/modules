@@ -3,6 +3,7 @@
 namespace Caffeinated\Modules\Repositories;
 
 use Exception;
+use Illuminate\Support\Str;
 use Caffeinated\Modules\Contracts\Repository as RepositoryContract;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Filesystem\Filesystem;
