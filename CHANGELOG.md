@@ -6,6 +6,10 @@ and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.0.1] - 2019-09-18
+### Fixed
+- Removed reference to removed `studly_case` method
+
 ## [6.0.0] - 2019-09-05
 ### Removed
 - References to deprecated Laravel helper methods
