@@ -3,6 +3,7 @@
 namespace Caffeinated\Modules\Repositories;
 
 use Exception;
+use Illuminate\Support\Str;
 use Caffeinated\Modules\Contracts\Repository as RepositoryContract;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Filesystem\Filesystem;
@@ -122,7 +123,7 @@ abstract class Repository implements RepositoryContract
      */
     public function getModulePath($slug)
     {
-        $module = studly_case($slug);
+        $module = Str::studly($slug);
 
         if (\File::exists($this->getPath()."/{$module}/")) {
             return $this->getPath()."/{$module}/";
