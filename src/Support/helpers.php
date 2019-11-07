@@ -25,7 +25,7 @@ if (!function_exists('module_path')) {
      * @param string $slug
      * @param string $file
      *
-     * @param null $location
+     * @param string|null $location
      * @return string
      * @throws \Caffeinated\Modules\Exceptions\ModuleNotFoundException
      */
