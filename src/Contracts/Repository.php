@@ -148,4 +148,13 @@ interface Repository
      * @return bool
      */
     public function disable($slug);
+    
+    /**
+     * Get all modules by specified location
+     * 
+     * @param string $location
+     * 
+     * @return \Illuminate\Support\Collection
+     */
+    public function byLocation($location);
 }
