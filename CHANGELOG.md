@@ -6,6 +6,10 @@ and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.1.0] - 2019-12-12
+### Added
+- `byLocation()` method to reference modules by their configured locations
+
 ## [6.0.1] - 2019-09-18
 ### Fixed
 - Removed reference to removed `studly_case` method
