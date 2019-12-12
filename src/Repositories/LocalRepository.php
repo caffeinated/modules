@@ -213,6 +213,20 @@ class LocalRepository extends Repository
     {
         return $this->set($slug.'::enabled', false);
     }
+    
+    /**
+     * Get all modules by specified location
+     * 
+     * @param string $location
+     * 
+     * @return \Illuminate\Support\Collection
+     */
+    public function byLocation($location)
+    {
+        $manifest = $this->getCachePath($location); 
+
+        return collect(json_decode($this->files->get($manifest), true));
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -299,13 +313,13 @@ class LocalRepository extends Repository
      *
      * @return string
      */
-    private function getCachePath()
+    private function getCachePath($location = null)
     {
         if (!$this->files->isDirectory(storage_path("app/modules"))) {
             $this->files->makeDirectory(storage_path("app/modules"));
         }
 
-        $location = Str::slug($this->location);
+        $location = Str::slug($location ?? $this->location);
 
         return storage_path("app/modules/$location.json");
     }
