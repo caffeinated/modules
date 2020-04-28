@@ -81,16 +81,6 @@ class ServiceProvider extends IlluminateServiceProvider
             if (Module::exists($slug) && Module::isEnabled($slug)) {
                 $module = Module::where('slug', $slug);
 
-                if (file_exists(module_path($slug, 'routes/datatable.php'))) {
-                    Route::group([
-                        'middleware' => 'api',
-                        'namespace'  => "Modules\\{$module->get('basename')}\\Http\\Controllers\\DataTable",
-                        'prefix'     => 'datatable',
-                    ], function ($router) use ($slug) {
-                        require module_path($slug, 'routes/datatable.php');
-                    });
-                }
-
                 if (file_exists(module_path($slug, 'routes/web.php'))) {
                     Route::group([
                         'middleware' => 'web',
