@@ -67,7 +67,7 @@ class RepositoryManager
     private function registerServiceProvider(Repository $repository, $module)
     {
         $location        = $repository->location;
-        $provider        = config("modules.location.$location.provider", 'Providers\\ModuleServiceProvider');
+        $provider        = config("modules.locations.$location.provider", 'Providers\\ModuleServiceProvider');
         $serviceProvider = module_class($module['slug'], $provider, $location);
 
         if (class_exists($serviceProvider)) {
