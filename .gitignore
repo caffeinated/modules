@@ -1,3 +1,5 @@
 vendor/
 composer.lock
 tests/report
+.idea
+.phpunit.result.cache
