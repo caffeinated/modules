@@ -28,6 +28,7 @@ class GeneratorServiceProvider extends ServiceProvider
             'command.make.module.policy'     => \Caffeinated\Modules\Console\Generators\MakePolicyCommand::class,
             'command.make.module.provider'   => \Caffeinated\Modules\Console\Generators\MakeProviderCommand::class,
             'command.make.module.request'    => \Caffeinated\Modules\Console\Generators\MakeRequestCommand::class,
+            'command.make.module.resource'   => \Caffeinated\Modules\Console\Generators\MakeResourceCommand::class,
             'command.make.module.seeder'     => \Caffeinated\Modules\Console\Generators\MakeSeederCommand::class,
             'command.make.module.test'       => \Caffeinated\Modules\Console\Generators\MakeTestCommand::class,
             'command.make.module.job'        => \Caffeinated\Modules\Console\Generators\MakeJobCommand::class,

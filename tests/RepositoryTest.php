@@ -2,14 +2,17 @@
 
 namespace Caffeinated\Modules\Tests;
 
+use Exception;
 use Illuminate\Support\Collection;
+use Caffeinated\Modules\Repositories\Repository;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class RepositoryTest extends BaseTestCase
 {
     protected $finder;
 
     /**
-     * @var \Caffeinated\Modules\Repositories\Repository
+     * @var Repository
      */
     protected $repository;
 
@@ -59,27 +62,27 @@ class RepositoryTest extends BaseTestCase
     /** @test */
     public function it_can_count_the_modules()
     {
-        $this->assertSame(3, (int)$this->repository->count());
+        $this->assertSame(3, (int) $this->repository->count());
     }
 
     /** @test */
     public function it_can_get_a_collection_of_disabled_modules()
     {
-        $this->assertSame(0, (int)$this->repository->disabled()->count());
+        $this->assertSame(0, (int) $this->repository->disabled()->count());
 
         $this->repository->disable('repositorymod1');
 
-        $this->assertSame(1, (int)$this->repository->disabled()->count());
+        $this->assertSame(1, (int) $this->repository->disabled()->count());
     }
 
     /** @test */
     public function it_can_get_a_collection_of_enabled_modules()
     {
-        $this->assertSame(3, (int)$this->repository->enabled()->count());
+        $this->assertSame(3, (int) $this->repository->enabled()->count());
 
         $this->repository->disable('repositorymod1');
 
-        $this->assertSame(2, (int)$this->repository->enabled()->count());
+        $this->assertSame(2, (int) $this->repository->enabled()->count());
     }
 
     /** @test */
@@ -124,10 +127,10 @@ class RepositoryTest extends BaseTestCase
         // Quick and fast way to simulate legacy module folder structure
         // https://github.com/caffeinated/modules/pull/224
         rename(realpath(module_path('barbiz')), realpath(module_path()) . '/BarBiz');
-        
-        file_put_contents(realpath(module_path()) . '/BarBiz/module.json', json_encode(array(
+
+        file_put_contents(realpath(module_path()) . '/BarBiz/module.json', json_encode([
             'name' => 'BarBiz', 'slug' => 'BarBiz', 'version' => '1.0', 'description' => '',
-        ), JSON_PRETTY_PRINT));
+        ], JSON_PRETTY_PRINT));
 
         $this->assertSame(
             '{"name":"BarBiz","slug":"BarBiz","version":"1.0","description":""}',
@@ -149,9 +152,9 @@ class RepositoryTest extends BaseTestCase
         // https://github.com/caffeinated/modules/pull/279
         // https://github.com/caffeinated/modules/pull/349
         rename(realpath(module_path('foobar')), realpath(module_path()) . '/FooBar');
-        file_put_contents(realpath(module_path()) . '/FooBar/module.json', json_encode(array(
+        file_put_contents(realpath(module_path()) . '/FooBar/module.json', json_encode([
             'name' => 'FooBar', 'slug' => 'FooBar', 'version' => '1.0', 'description' => '',
-        ), JSON_PRETTY_PRINT));
+        ], JSON_PRETTY_PRINT));
 
         $this->assertTrue($this->repository->exists('FooBar'));
     }
@@ -273,21 +276,24 @@ class RepositoryTest extends BaseTestCase
 
     /**
      * @test
-     * @expectedException \Exception
      */
     public function it_will_throw_exception_by_invalid_json_manifest_file()
     {
+        $this->expectException(Exception::class);
+
         file_put_contents(realpath(module_path()) . '/Repositorymod1/module.json', 'invalidjsonformat');
 
         $manifest = $this->repository->getManifest('repositorymod1');
+
     }
 
     /**
      * @test
-     * @expectedException \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function it_will_throw_file_not_found_exception_by_unknown_module()
     {
+        $this->expectException(FileNotFoundException::class);
+
         $manifest = $this->repository->getManifest('unknown');
     }
 
