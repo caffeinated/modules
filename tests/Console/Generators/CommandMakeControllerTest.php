@@ -25,7 +25,7 @@ class CommandMakeControllerTest extends BaseTestCase
     {
         $this->artisan('make:module:controller', ['slug' => 'controller', 'name' => 'DefaultController']);
 
-        $file = $this->finder->get(module_path('controller').'/Http/Controllers/DefaultController.php');
+        $file = $this->finder->get(module_path('controller') . '/Http/Controllers/DefaultController.php');
 
         $this->assertMatchesSnapshot($file);
     }
@@ -35,7 +35,17 @@ class CommandMakeControllerTest extends BaseTestCase
     {
         $this->artisan('make:module:controller', ['slug' => 'controller', 'name' => 'DefaultResourceController', '--resource' => 'resource']);
 
-        $file = $this->finder->get(module_path('controller').'/Http/Controllers/DefaultResourceController.php');
+        $file = $this->finder->get(module_path('controller') . '/Http/Controllers/DefaultResourceController.php');
+
+        $this->assertMatchesSnapshot($file);
+    }
+
+    /** @test */
+    public function it_can_generate_a_new_controller_api_resource_with_default_module_namespace()
+    {
+        $this->artisan('make:module:controller', ['slug' => 'controller', 'name' => 'DefaultApiResourceController', '--api' => 'api']);
+
+        $file = $this->finder->get(module_path('controller') . '/Http/Controllers/DefaultApiResourceController.php');
 
         $this->assertMatchesSnapshot($file);
     }
@@ -47,7 +57,7 @@ class CommandMakeControllerTest extends BaseTestCase
 
         $this->artisan('make:module:controller', ['slug' => 'controller', 'name' => 'CustomController']);
 
-        $file = $this->finder->get(module_path('controller').'/Http/Controllers/CustomController.php');
+        $file = $this->finder->get(module_path('controller') . '/Http/Controllers/CustomController.php');
 
         $this->assertMatchesSnapshot($file);
     }
