@@ -72,6 +72,6 @@ class MakeModelCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return module_class($this->argument('slug'), 'Models');
+        return module_class($this->argument('slug'), 'Models', $this->option('location'));
     }
 }
