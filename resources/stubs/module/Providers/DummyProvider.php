@@ -2,14 +2,17 @@
 
 namespace DummyNamespace\Providers;
 
+use Caffeinated\Modules\Exceptions\ModuleNotFoundException;
 use Caffeinated\Modules\Support\ServiceProvider;
 
 class DummyProvider extends ServiceProvider
 {
+
     /**
      * Bootstrap the module services.
      *
      * @return void
+     * @throws ModuleNotFoundException
      */
     public function boot()
     {

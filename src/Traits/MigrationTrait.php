@@ -2,12 +2,16 @@
 
 namespace Caffeinated\Modules\Traits;
 
+use Caffeinated\Modules\Exceptions\ModuleNotFoundException;
+
 trait MigrationTrait
 {
+
     /**
      * Require (once) all migration files for the supplied module.
      *
      * @param string $module
+     * @throws ModuleNotFoundException
      */
     protected function requireMigrations($module)
     {
@@ -26,6 +30,7 @@ trait MigrationTrait
      * @param string $module
      *
      * @return string
+     * @throws ModuleNotFoundException
      */
     protected function getMigrationPath($module)
     {

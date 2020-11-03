@@ -38,6 +38,7 @@ class RepositoryManager
      * Register the module service provider file from all modules.
      *
      * @return void
+     * @throws Exception
      */
     public function register()
     {
@@ -63,6 +64,7 @@ class RepositoryManager
      * @param array $module
      *
      * @return void
+     * @throws ModuleNotFoundException
      */
     private function registerServiceProvider(Repository $repository, $module)
     {
@@ -81,6 +83,7 @@ class RepositoryManager
      * @param array $module
      *
      * @return void
+     * @throws ModuleNotFoundException
      */
     private function autoloadFiles($module)
     {
@@ -96,7 +99,7 @@ class RepositoryManager
     }
 
     /**
-     * @return \Caffeinated\Modules\Repositories\Repository[]
+     * @return Repository[]
      */
     public function repositories()
     {
@@ -105,8 +108,8 @@ class RepositoryManager
 
     /**
      * @param string $location
-     * @return \Caffeinated\Modules\Repositories\Repository
-     * @throws \Exception
+     * @return Repository
+     * @throws Exception
      */
     protected function repository($location = null)
     {
@@ -124,7 +127,7 @@ class RepositoryManager
     /**
      * @param $location
      * @return \Illuminate\Config\Repository|mixed
-     * @throws \Exception
+     * @throws Exception
      */
     protected function repositoryClass($location)
     {
@@ -146,6 +149,7 @@ class RepositoryManager
      * @param mixed  $arguments
      *
      * @return mixed
+     * @throws Exception
      */
     public function __call($method, $arguments)
     {

@@ -2,6 +2,7 @@
 
 namespace Caffeinated\Modules\Console;
 
+use Caffeinated\Modules\Exceptions\ModuleNotFoundException;
 use Illuminate\Console\GeneratorCommand as LaravelGeneratorCommand;
 use Illuminate\Support\Str;
 use Module;
@@ -43,6 +44,7 @@ abstract class GeneratorCommand extends LaravelGeneratorCommand
      * @param string $name
      *
      * @return string
+     * @throws ModuleNotFoundException
      */
     protected function getPath($name)
     {

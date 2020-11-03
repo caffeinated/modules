@@ -4,6 +4,7 @@ namespace Caffeinated\Modules\Middleware;
 
 use Caffeinated\Modules\RepositoryManager;
 use Closure;
+use Illuminate\Http\Request;
 
 class IdentifyModule
 {
@@ -15,7 +16,7 @@ class IdentifyModule
     /**
      * Create a new IdentifyModule instance.
      *
-     * @param Caffeinated\Modules $module
+     * @param RepositoryManager $module
      */
     public function __construct(RepositoryManager $module)
     {
@@ -25,9 +26,10 @@ class IdentifyModule
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
+     * @param Request $request
+     * @param Closure $next
      *
+     * @param null    $slug
      * @return mixed
      */
     public function handle($request, Closure $next, $slug = null)

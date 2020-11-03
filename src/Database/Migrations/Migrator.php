@@ -7,7 +7,11 @@ use Illuminate\Database\Migrations\MigrationRepositoryInterface;
 use Illuminate\Database\Migrations\Migrator as BaseMigrator;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
+/**
+ * @property array notes
+ */
 class Migrator extends BaseMigrator
 {
     /**
@@ -18,10 +22,10 @@ class Migrator extends BaseMigrator
     /**
      * Create a new migrator instance.
      *
-     * @param  string                                                        $table
-     * @param  \Illuminate\Database\Migrations\MigrationRepositoryInterface  $repository
-     * @param  \Illuminate\Database\ConnectionResolverInterface              $resolver
-     * @param  \Illuminate\Filesystem\Filesystem                             $files
+     * @param  string                      $table
+     * @param MigrationRepositoryInterface $repository
+     * @param Resolver                     $resolver
+     * @param Filesystem                   $files
      */
     public function __construct($table,
                                 MigrationRepositoryInterface $repository,
@@ -96,7 +100,7 @@ class Migrator extends BaseMigrator
     /**
      * Get all the ran migrations.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function getRanMigrations()
     {

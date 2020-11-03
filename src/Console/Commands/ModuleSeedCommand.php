@@ -95,24 +95,18 @@ class ModuleSeedCommand extends Command
         $namespacePath = $repository->getNamespace();
         $rootSeeder    = $module['basename'].'DatabaseSeeder';
         $fullPath      = $namespacePath.'\\'.$module['basename'].'\Database\Seeds\\'.$rootSeeder;
+        $optionalClassPath = $this->option('class');
+        $fullPath = $optionalClassPath ?? $fullPath;
 
         if (class_exists($fullPath)) {
-            if ($this->option('class')) {
-                $params['--class'] = $this->option('class');
-            } else {
-                $params['--class'] = $fullPath;
-            }
-
+            $params['--class'] = $fullPath;
             if ($option = $this->option('database')) {
                 $params['--database'] = $option;
             }
-
             if ($option = $this->option('force')) {
                 $params['--force'] = $option;
             }
-
             $this->call('db:seed', $params);
-
             event($slug.'.module.seeded', [$module, $this->option()]);
         }
     }
